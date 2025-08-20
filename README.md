@@ -1,7 +1,6 @@
 # IEEE SB NITP Website
 
 This repository contains the source code for the **IEEE Student Branch NIT Patna** website.  
-It is built with a modular folder structure for scalability and easy maintenance.
 
 ---
 
