@@ -6,7 +6,7 @@ It is built with a modular folder structure for scalability and easy maintenance
 ---
 
 ## 📂 Folder Structure
-
+```
 /src
 ├── /app
 │ ├── /page.js # Home page (Overview of IEEE SB NITP, intro, highlights)
@@ -60,8 +60,7 @@ It is built with a modular folder structure for scalability and easy maintenance
 │ ├── api.js # API helper functions
 │ ├── constants.js # Static constants (like IEEE links, socials)
 │ └── helpers.js # Utility functions
-
-
+```
 
 ---
 
