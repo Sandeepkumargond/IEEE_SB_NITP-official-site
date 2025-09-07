@@ -1,6 +1,10 @@
+import Footer from "../components/Footer";
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+ 
+   
+    // <div className="min-h-screen flex items-center justify-center">
+    <div>
       {/* HEADER SECTION */}  
       
 
@@ -16,7 +20,12 @@ export default function Home() {
       </div>
       
 
-      {/* FOOTER SECTION */}
-    </div>
+      {/* FOOTER SECTION  */}
+    <div>
+      <Footer/>
+      </div> 
+     </div>
+    
+   
   );
 }
