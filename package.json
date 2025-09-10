@@ -9,18 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "next": "15.5.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
     "react-icons": "^5.5.0"
-=======
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
->>>>>>> 5fb52a877177a28374e925e9a56eefcac0b91830
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
