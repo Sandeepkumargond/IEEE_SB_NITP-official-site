@@ -23,7 +23,7 @@ const Navbar = () => {
     <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#07689F] text-white z-30">
       <h1 className="font-bold text-xl">IEEE Logo</h1>
 
-      {/* Desktop Menu */}
+      
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
         {navItems.map((item) => (
           <li key={item.id} className="hover:text-gray-300 transition">
@@ -32,12 +32,12 @@ const Navbar = () => {
         ))}
       </ul>
 
-      {/* Mobile Toggle */}
+      
       <div className="md:hidden cursor-pointer" onClick={() => setOpen(!open)}>
         {open ? <MdClose className="text-3xl" /> : <MdMenu className="text-3xl" />}
       </div>
 
-      {/* Mobile Menu */}
+       
       <AnimatePresence>
         {open && (
           <motion.div
