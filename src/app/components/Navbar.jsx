@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#07689F] text-white z-30">
-      <h1 className="font-bold text-xl">IEEE Logo</h1>
+      <h1 className="font-bold text-xl">IEEE_Logo</h1>
 
       
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
