@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import Navbar from './components/Navbar';
+=======
+import Footer from "../components/Footer";
+>>>>>>> 1f72d16c31e69b1bc30346ea034cadc6fcabdfe5
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+ 
+   
+    // <div className="min-h-screen flex items-center justify-center">
+    <div>
       {/* HEADER SECTION */}  
       
    
@@ -22,7 +29,12 @@ export default function Home() {
       </div>
       
 
-      {/* FOOTER SECTION */}
-    </div>
+      {/* FOOTER SECTION  */}
+    <div>
+      <Footer/>
+      </div> 
+     </div>
+    
+   
   );
 }

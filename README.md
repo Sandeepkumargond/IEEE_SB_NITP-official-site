@@ -80,9 +80,16 @@ This repository contains the source code for the **IEEE Student Branch NIT Patna
 - **MongoDB** (Database, if required)
 
 ---
+## Contributors ✨
+Thanks goes to these wonderful people ❤️:
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<a href="https://github.com/Sandeepkumargond/IEEE_SB_NITP-official-site/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Sandeepkumargond/IEEE_SB_NITP-official-site"/>
+</a>
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
 
-## 🤝 Contributing
-Contributions are welcome!  
-Please fork the repository and submit a pull request.
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
----
