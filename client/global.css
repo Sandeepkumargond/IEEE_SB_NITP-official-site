@@ -1,0 +1,119 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    --background: 198 63% 96%;
+    --foreground: 207 84% 19%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 207 84% 19%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 84% 19%;
+
+    --primary: 207 84% 19%;
+    --primary-foreground: 195 100% 97%;
+
+    --secondary: 195 100% 97%;
+    --secondary-foreground: 207 84% 19%;
+
+    --muted: 195 100% 97%;
+    --muted-foreground: 207 30% 46%;
+
+    --accent: 195 100% 97%;
+    --accent-foreground: 207 84% 19%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 195 100% 97%;
+
+    --border: 195 43% 91%;
+    --input: 195 43% 91%;
+    --ring: 207 84% 19%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 207 84% 4.9%;
+    --foreground: 195 100% 97%;
+
+    --card: 207 84% 4.9%;
+    --card-foreground: 195 100% 97%;
+
+    --popover: 207 84% 4.9%;
+    --popover-foreground: 195 100% 97%;
+
+    --primary: 195 100% 97%;
+    --primary-foreground: 207 84% 19%;
+
+    --secondary: 207 32% 17%;
+    --secondary-foreground: 195 100% 97%;
+
+    --muted: 207 32% 17%;
+    --muted-foreground: 195 20% 65%;
+
+    --accent: 207 32% 17%;
+    --accent-foreground: 195 100% 97%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 195 100% 97%;
+
+    --border: 207 32% 17%;
+    --input: 207 32% 17%;
+    --ring: 195 100% 97%;
+    --sidebar-background: 207 84% 10%;
+    --sidebar-foreground: 195 100% 95%;
+    --sidebar-primary: 207 84% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 32% 15%;
+    --sidebar-accent-foreground: 195 100% 95%;
+    --sidebar-border: 207 32% 15%;
+    --sidebar-ring: 195 100% 59%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-['Poppins',sans-serif];
+  }
+}
+
+@layer utilities {
+  .ieee-gradient {
+    background: linear-gradient(122deg, #89FFF1 20.48%, rgba(0, 197, 229, 0.70) 51.74%, #00C6FF 83%);
+  }
+
+  .ieee-text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+}
