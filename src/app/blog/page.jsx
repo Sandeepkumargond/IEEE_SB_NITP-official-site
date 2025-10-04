@@ -1,93 +1,39 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCard";
 import Footer from "@/components/Footer";
 
-const BLOGS = [
-  {
-    id: "crispr-cas9",
-    title: "CRISPR-Cas9",
-    excerpt:
-      "Human body has been under constant surveillance since the advent of CRISPR, reshaping gene editing and therapeutics...",
-    date: "2020-10-15",
-  },
-  {
-    id: "ai-chips-step-forward",
-    title: "AI Chips: A Step Forward",
-    excerpt:
-      "We can keep all the arguments and discussions aside—specialized silicon is redefining model performance and efficiency...",
-    date: "2020-01-19",
-  },
-  {
-    id: "wireless-electricity",
-    title: "Wireless Electricity",
-    excerpt:
-      "From resonant inductive coupling to far‑field RF harvesting, wireless power transfer is moving from labs to products...",
-    date: "2020-10-15",
-  },
-  {
-    id: "post-quantum-crypto",
-    title: "Post‑Quantum Cryptography",
-    excerpt:
-      "As quantum computers scale, lattice‑based schemes and signatures aim to secure the next decade of communications...",
-    date: "2021-05-11",
-  },
-  {
-    id: "edge-computing-iot",
-    title: "Edge Computing for IoT",
-    excerpt:
-      "Pushing intelligence to the edge reduces latency, bandwidth costs, and unlocks real‑time analytics in constrained devices...",
-    date: "2022-03-04",
-  },
-  {
-    id: "computer-vision-healthcare",
-    title: "Computer Vision in Healthcare",
-    excerpt:
-      "From radiology triage to surgical robotics, vision models assist clinicians while demanding strong data governance...",
-    date: "2023-07-22",
-  },
-  {
-    id: "space-solar-power",
-    title: "Space‑Based Solar Power",
-    excerpt:
-      "High‑efficiency PV arrays and microwave beaming rekindle interest in delivering clean power from orbit to Earth...",
-    date: "2024-02-10",
-  },
-  {
-    id: "secure-federated-learning",
-    title: "Secure Federated Learning",
-    excerpt:
-      "Privacy‑preserving techniques like secure aggregation and DP enable collaborative model training across silos...",
-    date: "2024-09-18",
-  },
-  {
-    id: "beyond-5g-6g",
-    title: "Beyond 5G: Toward 6G",
-    excerpt:
-      "THz links, AI‑native networks, and reconfigurable intelligent surfaces point to the next era of connectivity...",
-    date: "2025-01-08",
-  },
-  {
-    id: "green-computing",
-    title: "Green Computing",
-    excerpt:
-      "Lifecycle carbon metrics, energy‑aware scheduling, and hardware efficiency targets drive sustainable compute strategies...",
-    date: "2025-04-02",
-  },
-];
-
 export default function BlogPage() {
   const [query, setQuery] = useState("");
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const trackRef = useRef(null);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch('/mock.json');
+        const data = await response.json();
+        setBlogs(data.blogs);
+      } catch (error) {
+        console.error('Error loading blogs:', error);
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return BLOGS;
-    return BLOGS.filter((b) =>
-      [b.title, b.excerpt, b.date].some((t) => t.toLowerCase().includes(q))
+    if (!q) return blogs;
+    return blogs.filter((b) =>
+      b.title.toLowerCase().includes(q)
     );
-  }, [query]);
+  }, [query, blogs]);
 
   function scrollByCards(direction) {
     const el = trackRef.current;
@@ -95,6 +41,17 @@ export default function BlogPage() {
     const card = el.querySelector("[data-card]");
     const width = card ? card.clientWidth + 32 : 320; // include gap
     el.scrollBy({ left: direction * width, behavior: "smooth" });
+  }
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-sky-200 via-cyan-100 to-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto"></div>
+          <p className="mt-4 text-sky-600">Loading blogs...</p>
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -139,7 +96,7 @@ export default function BlogPage() {
                     title={b.title}
                     excerpt={b.excerpt}
                     date={b.date}
-                    href={`/blog/${b.id}`}
+                    redirectUrl={b.redirectUrl}
                   />
                 </div>
               ))}
