@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .gradient-border-button::before {
   content: "";
   position: absolute;
@@ -79,5 +81,21 @@
   }
   100% {
     transform: translateY(0); /* back to IEEE */
+  }
+}
+
+/* Added for mobile background images */
+@media (max-width: 767px) {
+  .mobile-hero-bg {
+    background-image: url(/mobile-vector-1.svg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .mobile-form-bg {
+    background-image: url(/mobile-vector-2.svg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
