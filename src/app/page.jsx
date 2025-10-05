@@ -1,32 +1,21 @@
 import React from "react";
-import Navbar from './components/Navbar';
 import Footer from "../components/Footer";
+import Navbar from "@/components/Navbar";
+
 export default function Home() {
   return (
- 
-   
-    // <div className="min-h-screen flex items-center justify-center">
-    <div>
-      {/* HEADER SECTION */}  
-      
-   
-     
-        <Navbar/>
-     
-      
+    <div className="min-h-screen flex flex-col">
+      {/* HEADER SECTION */}
+      <Navbar />
 
-        {/* main content section */}
-        <div className="flex flex-col justify-center items-center gap-2">
-          <h1 className="text-5xl font-semibold text-[#07689F]">
-            IEEE HOME PAGE
-          </h1>
-          <p className="text-2xl text-[#0E486C]">(To be designed soon)</p>
-        </div>
+      {/* MAIN CONTENT */}
+      <main className="flex-grow flex flex-col justify-center items-center gap-4 p-6">
+        <h1 className="text-5xl font-semibold text-[#07689F]">IEEE HOME PAGE</h1>
+        <p className="text-2xl text-[#0E486C]">(To be designed soon)</p>
+      </main>
 
-        {/* FOOTER SECTION  */}
-        <div>
-          <Footer />
-        </div>
-      </div>
+      {/* FOOTER SECTION */}
+      <Footer />
+    </div>
   );
 }
