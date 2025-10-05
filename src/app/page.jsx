@@ -1,11 +1,19 @@
 import React from "react";
+import Navbar from './components/Navbar';
 import Footer from "../components/Footer";
-
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div>
-        {/* HEADER SECTION */}
+ 
+   
+    // <div className="min-h-screen flex items-center justify-center">
+    <div>
+      {/* HEADER SECTION */}  
+      
+   
+     
+        <Navbar/>
+     
+      
 
         {/* main content section */}
         <div className="flex flex-col justify-center items-center gap-2">
@@ -20,6 +28,5 @@ export default function Home() {
           <Footer />
         </div>
       </div>
-    </div>
   );
 }
