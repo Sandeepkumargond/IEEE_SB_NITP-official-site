@@ -11,5 +11,5 @@ export default function ECertificatePage() {
       </main>
       {/* <Footer /> */}
     </div>
-  );
+  ); 
 }
