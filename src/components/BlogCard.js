@@ -1,32 +1,44 @@
 "use client";
+import { useState } from 'react';
 
-export default function BlogCard({ title, excerpt, date, redirectUrl }) {
+export default function Card({ title, description, date, details }) {
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <div className="h-[300px] rounded-3xl bg-white/90 shadow-md backdrop-blur-sm transition hover:shadow-lg flex flex-col">
-      <div className="h-6 rounded-t-3xl bg-sky-600" />
-      <div className="p-6 flex flex-col items-center text-center flex-1">
-        <h3 className="text-2xl font-bold text-gray-900 leading-tight mb-4 line-clamp-2">{title}</h3>
-        <p className="text-gray-700 flex-1 flex items-center justify-center">{excerpt}</p>
-        <div className="mt-4 space-y-2">
-          <a
-            href={redirectUrl || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-sky-700 underline underline-offset-4 hover:text-sky-800 cursor-pointer"
-            onClick={(e) => {
-              if (!redirectUrl) {
-                e.preventDefault();
-                console.log("No redirectUrl provided");
-              }
-            }}
-          >
-            Read More
-          </a>
-          <p className="text-gray-600">{date}</p>
-        </div>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#ffffff',
+        padding: '15px 20px',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div>
+        <h3 style={{ fontWeight: 'bold', margin: 0 }}>{title}</h3>
+        <p style={{ fontSize: 14, lineHeight: 1.4, margin: '10px 0' }}>
+          {expanded ? details : description + '...'}
+        </p>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          style={{
+            fontSize: 14,
+            background: 'none',
+            border: 'none',
+            color: '#0047ab',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            padding: 0,
+            textAlign: 'left',
+          }}
+        >
+          {expanded ? 'Close' : 'Read More'}
+        </button>
       </div>
+      <div style={{ fontSize: 12, textAlign: 'right' }}>{date}</div>
     </div>
   );
 }
-
-
