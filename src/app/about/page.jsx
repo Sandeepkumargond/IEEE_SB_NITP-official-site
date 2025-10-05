@@ -4,6 +4,7 @@ import MissionVisionSection from "@/components/MissionVisionSection";
 import ValuesSection from "@/components/ValuesSection";
 import StatsSection from "@/components/StatsSection";
 import Details from "@/components/Details";
+import Footer from "@/components/Footer";
 
 export default function About() {
   return (
@@ -13,6 +14,7 @@ export default function About() {
       <MissionVisionSection />
       <ValuesSection />
       <StatsSection />
+      <Footer/>
     </div>
   );
 }
