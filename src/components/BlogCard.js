@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 
-export default function Card({ title, description, date, details }) {
+export default function Card({ title, description, date, details, background = 'transparent' }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -9,7 +9,7 @@ export default function Card({ title, description, date, details }) {
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: '#ffffff',
+        backgroundColor: background === 'white' ? '#ffffff' : 'transparent',
         padding: '15px 20px',
         boxSizing: 'border-box',
         display: 'flex',
@@ -19,7 +19,7 @@ export default function Card({ title, description, date, details }) {
     >
       <div>
         <h3 style={{ fontWeight: 'bold', margin: 0 }}>{title}</h3>
-        <p style={{ fontSize: 14, lineHeight: 1.4, margin: '10px 0' }}>
+        <p style={{ fontSize: 14, lineHeight: 1.4, margin: '10px 0', color: '#222' }}>
           {expanded ? details : description + '...'}
         </p>
         <button
@@ -38,7 +38,7 @@ export default function Card({ title, description, date, details }) {
           {expanded ? 'Close' : 'Read More'}
         </button>
       </div>
-      <div style={{ fontSize: 12, textAlign: 'right' }}>{date}</div>
+      <div style={{ fontSize: 12, textAlign: 'right', color: '#444' }}>{date}</div>
     </div>
   );
 }
