@@ -1,6 +1,6 @@
-// import Navbar from "@/components/Navbar";
+
 import CertificateForm from "@/Components/CertificateForm";
-// import Footer from "@/components/Footer";
+
 
 export default function ECertificatePage() {
   return (
