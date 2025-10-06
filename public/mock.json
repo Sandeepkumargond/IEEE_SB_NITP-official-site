@@ -120,5 +120,27 @@
       "readTime": "9 min read",
       "redirectUrl": "https://ieeenitp.vercel.app/blogs"
     }
+  ],
+  "members": [
+    {
+      "certificate_no": "CERT001",
+      "generated_on": "2025-10-07",
+      "name": "Aman Kumar",
+      "email": "aman.kumar@example.com",
+      "role": "volunteer",
+      "year": "3rd Year",
+      "designation": "Web Developer",
+      "interests": "Frontend development, React.js, Next.js"
+    },
+    {
+      "certificate_no": "CERT002",
+      "generated_on": "2025-10-05",
+      "name": "Riya Singh",
+      "email": "riya.singh@example.com",
+      "role": "volunteer",
+      "year": "2nd Year",
+      "designation": "UI/UX Designer",
+      "interests": "Designing, Prototyping, Figma"
+    }
   ]
 }

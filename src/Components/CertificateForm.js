@@ -37,7 +37,7 @@ export default function CertificateForm() {
           <div className="flex items-center justify-center gap-0">
             <input
               type="text"
-              placeholder="Certificate number"
+              placeholder="Enter cert No like CERT001"
               value={certNumber}
               onChange={(e) => setCertNumber(e.target.value)}
               className="px-5 py-3 rounded-l-lg border border-gray-400 outline-none text-gray-700 bg-white text-base font-medium w-2/3 focus:ring-2 focus:ring-indigo-300"
