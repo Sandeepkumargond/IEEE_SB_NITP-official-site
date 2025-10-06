@@ -12,7 +12,7 @@ const Navbar = () => {
     { id: 1, name: "About", path: "/" },
     { id: 2, name: "Committee", path: "/committee" },
     { id: 3, name: "Events", path: "/events" },
-    { id: 4, name: "E-certificate", path: "/certificate" },
+    { id: 4, name: "E-certificate", path: "/resources/E-Certificate" },
     { id: 5, name: "Blogs", path: "/blogs" },
     { id: 6, name: "Gallery", path: "/gallery" },
     { id: 7, name: "Join IEEE", path: "/join" },

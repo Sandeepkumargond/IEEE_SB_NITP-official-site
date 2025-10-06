@@ -1,40 +1,17 @@
-<<<<<<< HEAD
-import Navbar from './components/Navbar';
-=======
-import Footer from "../components/Footer";
->>>>>>> 1f72d16c31e69b1bc30346ea034cadc6fcabdfe5
+import Navbar from "./components/Navbar";
+import Footer from "../Components/Footer";
+
 export default function Home() {
   return (
- 
-   
-    // <div className="min-h-screen flex items-center justify-center">
-    <div>
-      {/* HEADER SECTION */}  
-      
-   
-     
-        <Navbar/>
-     
-      
-
-      {/* main content section */}
-      <div className='flex flex-col justify-center items-center gap-2'>
-      <h1
-      className='text-5xl font-semibold text-[#07689F]' 
-      >IEEE HOME PAGE
-      </h1>
-      <p
-      className="text-2xl text-[#0E486C]"
-      >(To be designed soon)</p>
-      </div>
-      
-
-      {/* FOOTER SECTION  */}
-    <div>
-      <Footer/>
-      </div> 
-     </div>
-    
-   
+    <>
+      <Navbar />
+      <main className="min-h-screen">
+        {/* move your original page JSX here (hero, sections, etc.) */}
+        <div className="container mx-auto py-16">
+          {/* ...existing homepage content... */}
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

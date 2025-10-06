@@ -1,5 +1,5 @@
 
-import CertificateForm from "@/Components/CertificateForm";
+import CertificateForm from '../../../Components/CertificateForm';
 
 
 export default function ECertificatePage() {
