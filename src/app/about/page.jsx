@@ -6,6 +6,7 @@ import StatsSection from "@/components/StatsSection";
 import Details from "@/components/Details";
 import Events from './Components/events';
 
+
 export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -14,7 +15,7 @@ export default function About() {
       <MissionVisionSection />
       <ValuesSection />
       <StatsSection />
-       <Events />
+     <Events/>
     </div>
   );
 }
