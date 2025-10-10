@@ -6,6 +6,8 @@ export default function Home() {
     <div>
       {/* HEADER SECTION */}  
       
+   
+     
 
       {/* main content section */}
       <div className='flex flex-col justify-center items-center gap-2'>
