@@ -2,7 +2,6 @@
 
 import { useMemo, useRef, useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCard";
-import Footer from "@/components/Footer";
 
 export default function BlogPage() {
   const [query, setQuery] = useState("");
@@ -112,7 +111,6 @@ export default function BlogPage() {
           </button>
         </div>
       </div>
-      <Footer />
     </main>
   );
 }
