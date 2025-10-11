@@ -1,3 +1,4 @@
+
 import Navbar from './components/Navbar';
 import Footer from '../components/Footer';
 import DevelopersSection from '../components/DevelopersSection';
@@ -5,8 +6,10 @@ import DevelopersSection from '../components/DevelopersSection';
 export default function Home() {
   return (
     <div>
-      {/* HEADER SECTION */}
-      <Navbar />
+      {/* HEADER SECTION */}  
+      
+   
+     
 
       {/* Main content section */}
       <div className='flex flex-col justify-center items-center gap-2'>
@@ -19,6 +22,10 @@ export default function Home() {
 
       {/* FOOTER SECTION */}
       <Footer />
-    </div>
+
+      
+     </div>
+    
+
   );
 }
