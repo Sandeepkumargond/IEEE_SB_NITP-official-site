@@ -1,6 +1,6 @@
 "use client";
 
-import './admin.css';
+import "../../styles/admin.css";
 import { useState } from "react";
 import { IoIosMail } from "react-icons/io";
 
@@ -49,7 +49,7 @@ export default function AdminLogin() {
                 WELCOME TO
               </h1>
 
-              {/* === THIS IS THE UPDATED ANIMATION CODE === */}
+              {/* === THIS IS THE ANIMATION CODE === */}
               <div className="text-2xl md:text-4xl font-extrabold mb-6 text-purple-700 animated-text-container">
                 <div className="animated-text-wrapper">
                   <div>IEEE</div>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
                   <div>NIT PATNA</div>
                 </div>
               </div>
-              {/* === END OF UPDATED CODE === */}
+              {/* === END OF CODE === */}
               <div className="w-full md:w-[382px] h-auto mt-2 mx-auto">
                 <p className="font-poppins font-semibold text-base md:text-[24px] leading-snug tracking-tight text-center align-middle text-white">
                   To keep connected with us,
@@ -77,7 +77,6 @@ export default function AdminLogin() {
                 ADMIN LOGIN
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* The Email Input Component */}
                 <div>
                   <label htmlFor="email" className="sr-only">
                     Email Address
@@ -116,7 +115,6 @@ export default function AdminLogin() {
                       />
                     </div>
                     <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
-                      {/* Password icon on the right */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="24px"
