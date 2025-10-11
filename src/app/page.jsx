@@ -1,8 +1,6 @@
-<<<<<<< HEAD
+"use client"
 import Navbar from './components/Navbar';
-=======
 import Footer from "../components/Footer";
->>>>>>> 1f72d16c31e69b1bc30346ea034cadc6fcabdfe5
 export default function Home() {
   return (
  
@@ -26,6 +24,9 @@ export default function Home() {
       <p
       className="text-2xl text-[#0E486C]"
       >(To be designed soon)</p>
+     
+
+
       </div>
       
 
