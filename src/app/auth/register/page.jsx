@@ -1,13 +1,36 @@
 "use client";
-
 import { LockKeyhole, User } from "lucide-react";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { registerAdmin } from "@/lib/adminAction";
 
 export default function Register() {
+  // router
+  const router = useRouter()
+  // form decalartion and register user
+  const [formData, setFormData] = useState({
+    username : "",
+    password : ""
+  })
+
+  const regsiterUser = async(e) => {
+    e.preventDefault();
+    try {
+      const response = await registerAdmin(formData)
+      console.log(response)
+      if(response.success) router.push('/admin')
+      else alert("Error registering admin!")
+    } 
+    catch (error) {
+      console.log("Regsiter error", error)
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#056b9a] to-[#07689F] px-4">
       <motion.form
+        onSubmit={regsiterUser}
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4 }}
@@ -32,6 +55,8 @@ export default function Register() {
           <input
             name="username"
             type="text"
+            value={formData.username}
+            onChange={(e) => {setFormData({...formData, username : e.target.value})}}
             placeholder="Enter username"
             required
             className="outline-none w-full bg-transparent text-white placeholder:text-gray-300"
@@ -48,6 +73,8 @@ export default function Register() {
           <input
             name="password"
             type="password"
+            value={formData.password}
+            onChange={(e) => {setFormData({...formData, password : e.target.value})}}
             placeholder="Enter password"
             required
             className="outline-none w-full bg-transparent text-white placeholder:text-gray-300"
@@ -62,6 +89,7 @@ export default function Register() {
         >
           <button
             type="submit"
+            onClick={regsiterUser}
             className="bg-[#03426793] text-white py-2 rounded-2xl font-semibold hover:scale-3d hover:scale-105 transition cursor-pointer duration-300 shadow-lg"
           >
             Register

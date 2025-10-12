@@ -1,10 +1,10 @@
+"use server"
 import { Blog } from "./models";
 import { verifyToken } from "./adminAction";
-import { NextResponse } from "next/server";
 import { connectDB } from "./connectDB";
 
 /* blog addition, edit, delete (CRUD) */
-export const createBlog = async (FormData) => {
+export const createBlog = async ({title,desc,images}) => {
   try {
     await connectDB();
 
@@ -14,37 +14,33 @@ export const createBlog = async (FormData) => {
       throw new Error("Unauthorized access !!");
     }
 
-    // taking out form data
-    const blogData = Object.fromEntries(FormData.entries());
+    if (!title || !desc || !Array.isArray(images)) {
+      throw new Error("Title, description, and images array are required!");
+    }    
 
     const newBlog = new Blog({
-      title: blogData.title,
-      desc: blogData.desc,
-      images: blogData.images,
+      title: title,
+      desc: desc,
+      images: images,
     });
 
     await newBlog.save();
-    return NextResponse.json(
-      {
+    return {
         message: "New blog is created successfully!!",
         success: true,
-        data: newBlog,
-      },
-      { status: 200 }
-    );
-  } catch (error) {
+        data: newBlog.toObject(),
+      };
+  } 
+  catch (error) {
     console.log("Error creating new blog : ", error);
-    return NextResponse.json(
-      {
+    return {
         message: "Error craeting new blog",
         success: false,
-      },
-      { status: 500 }
-    );
+      }
   }
 };
 
-export const editBlog = async (FormData) => {
+export const editBlog = async ({id,title, desc, images,author}) => {
   try {
     await connectDB();
 
@@ -54,20 +50,17 @@ export const editBlog = async (FormData) => {
       throw new Error("Unauthorized access !!");
     }
 
-    const formData = Object.fromEntries(FormData.entries());
-
-    const blogId = formData._id || formData.id;
-    if (!blogId) {
-      throw new Error("Event ID is required to update the blog.");
+    if (!id) {
+      throw new Error("Blog ID is required to update the blog.");
     }
 
     const updatedBlog = await Blog.findByIdAndUpdate(
-      blogId,
+      id,
       {
-        title: formData.title,
-        desc: formData.desc,
-        images: formData.images,
-        author : formData.author,
+        title: title,
+        desc: desc,
+        images: images,
+        author : author,
       },
       { new: true }
     );
@@ -76,23 +69,17 @@ export const editBlog = async (FormData) => {
       throw new Error("Blog not found!");
     }
 
-    return NextResponse.json(
-      {
+    return {
         message: "Blog updated successfully!",
         success: true,
-        data: updatedBlog,
-      },
-      { status: 200 }
-    );
+        data: updatedBlog.toObject(),
+      };
   } catch (error) {
     console.log("Error editing the blog : ", error);
-    return NextResponse.json(
-      {
+    return {
         message: "Error editing the blog",
         success: false,
-      },
-      { status: 500 }
-    );
+      };
   }
 };
 
@@ -119,21 +106,46 @@ export const deleteBlog = async (id) => {
 
     await Blog.findByIdAndDelete(blogId);
 
-    return NextResponse.json(
-      {
+    return {
         message: "Blog deleted successfully!!",
         success: true,
-      },
-      { status: 200 }
-    );
-  } catch (error) {
+      };
+  } 
+  catch (error) {
     console.log("Error deleting the blog : ", error);
-    return NextResponse.json(
-      {
+    return{
         message: "Error deleting the blog",
         success: false,
-      },
-      { status: 500 }
-    );
+      };
   }
 };
+
+export const fetchAllBlog = async() => {
+  try {
+    await connectDB();
+
+    const isVerified = await verifyToken();
+    if(!isVerified){
+      throw new Error("Unauthorized access ! Please login or regsiter!");
+    }
+
+    const blogs = await Blog.find().sort({createdAt : -1}).lean();
+    return {
+      message: "Blogs fetched successfully!!",
+      success: true,
+      data: blogs.map(blog => ({
+      ...blog,
+      _id: blog._id.toString(),
+      createdAt: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString("en-GB") : null,
+      updatedAt: blog.updatedAt ? new Date(blog.updatedAt).toLocaleDateString("en-GB") : null
+      }))
+    }
+  } 
+  catch (error) {
+    console.log("Error fetching blog !!",error);
+    return{
+      message : "Error fetching blog",
+      success : false
+    }
+  }
+}

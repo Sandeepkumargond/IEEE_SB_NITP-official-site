@@ -1,10 +1,10 @@
 // all models will be placed here (model.js)
 
-import mongoose,{mongo, Schema} from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
 // admin model
 const AdminSchema = new Schema({
-    usermame : {
+    username : {
         type : String,
         required : [true, "Enter the username"]
     },
@@ -68,6 +68,7 @@ const EventSchema = new Schema({
     },
     images : {
         type : [String],
+        default : []
     },
     eventDate : {
         type : Date,
@@ -81,7 +82,7 @@ const EventSchema = new Schema({
         required : true,
         trim : true
     }
-})
+},{timestamps : true})
 
 // blog model
 const BlogSchema = new Schema({
@@ -94,18 +95,42 @@ const BlogSchema = new Schema({
         required : true,
     },
     images : {
-        type : [String]
+        type : [String],
+        default : []
     },
     author : {
-        type : mongoose.Types.ObjectId,
+        type : Schema.Types.ObjectId,
         ref : "Admin"
     }
+},{timestamps : true})
 
-})
+const projectSchema = new Schema({
+    title : {
+        type : String,
+        required : true,
+    },
+    description : {
+        type : String,
+        required : true,
+    },
+    members : [{
+        type : Schema.Types.ObjectId,
+        ref : "Member"
+    }],
+    supervisedBy : {
+        type :  String,
+        required : true
+    },
+    images : {
+        type : [String],
+        default : []
+    }
+},{timestamps : true})
 
 const Admin = mongoose.models?.Admin || mongoose.model("Admin",AdminSchema);
 const Member = mongoose.models?.Member || mongoose.model("Member",MemberSchema);
 const Event = mongoose.models?.Event || mongoose.model("Event",EventSchema);
 const Blog = mongoose.models?.Blog || mongoose.model("Blog", BlogSchema);
+const Project = mongoose.models?.Project || mongoose.model("Project", projectSchema);
 
-export {Admin,Member,Event,Blog};
+export {Admin,Member,Event,Blog, Project};

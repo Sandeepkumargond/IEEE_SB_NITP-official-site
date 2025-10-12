@@ -1,30 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  User,
-  Mail,
-  IdCard,
-  CalendarDays,
-  Pencil,
-  Newspaper,
-} from "lucide-react";
+import { PencilIcon, FileText, User, Camera } from "lucide-react";
 import { motion } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { addMember } from "@/lib/adminAction";
 import { useRouter } from "next/navigation";
+import { addProjects } from "@/lib/projectAction";
+import { CldUploadWidget } from "next-cloudinary";
 
-export default function PeopleUpdateForm() {
-
-  const router = useRouter()
+export default function ProjectUpdateForm() {
+  const router = useRouter();
 
   // logic for sending form data for further processing
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    roll: 2406126, // default
-    year: 2025, // deafult
-    designation: "",
-    contribution: "",
+    title: "",
+    description: "",
+    members: "",
+    supervisedBy: "",
+    images: [],
   });
 
   // for submit button to validate user input
@@ -38,26 +30,23 @@ export default function PeopleUpdateForm() {
     setIsDisabled(isFieldEmpty);
   }, [formData]);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formObj = new FormData()
-      Object.entries(formData).forEach(([key,value]) => {
-        formObj.append(key,value)
-      })
+      const parsedData = {
+        ...formData,
+        members: formData.members.split(",").map((id) => id.trim()),
+      };
+      const response = await addProjects(parsedData);
+      console.log(response);
 
-      const response = await addMember(formObj)
-      console.log(response)
-
-      if(response?.success){
-        router.push('/admin')
+      if (response?.success) {
+        router.push("/admin");
+      } else {
+        alert("Error adding project");
       }
-      else{
-        alert("Error adding members")
-      }
-    } 
-    catch (error) {
-      console.log("Error in generating certificate : ", error) 
+    } catch (error) {
+      console.log("Error in adding project : ", error);
     }
   };
 
@@ -67,10 +56,10 @@ export default function PeopleUpdateForm() {
       <div className="grid md:grid-cols-2 bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
         <motion.div className="flex justify-center items-center bg-white p-10">
           <DotLottieReact
-            src="https://lottie.host/66945788-7de6-4653-8826-182979014259/3Kt5hgkbNK.lottie"
+            src="https://lottie.host/7e6e7d30-5dab-470c-9ba6-93c2d120c794/jltZh74SAL.lottie"
             loop
             autoplay
-            className="w-full h-auto max-w-xl scale-200 md:scale-250 p-5" // Increased from md to xl
+            className="w-full h-auto max-w-xl scale-125 p-5"
           />
         </motion.div>
 
@@ -82,7 +71,7 @@ export default function PeopleUpdateForm() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="text-3xl font-medium text-[#07689F] text-center mb-2"
           >
-            Certificate Issuance Form
+            Project Addition Form
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -90,138 +79,137 @@ export default function PeopleUpdateForm() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-[#0A5782] font-semibold text-[16px] text-center mb-8"
           >
-            ( Provide verified member details for official certificate
-            generation. )
+            ( Please provide the following details to feature project on the
+            IEEE website. )
           </motion.p>
 
           {/* Form component */}
-          <form 
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-5">
-            {/* Name */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            {/* Title */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
               className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
             >
-              <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <PencilIcon className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="name"
+                name="title"
                 type="text"
-                value={formData.name}
-                placeholder="Enter member's name"
+                value={formData.title}
+                placeholder="Enter title of project"
                 required
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData({ ...formData, title: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Email */}
+            {/* Desc */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
             >
-              <Mail className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <input
-                name="email"
-                type="email"
-                placeholder="Enter member's email address"
+              <FileText className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <textarea
+                name="description"
+                type="text"
+                placeholder="Enter project description"
                 required
-                value={formData.email}
+                value={formData.descripton}
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
+                  setFormData({ ...formData, descripton: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Roll no */}
+            {/* Members */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
+            >
+              <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <textarea
+                name="members"
+                placeholder="Enter Member IDs (comma separated)"
+                required
+                value={formData.members}
+                className="outline-none w-full text-gray-700"
+                onChange={(e) =>
+                  setFormData({ ...formData, members: e.target.value })
+                }
+              />
+            </motion.div>
+
+            {/* supervised by */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
+            >
+              <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <input
+                name="supervisedBy"
+                type="text"
+                placeholder="Enter superviser name"
+                required
+                value={formData.supervisedBy}
+                className="outline-none w-full text-gray-700"
+                onChange={(e) =>
+                  setFormData({ ...formData, supervisedBy: e.target.value })
+                }
+              />
+            </motion.div>
+
+            {/* Images */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-              <IdCard className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <input
-                name="roll"
-                type="number"
-                placeholder="Enter member's roll number"
-                required
-                value={formData.roll}
-                className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, roll: e.target.value })
-                }
-              />
+            <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1"/>
+              <CldUploadWidget
+                uploadPreset="ieee_website"
+                onSuccess={(result) => {
+                  const url = result.info.secure_url;
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    images: [...prev.images, url],
+                  }));
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <button type="button" onClick={() => open()}>
+                      Upload Image
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
+              {/* Image preview */}
+              {formData.images.length > 0 && (
+                <div className="flex gap-3 flex-wrap mt-5">
+                  {formData.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`uploaded-${i}`}
+                      className="w-24 h-24 object-cover rounded border"
+                    />
+                  ))}
+                </div>
+              )}
             </motion.div>
 
-            {/* Year */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
-              <CalendarDays className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <input
-                name="year"
-                type="number"
-                placeholder="Enter academic year(e.g 2025)"
-                required
-                value={formData.year}
-                className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, year: e.target.value })
-                }
-              />
-            </motion.div>
-
-            {/* Designation */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
-              <Pencil className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <input
-                name="designation"
-                type="text"
-                placeholder="Enter member's designation"
-                required
-                value={formData.designation}
-                onChange={(e) =>
-                  setFormData({ ...formData, designation: e.target.value })
-                }
-                className="outline-none w-full text-gray-700"
-              />
-            </motion.div>
-
-            {/* Interets/ Contribution */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
-              <Newspaper className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <textarea
-                name="contribution"
-                placeholder="Enter member's contribution"
-                required
-                value={formData.contribution}
-                onChange={(e) =>
-                  setFormData({ ...formData, contribution: e.target.value })
-                }
-                className="outline-none w-full text-gray-700 h-24"
-              />
-            </motion.div>
             <motion.button
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -234,7 +222,7 @@ export default function PeopleUpdateForm() {
                   : "opacity-90 hover:cursor-pointer "
               }`}
             >
-              Generate Certificate
+              Add Project
             </motion.button>
           </form>
         </motion.div>

@@ -2,10 +2,8 @@
 import PeopleUpdateForm from "@/forms/PeopleUpdateForm"
 import React from "react"
 
-export default function addMembersForm(){
+export default function AddMembersForm(){
     return(
-        <>
         <PeopleUpdateForm/>
-        </>
     )
 }

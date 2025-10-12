@@ -1,18 +1,36 @@
 "use client";
-
+import { User } from 'lucide-react';
 import './admin.css';
 import { useState } from "react";
-import { IoIosMail } from "react-icons/io";
+import { loginAdmin } from '@/lib/adminAction';
+import { useRouter } from 'next/navigation';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // This is where you would handle the login logic i have left it for the team to implement
-    console.log("Logging in with:", { email, password });
-  };
+  const [formData, setFormData] = useState({
+    username : "",
+    password : ""
+  });
+
+  const handleSubmit = async (e) => {
+    try {
+      const response = await loginAdmin(formData)
+      console.log(response)
+      if(response.success){
+        router.push('/admin')
+      }
+      else if(response.message = "Admin not found"){
+        router.push('/auth/register')
+      }
+      else{
+        alert("error logging the admin!");
+      }
+    } 
+    catch (error) {
+      console.log("error in login : ", error)
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(167.78deg,_rgba(13,_43,_204,_0.82)_20.79%,_rgba(255,_255,_255,_0.82)_91.1%)] p-4 md:p-6">
@@ -76,26 +94,28 @@ export default function AdminLogin() {
               <h2 className="text-3xl md:text-[40px] font-bold mb-8 text-black text-center items-center ">
                 ADMIN LOGIN
               </h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* The Email Input Component */}
+              <form action={handleSubmit} className="space-y-6">
+                {/* The username Input Component */}
                 <div>
-                  <label htmlFor="email" className="sr-only">
-                    Email Address
+                  <label htmlFor="username" className="sr-only">
+                    Username
                   </label>
                   <div className="relative mt-[20px] rounded-[30px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_20px_40px_0px_#0000001A] backdrop-blur-[17.4px] opacity-100 py-2 px-6 transition-none">
                     <div className="w-[calc(100%-48px)] border-b border-gray-400">
                       <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email Address"
+                        id="username"
+                        type="text"
+                        placeholder="Username"
                         required
+                        value={formData.username}
+                        onChange={(e) => {
+                        setFormData({...formData,username : e.target.value})
+                        }}
                         className="w-full bg-transparent outline-none pb-1 text-base md:text-xl"
                       />
                     </div>
                     <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
-                      <IoIosMail className="text-black text-2xl md:text-3xl" />
+                      <User className="text-black text-2xl md:text-3xl" />
                     </span>
                   </div>
                 </div>
@@ -108,10 +128,10 @@ export default function AdminLogin() {
                       <input
                         id="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                         required
+                        value={formData.password}
+                        onChange={(e) => {setFormData({...formData, password : e.target.value})}}
                         className="w-full bg-transparent outline-none pb-1 text-base md:text-xl"
                       />
                     </div>
@@ -131,14 +151,6 @@ export default function AdminLogin() {
                   </div>
                 </div>
 
-                <div className="flex justify-self-end">
-                  <a
-                    href="#"
-                    className="text-black hover:text-cyan-300 text-sm md:text-base"
-                  >
-                    Forgot Password ?
-                  </a>
-                </div>
                 <button
                   type="submit"
                   className="text-base md:text-lg relative overflow-hidden flex items-center justify-center w-full max-w-[182px] h-14 py-3 px-8 mt-[20px] mx-auto font-bold text-black uppercase tracking-wider rounded-[30px] bg-[linear-gradient(117.4deg,_#0D2BCC_1.72%,_rgba(137,_255,_241,_0.5)_50.63%,_#FFFFFF_97.87%)] shadow-lg backdrop-blur-[17.4px] transition-all duration-300 ease-in-out hover:bg-[linear-gradient(117.4deg,_rgba(137,_255,_241,_0.5)_4.84%,_#0D2BCC_45.17%,_#FFFFFF_97.87%)] hover:shadow-xl gradient-border-button"
@@ -147,7 +159,7 @@ export default function AdminLogin() {
                 </button>
 
                 <p className="text-center text-black hover:text-cyan-300 text-sm md:text-base">
-                  Don&apos;t have account? <a href="#">Sign up</a>
+                  Don&apos;t have account? <a href="/auth/register">Sign up</a>
                 </p>
               </form>
             </div>

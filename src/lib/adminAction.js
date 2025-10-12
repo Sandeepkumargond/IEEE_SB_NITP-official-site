@@ -1,92 +1,93 @@
+"use server"
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { connectDB } from "./connectDB";
-import { Admin, Member,Event } from "./models";
+import { Admin, Member } from "./models";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 /* admin (login,register,logout) */
-export const registerAdmin = async (FormData) => {
+export const registerAdmin = async ({username,password}) => {
   try {
     await connectDB();
-    const adminData = Object.fromEntries(FormData.entries());
-
-    console.log(adminData);
 
     // validating if username and password is present
-    if (!adminData.username || !adminData.password) {
-      return NextResponse.json({
+    if (!username || !password) {
+      return {
         message: "Username and password are required",
         success: false
-      }, { status: 400 });
+      };
     }    
 
     const isAdminPresent = await Admin.findOne({
-      username: adminData.username,
+      username: username,
     });
 
     // if admin is registered..redirect to login
     if (isAdminPresent) {
-      return redirect("/login");
+      return{
+        redirect : true,
+        success : false
+      }
     }
 
     // hashing the password
-    const hashedPassword = await bcrypt.hash(adminData.password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // register new admin
     const newAdmin = new Admin({
-      username: adminData.username,
+      username: username,
       password: hashedPassword,
     });
 
     await newAdmin.save();
 
-    return NextResponse.json(
-      {
+    return {
         message: "Admin registered successfully ! Login",
         success: true,
-        data: newAdmin,
-      },
-      { status: 200 }
-    );
+        data: newAdmin.toObject(),
+    };
+      
   } catch (error) {
-    return NextResponse.json(
-      {
+    console.log(error)
+    return {
         message: "Error registering user!",
         success: false,
-      },
-      { status: 500 }
-    );
+      };
   }
 };
 
-export const loginAdmin = async (FormData) => {
+export const loginAdmin = async ({username,password}) => {
   try {
     await connectDB();
 
-    const adminData = Object.fromEntries(FormData.entries());
-    console.log(adminData);
 
     // check whether the admin is registered
     const isAdminRegistered = await Admin.findOne({
-      username: adminData.username,
-    });
+      username: username,
+    }).lean();
 
     // redirect to register route if the user is not found
     if (!isAdminRegistered) {
-      return redirect("/register");
+      return {
+        success: false,
+        message: "Admin not found",
+        redirect: true,
+      };
     }
 
     // if admin is found check the password
     const isPasswordValid = await bcrypt.compare(
-      adminData.password,
+      password,
       isAdminRegistered.password
     );
 
     if (!isPasswordValid) {
-      throw new Error("Incorrect credentials!");
+      return{
+        success : false,
+        message : "Incorrect credentials"
+      }
     }
 
     // set token for 5 hrs for secired path
@@ -111,22 +112,18 @@ export const loginAdmin = async (FormData) => {
       }
     );
 
-    return NextResponse.json(
-      {
-        message: "Logged in successfully !!",
-        success: true,
-        data: isAdminRegistered,
-      },
-      { status: 200 }
-    );
+    return {
+      message: "Logged in successfully !!",
+      success: true,
+      username : isAdminRegistered.username,
+    };
+      
   } catch (error) {
-    return NextResponse.json(
-      {
+    console.log("Login error " ,error)
+    return{
         message: "Error logging the user!",
         success: false,
-      },
-      { status: 500 }
-    );
+      };
   }
 };
 
@@ -137,17 +134,14 @@ export const logoutAdmin = async () => {
     const cookieStore = cookies();
     cookieStore.delete("admin_token");
 
-    return NextResponse.json({
+    return {
       message: "Logged out successfully !!",
-    },{status : 200});
+    };
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      {
+    return {
         message: "Error logging out",
-      },
-      { status: 500 }
-    );
+      };
   }
 };
 
@@ -156,11 +150,13 @@ export const verifyToken = async () => {
   try {
     await connectDB();
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get("admin_token");
 
     if (!token?.value) {
-      throw new Error("Unauthorized access!");
+      return {
+        message : "Unauthorized access"
+      };
     }
 
     const payload = jwt.verify(token.value, process.env.TOKEN_SECRET);
@@ -183,11 +179,39 @@ export const verifyToken = async () => {
   }
 };
 
-/* member details registering (certificate creation and storage) and fetching */
-export const addMember = async (FormData) => {
+// get admin
+export const getAdmin = async() => {
   try {
     await connectDB();
-    const memberDetails = Object.fromEntries(FormData.entries());
+    
+    const isVerified = await verifyToken();
+    if(!isVerified){
+      console.log("Unauthorized access !");
+      throw new Error("Unauthorized access !!")
+    }
+
+    const adminData = await Admin.find({}).sort({_id : -1})
+
+    return {
+      message : "Admins fetched successfully!!",
+      data : adminData,
+      success : true
+    }
+  } 
+  catch (error) {
+    console.log("Error fetching admins : ", error);
+    return{
+      message : "Error fetching admin!",
+      success : false
+    }
+  }
+}
+
+/* member details registering (certificate creation and storage) and fetching */
+export const addMember = async (formData) => {
+  try {
+    await connectDB();
+    const memberDetails = Object.fromEntries(formData.entries());
 
     // finding if existing member is present
     const existingMember = await Member.findOne({
@@ -195,13 +219,10 @@ export const addMember = async (FormData) => {
     });
 
     if (existingMember) {
-      return NextResponse.json(
-        {
+      return {
           message: "Member already registered!",
           success: false,
-        },
-        { status: 400 }
-      );
+        };
     }
 
     // generate unique certificate number
@@ -249,22 +270,16 @@ export const addMember = async (FormData) => {
 
     await newMember.save();
 
-    return NextResponse.json(
-      {
+    return{
         message: "New member added successfully!",
         success: true,
-      },
-      { status: 200 }
-    );
+      };
   } catch (error) {
     console.log("Error adding member : ", error);
-    return NextResponse.json(
-      {
+    return {
         message: "Error registering the member",
         success: false,
-      },
-      { status: 500 }
-    );
+      };
   }
 };
 
@@ -284,18 +299,18 @@ export const fetchMember = async ({certificateNo}) => {
       throw new Error("No member found!!")
     }
 
-    return NextResponse.json({
+    return {
       message : "Member fetched successfully!!",
       data : existingMember,
       success : true
-    },{status : 200})
+    };
   } 
   catch (error) {
     console.log("Error fetching member : ",error);
-    return NextResponse.json({
+    return {
       message : "Error fetching member",
       success : false
-    },{status : 500})
+    }
   }
 };
 
@@ -305,17 +320,17 @@ export const fetchAllMembers = async() => {
 
     const members = await Member.find({}).sort({certificateNo : -1});
 
-    return NextResponse.json({
+    return {
       message : "Members fetched successfully!!",
       success : true,
       data : members
-    },{status : 200})
+    }
   } 
   catch (error) {
     console.log("Error in fetching all member", error)
-    return NextResponse.json({
+    return {
       message : "Error fetching all members",
       success : false
-    },{status : 500})
+    }
   }
 }
