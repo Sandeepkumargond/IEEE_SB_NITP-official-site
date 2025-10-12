@@ -113,7 +113,6 @@ export default function BlogPage() {
           </button>
         </div>
       </div>
-      <Footer />
     </main>
   );
 }
