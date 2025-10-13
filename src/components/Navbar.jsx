@@ -18,7 +18,7 @@ const Navbar = () => {
     { id: 6, name: "Gallery", path: "/gallery" },
     { id: 7, name: "Join IEEE", path: "/join" },
     { id: 8, name: "Admin", path: "/admin" },
-    { id: 8, name: "Projects", path: "/project" },
+    { id: 9, name: "Projects", path: "/projects" },
 
 
   ];
