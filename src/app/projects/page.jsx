@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useEffect, useMemo, useState } from "react";
 import ProjectCard from "./card";
 import mockData from "./mock.json";
@@ -6,7 +6,6 @@ import { IoSearchCircleOutline } from "react-icons/io5";
 import { CiGrid41 } from "react-icons/ci";
 import { FaListUl } from "react-icons/fa";
 import { LuFileX2 } from "react-icons/lu";
-
 import { GrPrevious } from "react-icons/gr";
 import { GrNext } from "react-icons/gr";
 

@@ -1,7 +1,8 @@
 "use client";
-
 import { useMemo, useRef, useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCard";
+import Footer from "@/components/Footer";
+import { fetchAllBlog } from "@/lib/blogAction";
 
 export default function BlogPage() {
   const [query, setQuery] = useState("");
@@ -12,9 +13,10 @@ export default function BlogPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('/mock.json');
-        const data = await response.json();
-        setBlogs(data.blogs);
+        const response = await fetchAllBlog();
+        console.log(response)
+        
+        setBlogs(response.data || []);
       } catch (error) {
         console.error('Error loading blogs:', error);
         setBlogs([]);
@@ -93,9 +95,9 @@ export default function BlogPage() {
                 >
                   <BlogCard
                     title={b.title}
-                    excerpt={b.excerpt}
-                    date={b.date}
-                    redirectUrl={b.redirectUrl}
+                    desc={b.desc}
+                    date={b.createdAt}
+                    images={b.images}
                   />
                 </div>
               ))}

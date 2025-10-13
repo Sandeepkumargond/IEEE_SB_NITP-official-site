@@ -6,6 +6,8 @@ import {
   FaDiscord,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";   
 
 export default function Footer() {
   return (
@@ -49,10 +51,9 @@ export default function Footer() {
       <p className="hidden md:block md:text-[16px]">
                National Institute of Technology Patna,Bihar (800005), India
               </p>
-              <div className=" block md:hidden text-[12px] flex flex-col justify-center items-center">
-                <span>National Institute of Technology Patna,</span>
-                <span>Bihar (800005), India</span>
-              </div>
+              <p className="md:hidden text-[12px]">
+            National Institute of Technology Patna,Bihar (800005), India
+              </p>
           {/* ===== Mobile Nav with Headings ===== */}
           <div className="flex flex-col items-center space-y-2 text-center md:hidden text-[14px]">
             {/* IEEE section */}
