@@ -1,8 +1,11 @@
 "use client";
-
-import './admin.css';
-import { useState } from "react";
-import { IoIosMail } from "react-icons/io";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Eye, Trash2 } from "lucide-react";
+import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
+import Link from "next/link";
+import { getAdmin } from "@/lib/adminAction";
+import { deleteProjects } from "@/lib/projectAction";
 
 export default function AdminDashboard() {
   const [blogs, setBlogs] = useState([]);
@@ -86,87 +89,96 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(167.78deg,_rgba(13,_43,_204,_0.82)_20.79%,_rgba(255,_255,_255,_0.82)_91.1%)] p-4 md:p-6">
-      <div
-        className="relative w-full max-w-[1299px] md:min-h-[926px] rounded-[30px] border-2 border-solid border-white/60 bg-[linear-gradient(117.4deg,_rgba(255,_255,_255,_0.2)_1.72%,_rgba(255,_255,_255,_0.05)_97.87%)] backdrop-blur-[20px] shadow-[0px_20px_40px_0px_#0000001A] opacity-[0.95] flex items-center justify-center mx-auto p-4 md:p-6"
-        style={{
-          backgroundImage: "url(/Rectangle 25.svg)",
-          backgroundSize: "cover",
-        }}
-      >
-        {/* Desktop logo: positioned inside the box at the top-left on md+ screens */}
-        <img
-          src="/logo.svg"
-          alt="Logo"
-          className="hidden md:block absolute top-6 left-6 w-[180px] h-auto z-20"
-          style={{ opacity: 1 }}
-        />
+    <motion.div className="bg-gradient-to-br from-[#014f74] via-[#013f60] to-[#012f4a] min-h-screen py-10 px-4">
+      <motion.div className="w-full max-w-7xl mx-auto">
+        {/* Heading */}
+        <motion.h1
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-white text-4xl text-center font-bold mb-10 tracking-wide"
+        >
+          Admin Dashboard
+        </motion.h1>
 
-        {/* Content wrapper: on mobile we stack logo, hero and form vertically in this order */}
-        <div className="w-full max-w-[919px] md:h-[655px] opacity-[1] rounded-[20px] flex flex-col md:flex-row items-stretch bg-no-repeat bg-center md:bg-[url('/Vector.svg')] md:bg-cover relative">
-          {/* Mobile decorative backgrounds: applied per-section */}
-          {/* Mobile: centered logo at top (visible only on small screens) */}
-          <div className="md:hidden flex justify-center mt-6 mb-8">
-            <img
-              src="/logo.svg"
-              alt="Logo"
-              className="w-[180px] sm:w-[200px] h-auto"
-            />
-          </div>
-          {/* Left Welcome section */}
-          <div className="w-full md:w-1/2 p-6 md:p-12 text-center text-white flex flex-col justify-center rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none relative overflow-hidden mobile-hero-bg">
-            <div className="z-10">
-              <h1 className="tracking-tight align-middle text-3xl md:text-[40px] text-black font-bold mb-4">
-                WELCOME TO
-              </h1>
+        {/* Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Events Section */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 items-center flex flex-col gap-4"
+          >
+            <h2 className="text-2xl font-semibold text-white text-center mb-4">
+              📅 Events
+            </h2>
 
-              {/* === THIS IS THE UPDATED ANIMATION CODE === */}
-              <div className="text-2xl md:text-4xl font-extrabold mb-6 text-purple-700 animated-text-container">
-                <div className="animated-text-wrapper">
-                  <div>IEEE</div>
-                  <div>STUDENT BRANCH</div>
-                  <div>NIT PATNA</div>
+            {/* Event Cards */}
+            <div className="flex flex-col gap-5 w-full">
+              {[1, 2].map((_, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col sm:flex-row items-center gap-5 bg-[#035b99] rounded-xl p-4 shadow-md hover:bg-[#0373c2] transition duration-300"
+                >
+                  <img
+                    src="https://sih.gov.in/img/events/sih-2022/3.jpg"
+                    alt="Event"
+                    className="object-cover h-24 w-24 rounded-xl shadow-md"
+                  />
+                  <div className="flex flex-col items-center sm:items-start gap-2 text-white text-center sm:text-left">
+                    <h3 className="text-lg font-bold">Smart India Hackathon</h3>
+                    <div className="flex gap-2">
+                      <button className="flex items-center gap-2 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700 cursor-pointer">
+                        <Eye size={18} /> View
+                      </button>
+                      <button className="flex items-center gap-2 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700 cursor-pointer">
+                        <Trash2 size={16} /> Delete
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              {/* === END OF UPDATED CODE === */}
-              <div className="w-full md:w-[382px] h-auto mt-2 mx-auto">
-                <p className="font-poppins font-semibold text-base md:text-[24px] leading-snug tracking-tight text-center align-middle text-white">
-                  To keep connected with us,
-                  <br />
-                  please login with your personal
-                  <br />
-                  information
-                </p>
-              </div>
+              ))}
             </div>
             <button className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]">
               Add Events
             </button>
           </motion.div>
 
-          {/* Right Admin login form */}
-          <div className="w-full md:w-1/2 p-6 md:p-12 rounded-b-2xl md:rounded-r-2xl md:rounded-bl-none flex flex-col justify-center relative overflow-hidden mobile-form-bg">
-            <div className="w-full z-10">
-              <h2 className="text-3xl md:text-[40px] font-bold mb-8 text-black text-center items-center ">
-                ADMIN LOGIN
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* The Email Input Component */}
-                <div>
-                  <label htmlFor="email" className="sr-only">
-                    Email Address
-                  </label>
-                  <div className="relative mt-[20px] rounded-[30px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_20px_40px_0px_#0000001A] backdrop-blur-[17.4px] opacity-100 py-2 px-6 transition-none">
-                    <div className="w-[calc(100%-48px)] border-b border-gray-400">
-                      <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email Address"
-                        required
-                        className="w-full bg-transparent outline-none pb-1 text-base md:text-xl"
-                      />
+          {/* Blog Section */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.0, duration: 0.6 }}
+            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 text-white text-center flex flex-col gap-6"
+          >
+            <h2 className="text-2xl font-semibold mb-3">📝 Blogs</h2>
+
+            {blogs.length === 0 ? (
+              <p className="text-sm text-gray-300">Blog section coming soon!</p>
+            ) : (
+              <div className="flex flex-col gap-5 w-full">
+                {blogs.map((blog, id) => (
+                  <div
+                    key={id}
+                    className="flex items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md hover:bg-[#0373c2] transition duration-300"
+                  >
+                    <h3 className="text-white text-lg font-semibold truncate max-w-xs">
+                      {blog.title}
+                    </h3>
+                    <div className="flex gap-3">
+                      <Link
+                        href='/blog'
+                        className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700"
+                      >
+                        <Eye size={18} /> View
+                      </Link>
+                      <button
+                        onClick={() => handleBlogDelete(blog._id)}
+                        className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700"
+                      >
+                        <Trash2 size={16} /> Delete
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -240,15 +252,16 @@ export default function AdminDashboard() {
                     </h3>
                     <p>{project.description}</p>
                     </div>
-                    <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
-                      {/* Password icon on the right */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        fill="#1f1f1f"
-                        className="w-6 h-6 md:w-8 md:h-8"
+                    <div className="flex gap-3">
+                      <Link
+                        href='/blog'
+                        className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700"
+                      >
+                        <Eye size={18} /> View
+                      </Link>
+                      <button
+                        onClick={() => handleProjectDelete(project._id)}
+                        className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700"
                       >
                         <Trash2 size={16} /> Delete
                       </button>

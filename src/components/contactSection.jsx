@@ -1,46 +1,42 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import "../styles/contactSection.css";
 import { IoIosMail } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
+import { sendEmail } from "../lib/contactAction";
+
+const initialState = {
+  message: null,
+  success: false,
+};
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      aria-disabled={pending}
+      className="text-base md:text-lg relative overflow-hidden flex items-center justify-center w-full max-w-[200px] h-12 py-3 px-6 mt-[15px] mx-auto font-bold text-black uppercase tracking-wider rounded-[25px] bg-[linear-gradient(117.4deg,_#0D2BCC_1.72%,_rgba(137,_255,_241,_0.5)_50.63%,_#FFFFFF_97.87%)] shadow-lg backdrop-blur-[15px] transition-all duration-300 ease-in-out hover:bg-[linear-gradient(117.4deg,_rgba(137,_255,_241,_0.5)_4.84%,_#0D2BCC_45.17%,_#FFFFFF_97.87%)] hover:shadow-xl gradient-border-button"
+    >
+      {pending ? "SENDING..." : "SEND"}
+    </button>
+  );
+}
 
 export default function ContactSection({ className = "" }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
+  const [state, formAction] = useActionState(sendEmail, initialState);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, message }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus("success");
-        alert(data.message);
-        setName("");
-        setEmail("");
-        setMessage("");
-      } else {
-        throw new Error(data.message || "Something went wrong");
-      }
-    } catch (error) {
-      setStatus("error");
-      alert(error.message);
+  useEffect(() => {
+    if (state.success) {
+      alert(state.message);
+      document.querySelector("form").reset();
+    } else if (state.message) {
+      alert(state.message);
     }
-  };
+  }, [state]);
 
   return (
     <section className={className}>
@@ -68,7 +64,7 @@ export default function ContactSection({ className = "" }) {
             </div>
             <div className="w-full md:w-1/2 p-6 md:p-8 rounded-b-2xl md:rounded-r-2xl md:rounded-bl-none flex flex-col relative overflow-hidden">
               <div className="w-full z-10">
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form action={formAction} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="sr-only">
                       Your Name
@@ -77,9 +73,8 @@ export default function ContactSection({ className = "" }) {
                       <div className="w-[calc(100%-40px)] border-b border-gray-400">
                         <input
                           id="name"
+                          name="name"
                           type="text"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
                           placeholder="Your Name"
                           required
                           className="w-full bg-transparent outline-none pb-1 text-base md:text-lg"
@@ -98,9 +93,8 @@ export default function ContactSection({ className = "" }) {
                       <div className="w-[calc(100%-40px)] border-b border-gray-400">
                         <input
                           id="email"
+                          name="email"
                           type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
                           placeholder="Email Address"
                           required
                           className="w-full bg-transparent outline-none pb-1 text-base md:text-lg"
@@ -119,8 +113,7 @@ export default function ContactSection({ className = "" }) {
                       <div className="w-[calc(100%-40px)] border-b border-gray-400">
                         <textarea
                           id="message"
-                          value={message}
-                          onChange={(e) => setMessage(e.target.value)}
+                          name="message"
                           placeholder="Message"
                           required
                           className="w-full bg-transparent outline-none pb-1 text-base md:text-lg h-20 resize-none"
@@ -131,12 +124,7 @@ export default function ContactSection({ className = "" }) {
                       </span>
                     </div>
                   </div>
-                  <button
-                    type="submit"
-                    className="text-base md:text-lg relative overflow-hidden flex items-center justify-center w-full max-w-[200px] h-12 py-3 px-6 mt-[15px] mx-auto font-bold text-black uppercase tracking-wider rounded-[25px] bg-[linear-gradient(117.4deg,_#0D2BCC_1.72%,_rgba(137,_255,_241,_0.5)_50.63%,_#FFFFFF_97.87%)] shadow-lg backdrop-blur-[15px] transition-all duration-300 ease-in-out hover:bg-[linear-gradient(117.4deg,_rgba(137,_255,_241,_0.5)_4.84%,_#0D2BCC_45.17%,_#FFFFFF_97.87%)] hover:shadow-xl gradient-border-button"
-                  >
-                    {status === "sending" ? "SENDING..." : "SEND"}
-                  </button>
+                  <SubmitButton />
                 </form>
               </div>
             </div>

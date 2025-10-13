@@ -9,7 +9,7 @@ const Navbar = () => {
   const [open, setOpen] = React.useState(false);
 
   const navItems = [
-    {id:0,name:"Home",path:"/"},
+    { id: 0, name: "Home", path: "/" },
     { id: 1, name: "About", path: "/about" },
     { id: 2, name: "Committee", path: "/committee" },
     { id: 3, name: "Events", path: "/events" },
@@ -19,13 +19,17 @@ const Navbar = () => {
     { id: 7, name: "Join IEEE", path: "/join" },
     { id: 8, name: "Admin", path: "/admin" },
     { id: 9, name: "Projects", path: "/projects" },
-
-
   ];
 
   return (
-    <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#07689F] text-white z-30">
-      <h1 href='/' className="font-bold text-xl">IEEE_Logo</h1>
+    <div className="w-full h-[8ch] flex items-center justify-between pt-[19px] pr-[71px] pb-[19px] pl-[71px] gap-[10px] fixed top-0 bg-[#07689F] text-white opacity-100 z-30">
+      <div>
+        <img
+          src="logo.svg"
+          alt="IEEE_Logo"
+          className="height-[38px] width-[396px] gap-[10px]"
+        />
+      </div>
 
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
         {navItems.map((item) => (

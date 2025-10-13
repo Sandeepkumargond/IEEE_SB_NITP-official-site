@@ -6,8 +6,6 @@ import {
   FaDiscord,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { FaFacebook, FaInstagram, FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";   
 
 export default function Footer() {
   return (
@@ -22,7 +20,11 @@ export default function Footer() {
             <div className="text-center md:text-left md:mt-1">
               {/* <h2 className="text-[14px] md:text-lg font-semibold"> */}
 
-              <img src="IEEE.png" alt="" className="w-[138px] h-[38px]" />
+              <img
+                src="logo.svg"
+                alt=""
+                className="w-[138px] h-[38px] rounded-[41px]"
+              />
             </div>
 
             {/* Right Nav (desktop only) */}
@@ -42,18 +44,12 @@ export default function Footer() {
             </div>
           </div>
           <p className="hidden md:block md:text-[16px]">
+            National Institute of Technology Patna, Bihar (800005), India
+          </p>
+
+          <p className="md:hidden text-[12px]">
             National Institute of Technology Patna,Bihar (800005), India
           </p>
-          <p className=" block md:hidden text-[12px] flex flex-col justify-center items-center">
-            <div>National Institute of Technology Patna,</div>
-            <div>Bihar (800005), India</div>
-          </p>
-      <p className="hidden md:block md:text-[16px]">
-               National Institute of Technology Patna,Bihar (800005), India
-              </p>
-              <p className="md:hidden text-[12px]">
-            National Institute of Technology Patna,Bihar (800005), India
-              </p>
           {/* ===== Mobile Nav with Headings ===== */}
           <div className="flex flex-col items-center space-y-2 text-center md:hidden text-[14px]">
             {/* IEEE section */}
