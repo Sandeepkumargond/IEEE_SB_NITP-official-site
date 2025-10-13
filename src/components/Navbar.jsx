@@ -9,7 +9,8 @@ const Navbar = () => {
   const [open, setOpen] = React.useState(false);
 
   const navItems = [
-    { id: 1, name: "About", path: "/" },
+    {id:0,name:"Home",path:"/"},
+    { id: 1, name: "About", path: "/about" },
     { id: 2, name: "Committee", path: "/committee" },
     { id: 3, name: "Events", path: "/events" },
     { id: 4, name: "E-certificate", path: "/certificate" },
@@ -17,6 +18,9 @@ const Navbar = () => {
     { id: 6, name: "Gallery", path: "/gallery" },
     { id: 7, name: "Join IEEE", path: "/join" },
     { id: 8, name: "Admin", path: "/admin" },
+    { id: 9, name: "Projects", path: "/projects" },
+
+
   ];
 
   return (
