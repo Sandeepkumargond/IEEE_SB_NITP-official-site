@@ -9,7 +9,8 @@ const Navbar = () => {
   const [open, setOpen] = React.useState(false);
 
   const navItems = [
-    { id: 1, name: "About", path: "/" },
+    {id:0,name:"Home",path:"/"},
+    { id: 1, name: "About", path: "/about" },
     { id: 2, name: "Committee", path: "/committee" },
     { id: 3, name: "Events", path: "/events" },
     { id: 4, name: "E-certificate", path: "/certificate" },
@@ -17,11 +18,14 @@ const Navbar = () => {
     { id: 6, name: "Gallery", path: "/gallery" },
     { id: 7, name: "Join IEEE", path: "/join" },
     { id: 8, name: "Admin", path: "/admin" },
+    { id: 8, name: "Projects", path: "/project" },
+
+
   ];
 
   return (
     <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#07689F] text-white z-30">
-      <h1 className="font-bold text-xl">IEEE_Logo</h1>
+      <h1 href='/' className="font-bold text-xl">IEEE_Logo</h1>
 
       
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
