@@ -5,7 +5,7 @@ import { Target, Eye } from "lucide-react";
 
 export default function MissionVisionSection() {
   return (
-     <div className="min-h-screen bg-gradient-to-bl from-blue-100 via-indigo-100 to-purple-100 ">
+     <div className="min-h-screen bg-gradient-to-bl from-blue-300 via-indigo-100 to-blue-100 ">
     <section className="py-24 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.div

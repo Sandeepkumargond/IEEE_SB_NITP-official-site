@@ -32,7 +32,7 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <div className="min-h-screen bg-gradient-to-bl from-blue-100 via-indigo-100 to-purple-100 ">
+    <div className="min-h-screen bg-gradient-to-bl from-blue-300 via-indigo-100 to-blue-100 ">
     <section className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
