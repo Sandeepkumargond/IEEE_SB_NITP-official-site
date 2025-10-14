@@ -1,28 +1,21 @@
 import mongoose from "mongoose";
 
-const connectionUri = process.env.MONGODB_URI
-// check .env file in case of error
-if(!connectionUri){
-    console.log("Error in mongodb connection URI")
-}
+const connection = {}
 
-export async function connectDB(){
+export const connectDB = async () => {
     try {
-      await mongoose.connect(connectionUri)
-    
-      // on successful connection
-      mongoose.connection.on("connected", () => {
-        console.log("Database connected")
-      })
+        if(connection.isConnected) { // reusing the existing connection
+            console.log("Existing connection | Connected to DB");
+            return;
+        }
 
-      // on error
-      mongoose.connection.on("error",(error) => {
-        console.log("Connection errror : ", error);
-      })
-    } 
-    catch (error) {
-        console.log(error)
-        throw new Error("Error connecting to database"
-        )
+        const db = await mongoose.connect(process.env.MONGODB_URI);
+        console.log("New connection | Connected to DB");
+        connection.isConnected = db.connections[0].readyState;
+        // console.log(connection);
+        
+        
+    } catch (error) {
+        console.log(error);
     }
 }

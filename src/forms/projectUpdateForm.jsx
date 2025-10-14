@@ -1,6 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { PencilIcon, FileText, User, Camera } from "lucide-react";
+import {
+  PencilIcon,
+  FileText,
+  Camera,
+  Tags,
+  MonitorPlay,
+  Github,
+  Calendar,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useRouter } from "next/navigation";
@@ -11,12 +19,17 @@ export default function ProjectUpdateForm() {
   const router = useRouter();
 
   // logic for sending form data for further processing
+
+  const todayDate = new Date().toISOString().split("T")[0]; 
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    members: "",
-    supervisedBy: "",
-    images: [],
+    category: "",
+    demo : "",
+    date : todayDate,
+    repo: "",
+    images : []
   });
 
   // for submit button to validate user input
@@ -33,11 +46,7 @@ export default function ProjectUpdateForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const parsedData = {
-        ...formData,
-        members: formData.members.split(",").map((id) => id.trim()),
-      };
-      const response = await addProjects(parsedData);
+      const response = await addProjects(formData);
       console.log(response);
 
       if (response?.success) {
@@ -119,51 +128,93 @@ export default function ProjectUpdateForm() {
                 type="text"
                 placeholder="Enter project description"
                 required
-                value={formData.descripton}
+                value={formData.description}
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, descripton: e.target.value })
+                  setFormData({ ...formData, description: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Members */}
+            {/* Category */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
             >
-              <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <textarea
-                name="members"
-                placeholder="Enter Member IDs (comma separated)"
-                required
-                value={formData.members}
-                className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, members: e.target.value })
-                }
-              />
-            </motion.div>
-
-            {/* supervised by */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
-            >
-              <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <Tags className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="supervisedBy"
+                name="category"
                 type="text"
-                placeholder="Enter superviser name"
+                value={formData.category}
+                placeholder="Enter category of project"
                 required
-                value={formData.supervisedBy}
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, supervisedBy: e.target.value })
+                  setFormData({ ...formData, category: e.target.value })
+                }
+              />
+            </motion.div>
+
+            {/* demo link */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
+            >
+              <MonitorPlay className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <input
+                name="demo"
+                type="text"
+                value={formData.demo}
+                placeholder="Enter demo link of project"
+                required
+                className="outline-none w-full text-gray-700"
+                onChange={(e) =>
+                  setFormData({ ...formData, demo: e.target.value })
+                }
+              />
+            </motion.div>
+
+            {/* Date of project creation */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
+            >
+              <Calendar className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <input
+                name="date"
+                type="date"
+                value={formData.date}
+                placeholder="Enter date of project"
+                required
+                className="outline-none w-full text-gray-700"
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
+              />
+            </motion.div>
+            {/* repo link */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
+            >
+              <Github className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <input
+                name="repo"
+                type="text"
+                value={formData.repo}
+                placeholder="Enter repository link of project"
+                required
+                className="outline-none w-full text-gray-700"
+                onChange={(e) =>
+                  setFormData({ ...formData, repo: e.target.value })
                 }
               />
             </motion.div>
@@ -175,7 +226,7 @@ export default function ProjectUpdateForm() {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-            <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1"/>
+              <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <CldUploadWidget
                 uploadPreset="ieee_website"
                 onSuccess={(result) => {
@@ -189,7 +240,11 @@ export default function ProjectUpdateForm() {
               >
                 {({ open }) => {
                   return (
-                    <button type="button" onClick={() => open()}>
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="bg-[#2084b2] hover:bg-[#07689F] cursor-pointer text-white px-4 py-2 rounded-md shadow transition duration-300"
+                    >
                       Upload Image
                     </button>
                   );

@@ -28,6 +28,7 @@ export const registerAdmin = async ({username,password}) => {
     if (isAdminPresent) {
       return{
         redirect : true,
+        message : "User already registered",
         success : false
       }
     }

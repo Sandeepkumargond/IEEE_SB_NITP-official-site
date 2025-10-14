@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, Trash2 } from "lucide-react";
 import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
+import { fetchAllProjects } from "@/lib/projectAction";
+import { createEvent, deleteEvent } from "@/lib/eventAction";
 import Link from "next/link";
 import { getAdmin } from "@/lib/adminAction";
 import { deleteProjects } from "@/lib/projectAction";
@@ -11,6 +13,7 @@ export default function AdminDashboard() {
   const [blogs, setBlogs] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [events, setEvents] = useState([]);
 
   // member addition and showcase
 
@@ -140,9 +143,11 @@ export default function AdminDashboard() {
                 </div>
               ))}
             </div>
-            <button className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]">
+            <Link
+            href="/"
+            className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]">
               Add Events
-            </button>
+            </Link>
           </motion.div>
 
           {/* Blog Section */}
@@ -274,7 +279,7 @@ export default function AdminDashboard() {
             {/* Add Projects Button with margin top */}
             <div className="mt-6">
               <Link
-                href="blog/create"
+                href="project/create"
                 className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
               >
                 Add Projects

@@ -104,7 +104,7 @@ const BlogSchema = new Schema({
     }
 },{timestamps : true})
 
-const projectSchema = new Schema({
+const ProjectSchema = new Schema({
     title : {
         type : String,
         required : true,
@@ -113,12 +113,24 @@ const projectSchema = new Schema({
         type : String,
         required : true,
     },
-    members : [{
-        type : Schema.Types.ObjectId,
-        ref : "Member"
-    }],
-    supervisedBy : {
-        type :  String,
+    category : {
+        type : String,
+        required : true,
+    },
+    demo : {
+        type : String,
+        trim : true,
+        lowercase : true,
+        required : true
+    },
+    date : {
+        type : Date,
+        required : true
+    },
+    repo : {
+        type : String,
+        trim : true,
+        lowercase : true,
         required : true
     },
     images : {
@@ -131,6 +143,6 @@ const Admin = mongoose.models?.Admin || mongoose.model("Admin",AdminSchema);
 const Member = mongoose.models?.Member || mongoose.model("Member",MemberSchema);
 const Event = mongoose.models?.Event || mongoose.model("Event",EventSchema);
 const Blog = mongoose.models?.Blog || mongoose.model("Blog", BlogSchema);
-const Project = mongoose.models?.Project || mongoose.model("Project", projectSchema);
+const Projects = mongoose.models?.Projects || mongoose.model("Projects", ProjectSchema);
 
-export {Admin,Member,Event,Blog, Project};
+export {Admin,Member,Event,Blog, Projects};

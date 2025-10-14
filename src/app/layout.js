@@ -12,7 +12,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Navbar/>
+        <div
+        className="mt-10">
         {children}
+        </div>
         <Footer/>
       </body>
     </html>

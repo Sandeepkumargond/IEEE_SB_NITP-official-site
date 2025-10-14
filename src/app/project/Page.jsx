@@ -1,14 +1,14 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import ProjectCard from "./card";
-import mockData from "./mock.json";
 import { IoSearchCircleOutline } from "react-icons/io5";
 import { CiGrid41 } from "react-icons/ci";
 import { FaListUl } from "react-icons/fa";
 import { LuFileX2 } from "react-icons/lu";
-
+import { fetchAllProjects } from "@/lib/projectAction";
 import { GrPrevious } from "react-icons/gr";
 import { GrNext } from "react-icons/gr";
+import { fetchAllProjects } from "@/lib/projectAction";
 
 const sorters = {
   "Latest": (a, b) => b.id - a.id,
@@ -30,19 +30,19 @@ export default function Projects() {
   const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
-    try {
-      setLoading(true);
-      const t = setTimeout(() => {
-        setProjects(mockData);
-        setLoading(false);
-      }, 250);
-      return () => clearTimeout(t);
-    } catch (e) {
-      setErr("Failed to load projects");
-      setLoading(false);
+    const fetchedProjects = async() => {
+      try {
+        const response = await fetchAllProjects();
+        console.log(response?.data);
+        setProjects(response?.data);
+      } 
+      catch (error) {
+        console.log("Error in fetching projects : " , error);
+        alert("Error in fetching projects! Try later");
+      }
     }
-  }, []);
-
+    fetchedProjects();
+  },[])
  
   useEffect(() => {
     const t = setTimeout(() => setDebounced(query.trim().toLowerCase()), 250);

@@ -15,7 +15,7 @@ export default function Footer() {
             <div className="text-center md:text-left md:mt-1">
               {/* <h2 className="text-[14px] md:text-lg font-semibold"> */}
                 
-                <img src="IEEE.png" alt="" className="w-[138px] h-[38px]"/>
+                <img src="/IEEE.png" alt="IEEE LOGO" className="w-40 h-16 object-fill"/>
              
             
             </div>
