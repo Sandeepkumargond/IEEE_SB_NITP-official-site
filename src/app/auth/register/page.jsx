@@ -19,11 +19,16 @@ export default function Register() {
     try {
       const response = await registerAdmin(formData)
       console.log(response)
-      if(response.success) router.push('/admin')
-      else alert("Error registering admin!")
+      if(response.success) {
+        router.push('/admin')
+      }
+      else {
+        if(response.redirect) router.push('/auth/login')
+        alert("Error registering admin!")
+      }
     } 
     catch (error) {
-      console.log("Regsiter error", error)
+      console.log("Regsiter error : ", error)
     }
   }
 

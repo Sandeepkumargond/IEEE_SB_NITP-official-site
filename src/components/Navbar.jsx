@@ -22,14 +22,11 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="w-full h-[8ch] flex items-center justify-between pt-[19px] pr-[71px] pb-[19px] pl-[71px] gap-[10px] fixed top-0 bg-[#07689F] text-white opacity-100 z-30">
-      <div>
-        <img
-          src="logo.svg"
-          alt="IEEE_Logo"
-          className="height-[38px] width-[396px] gap-[10px]"
-        />
-      </div>
+    <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#0a5782] text-white z-30">
+      <img 
+      className="object-cover w-36 h-12"
+      src="/IEEE.png" 
+      alt="IEEE LOGO"/>
 
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
         {navItems.map((item) => (
