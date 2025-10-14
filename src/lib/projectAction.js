@@ -1,15 +1,8 @@
+"use server"
 import { Projects } from "./models";
 import { verifyToken } from "./adminAction";
 import { connectDB } from "./connectDB";
 
-console.log("Project model:", Projects);
-console.log("Is Project a function?", typeof Projects === "function");
-
-if (Projects.schema) {
-  console.log("Project.schema.paths:", Projects.schema.paths);
-} else {
-  console.log("Project.schema is undefined!");
-}
 
 export const addProjects = async ({
   title,
@@ -91,9 +84,7 @@ export const fetchAllProjects = async () => {
       };
     }
 
-    const allProjects = await Projects.find({})
-      .sort({ createdAt: -1 })
-      .populate("members");
+    const allProjects = await Projects.find({}).sort({ createdAt: -1 })
 
     return {
       message: "All projects fetched successfully!",

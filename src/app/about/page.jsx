@@ -13,8 +13,7 @@ export default function About() {
       <Details/>
       <MissionVisionSection />
       <ValuesSection />
-      <StatsSection />
-      <Footer/>
+      <StatsSection />  
     </div>
   );
 }

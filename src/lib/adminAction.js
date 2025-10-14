@@ -209,14 +209,22 @@ export const getAdmin = async() => {
 }
 
 /* member details registering (certificate creation and storage) and fetching */
-export const addMember = async (formData) => {
+export const addMember = async ({name,email,year,designation,role,contributions}) => {
   try {
     await connectDB();
-    const memberDetails = Object.fromEntries(formData.entries());
+    
+    const isVerified = await verifyToken();
+
+    if(!isVerified){
+      return{
+        message : "Unauthorized access !",
+        success : false
+      }
+    }
 
     // finding if existing member is present
     const existingMember = await Member.findOne({
-      email: memberDetails.email,
+      email: email,
     });
 
     if (existingMember) {
@@ -235,6 +243,9 @@ export const addMember = async (formData) => {
     // creating download url
     const downloadUrl = `${process.env.BASE_URL}/certificate/${certificateNo}`;
 
+    console.log(process.env.MAIL_USER)
+    console.log(process.env.MAIL_PASS)
+
     // mailing setup
       const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -243,6 +254,15 @@ export const addMember = async (formData) => {
           pass: `${process.env.MAIL_PASS}`,
         },
       });
+
+      const memberDetails = {
+        name,
+      email,
+      year,
+      designation,
+      role,
+      contributions : contributions ? contributions : "",
+      }
 
       const mailOptions = {
         from: `${process.env.MAIL_USER}`,

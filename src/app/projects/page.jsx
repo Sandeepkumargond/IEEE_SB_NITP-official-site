@@ -1,11 +1,10 @@
-
+'use client'
 import React, { useEffect, useMemo, useState } from "react";
 import ProjectCard from "./card";
 import { IoSearchCircleOutline } from "react-icons/io5";
 import { CiGrid41 } from "react-icons/ci";
 import { FaListUl } from "react-icons/fa";
 import { LuFileX2 } from "react-icons/lu";
-import { fetchAllProjects } from "@/lib/projectAction";
 import { GrPrevious } from "react-icons/gr";
 import { GrNext } from "react-icons/gr";
 import { fetchAllProjects } from "@/lib/projectAction";
@@ -34,7 +33,7 @@ export default function Projects() {
       try {
         const response = await fetchAllProjects();
         console.log(response?.data);
-        setProjects(response?.data);
+        setProjects(response?.data || []);
       } 
       catch (error) {
         console.log("Error in fetching projects : " , error);
