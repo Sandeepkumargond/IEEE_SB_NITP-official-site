@@ -9,7 +9,7 @@ const Navbar = () => {
   const [open, setOpen] = React.useState(false);
 
   const navItems = [
-    {id:0,name:"Home",path:"/"},
+    { id: 0, name: "Home", path: "/" },
     { id: 1, name: "About", path: "/about" },
     { id: 2, name: "Committee", path: "/committee" },
     { id: 3, name: "Events", path: "/events" },
@@ -19,8 +19,6 @@ const Navbar = () => {
     { id: 7, name: "Join IEEE", path: "/join" },
     { id: 8, name: "Admin", path: "/admin" },
     { id: 9, name: "Projects", path: "/projects" },
-
-
   ];
 
   return (
@@ -30,7 +28,6 @@ const Navbar = () => {
       src="/IEEE.png" 
       alt="IEEE LOGO"/>
 
-      
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
         {navItems.map((item) => (
           <li key={item.id} className="hover:text-gray-300 transition">
@@ -39,12 +36,14 @@ const Navbar = () => {
         ))}
       </ul>
 
-      
       <div className="md:hidden cursor-pointer" onClick={() => setOpen(!open)}>
-        {open ? <MdClose className="text-3xl" /> : <MdMenu className="text-3xl" />}
+        {open ? (
+          <MdClose className="text-3xl" />
+        ) : (
+          <MdMenu className="text-3xl" />
+        )}
       </div>
 
-       
       <AnimatePresence>
         {open && (
           <motion.div
