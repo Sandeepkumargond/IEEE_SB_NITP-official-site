@@ -33,12 +33,12 @@ export default function Footer() {
                National Institute of Technology Patna,Bihar (800005), India
               </p>
               <p className=" block md:hidden text-[12px] flex flex-col justify-center items-center">
-                <div>
+                <span>
             National Institute of Technology Patna,
-                </div>
-                <div>
+                </span>
+                <span>
         Bihar (800005), India
-                </div>
+                </span>
               </p>
           {/* ===== Mobile Nav with Headings ===== */}
           <div className="flex flex-col items-center space-y-2 text-center md:hidden text-[14px]">

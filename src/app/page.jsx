@@ -1,24 +1,18 @@
-<<<<<<< HEAD
 import Navbar from './components/Navbar';
-=======
 import Footer from "../components/Footer";
->>>>>>> 1f72d16c31e69b1bc30346ea034cadc6fcabdfe5
+import Hero from "../components/Hero";
+import CommunitiesSection from "../components/CommunitiesSection";
+import SocietiesSection from "../components/SocietiesSection";
 export default function Home() {
   return (
  
    
     // <div className="min-h-screen flex items-center justify-center">
     <div>
-      {/* HEADER SECTION */}  
-      
-   
-     
-        <Navbar/>
-     
-      
-
+      {/* HEADER SECTION */}        
+           <Navbar/>
       {/* main content section */}
-      <div className='flex flex-col justify-center items-center gap-2'>
+      {/* <div className='flex flex-col justify-center items-center gap-2'>
       <h1
       className='text-5xl font-semibold text-[#07689F]' 
       >IEEE HOME PAGE
@@ -30,10 +24,13 @@ export default function Home() {
       
 
       {/* FOOTER SECTION  */}
-    <div>
+    {/* <div> */} */
+      <Hero />
+      <CommunitiesSection/>
+      <SocietiesSection />
       <Footer/>
       </div> 
-     </div>
+    //  </div>
     
    
   );
