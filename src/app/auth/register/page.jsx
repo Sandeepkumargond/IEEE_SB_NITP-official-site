@@ -95,7 +95,7 @@ export default function Register() {
           <button
             type="submit"
             onClick={regsiterUser}
-            className="bg-[#03426793] text-white py-2 rounded-2xl font-semibold hover:scale-3d hover:scale-105 transition cursor-pointer duration-300 shadow-lg"
+            className="bg-[#0a1e2993] text-white py-2 rounded-2xl font-semibold hover:scale-3d hover:scale-105 transition cursor-pointer duration-300 shadow-lg"
           >
             Register
           </button>
