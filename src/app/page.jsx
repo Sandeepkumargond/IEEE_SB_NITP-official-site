@@ -10,7 +10,7 @@ export default function Home() {
     // <div className="min-h-screen flex items-center justify-center">
     <div>
       {/* HEADER SECTION */}        
-           <Navbar/>
+      <Navbar/>
       {/* main content section */}
       {/* <div className='flex flex-col justify-center items-center gap-2'>
       <h1
