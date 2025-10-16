@@ -9,21 +9,26 @@ const Navbar = () => {
   const [open, setOpen] = React.useState(false);
 
   const navItems = [
-    { id: 1, name: "About", path: "/" },
+    { id: 0, name: "Home", path: "/" },
+    { id: 1, name: "About", path: "/about" },
     { id: 2, name: "Committee", path: "/committee" },
     { id: 3, name: "Events", path: "/events" },
     { id: 4, name: "E-certificate", path: "/certificate" },
     { id: 5, name: "Blogs", path: "/blogs" },
     { id: 6, name: "Gallery", path: "/gallery" },
     { id: 7, name: "Join IEEE", path: "/join" },
-    { id: 8, name: "Admin", path: "/admin" },
+    { id: 8, name: "Admin", path: "/auth/login" },
+    { id: 9, name: "Developers", path: "/developers"},
+    { id: 10, name: "Projects", path: "/projects" },
   ];
 
   return (
-    <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#07689F] text-white z-30">
-      <h1 className="font-bold text-xl">IEEE_Logo</h1>
+    <div className="w-full h-[8ch] flex items-center justify-between px-6 fixed top-0 bg-[#0a5782] text-white z-30">
+      <img 
+      className="object-cover w-36 h-12"
+      src="/IEEE.png" 
+      alt="IEEE LOGO"/>
 
-      
       <ul className="hidden md:flex items-center gap-6 text-base font-medium">
         {navItems.map((item) => (
           <li key={item.id} className="hover:text-gray-300 transition">
@@ -32,12 +37,14 @@ const Navbar = () => {
         ))}
       </ul>
 
-      
       <div className="md:hidden cursor-pointer" onClick={() => setOpen(!open)}>
-        {open ? <MdClose className="text-3xl" /> : <MdMenu className="text-3xl" />}
+        {open ? (
+          <MdClose className="text-3xl" />
+        ) : (
+          <MdMenu className="text-3xl" />
+        )}
       </div>
 
-       
       <AnimatePresence>
         {open && (
           <motion.div

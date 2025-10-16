@@ -5,8 +5,6 @@ import CommunitiesSection from "../components/CommunitiesSection";
 import SocietiesSection from "../components/SocietiesSection";
 export default function Home() {
   return (
- 
-   
     // <div className="min-h-screen flex items-center justify-center">
     <div>
       {/* HEADER SECTION */}        

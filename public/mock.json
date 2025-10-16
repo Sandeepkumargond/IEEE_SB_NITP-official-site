@@ -1,4 +1,72 @@
 {
+  "members": [
+    {
+      "id": "vansh-tyagi-cochair",
+      "name": "Vansh Tyagi",
+      "role": "Co-Chairperson",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "socials": {
+        "twitter": "#",
+        "linkedin": "#",
+        "email": "mailto:someone@example.com"
+      }
+    },
+    {
+      "id": "nandini-prasad-sec",
+      "name": "Nandini Prasad",
+      "role": "Secretary",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "socials": {
+        "twitter": "#",
+        "linkedin": "#",
+        "email": "mailto:someone@example.com"
+      }
+    },
+    {
+      "id": "kapil-gupta-joint-sec",
+      "name": "Kapil Gupta",
+      "role": "Joint Secretary",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "socials": {
+        "twitter": "#",
+        "linkedin": "#",
+        "email": "mailto:someone@example.com"
+      }
+    },
+    {
+      "id": "aryan-kumar-arya-treasurer",
+      "name": "Aryan Kumar Arya",
+      "role": "Treasurer",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "socials": {
+        "twitter": "#",
+        "linkedin": "#",
+        "email": "mailto:someone@example.com"
+      }
+    },
+    {
+      "id": "saurabh-yadav-tech-head",
+      "name": "Saurabh Yadav",
+      "role": "Technical Head",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "socials": {
+        "twitter": "#",
+        "linkedin": "#",
+        "email": "mailto:someone@example.com"
+      }
+    },
+    {
+      "id": "sandeep-kumar-gond-web-lead",
+      "name": "Sandeep Kumar Gond",
+      "role": "Web lead",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "socials": {
+        "twitter": "#",
+        "linkedin": "#",
+        "email": "mailto:someone@example.com"
+      }
+    }
+  ],
   "blogs": [
     {
       "id": "crispr-cas9",
@@ -119,6 +187,28 @@
       "category": "Quantum Computing",
       "readTime": "9 min read",
       "redirectUrl": "https://ieeenitp.vercel.app/blogs"
+    }
+  ],
+  "members4Certificate": [
+    {
+      "certificate_no": "CERT001",
+      "generated_on": "2025-10-07",
+      "name": "Aman",
+      "email": "aman@example.com",
+      "role": "volunteer",
+      "year": "3rd Year",
+      "designation": "Web Developer",
+      "interests": "Frontend development, React.js, Next.js"
+    },
+    {
+      "certificate_no": "CERT002",
+      "generated_on": "2025-10-05",
+      "name": "Riya Singh",
+      "email": "riya.singh@example.com",
+      "role": "volunteer",
+      "year": "2nd Year",
+      "designation": "UI/UX Designer",
+      "interests": "Designing, Prototyping, Figma"
     }
   ]
 }
