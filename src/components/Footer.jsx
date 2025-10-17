@@ -20,23 +20,37 @@ export default function Footer() {
             <div className="text-center md:text-left md:mt-1">
               {/* <h2 className="text-[14px] md:text-lg font-semibold"> */}
 
-                
-                <img src="/IEEE.png" alt="IEEE LOGO" className="w-40 h-16 object-fill"/>
-             
+              <img
+                src="/IEEE.png"
+                alt="IEEE LOGO"
+                className="w-40 h-16 object-fill"
+              />
             </div>
 
             {/* Right Nav (desktop only) */}
             <div className="hidden md:flex space-x-6 text-[16px] font-medium md:mt-1">
-              <a href="#" className="hover:underline">
+              <a
+                href="https://www.ieee.org/about-ieee"
+                className="hover:underline"
+              >
                 About IEEE
               </a>
-              <a href="#" className="hover:underline">
+              <a
+                href="https://www.ieee.org/membership/renew"
+                className="hover:underline"
+              >
                 IEEE Renew
               </a>
-              <a href="#" className="hover:underline">
+              <a
+                href="https://ieeexplore.ieee.org/Xplore/home.jsp"
+                className="hover:underline"
+              >
                 IEEE Xplore
               </a>
-              <a href="#" className="hover:underline">
+              <a
+                href="https://www.ieee.org/membership"
+                className="hover:underline"
+              >
                 IEEE Membership
               </a>
             </div>
@@ -52,39 +66,75 @@ export default function Footer() {
           <div className="flex flex-col items-center space-y-2 text-center md:hidden text-[14px]">
             {/* IEEE section */}
             <p className="text-[#3DBAF3] font-semibold">IEEE</p>
-            <a href="#" className="hover:underline">
+            <a
+              href="https://www.ieee.org/about-ieee"
+              className="hover:underline"
+            >
               About IEEE
             </a>
-            <a href="#" className="hover:underline">
+            <a
+              href="https://www.ieee.org/membership/renew"
+              className="hover:underline"
+            >
               IEEE Renew
             </a>
-            <a href="#" className="hover:underline">
+            <a
+              href="https://ieeexplore.ieee.org/Xplore/home.jsp"
+              className="hover:underline"
+            >
               IEEE Xplore
             </a>
-            <a href="#" className="hover:underline">
+            <a
+              href="https://www.ieee.org/membership"
+              className="hover:underline"
+            >
               IEEE Membership
             </a>
 
             {/* Others section */}
             <p className="text-[#3DBAF3] font-semibold mt-4">Others</p>
-            <a href="#" className="hover:underline">
+            <a href="https://ieeenitp.vercel.app/" className="hover:underline">
               Old Website
             </a>
             <a href="#" className="hover:underline">
               Contact Us
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/projects" className="hover:underline">
               Projects
             </a>
 
             {/* Social Icons (centered in mobile) */}
             <div className="flex grow space-x-6 text-2xl mt-4">
-              <FaDiscord className="cursor-pointer hover:text-gray-300" />
-              <FaFacebook className="cursor-pointer hover:text-gray-300" />
-              <FaInstagram className="cursor-pointer hover:text-gray-300" />
-              <FaXTwitter className="cursor-pointer hover:text-gray-300" />
-              <FaGithub className="cursor-pointer hover:text-gray-300" />
-              <FaLinkedin className="cursor-pointer hover:text-gray-300" />
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <FaDiscord className="cursor-pointer hover:text-gray-300" />
+              </a>
+              <a
+                href="https://www.facebook.com/ieee.nitp"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaFacebook className="cursor-pointer hover:text-gray-300" />
+              </a>
+              <a
+                href="https://www.instagram.com/ieee_nitp/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaInstagram className="cursor-pointer hover:text-gray-300" />
+              </a>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <FaXTwitter className="cursor-pointer hover:text-gray-300" />
+              </a>
+              <a href="https://github.com/IEEESBNITP" target="_blank" rel="noopener noreferrer">
+                <FaGithub className="cursor-pointer hover:text-gray-300" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/ieee-sb-nitp/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaLinkedin className="cursor-pointer hover:text-gray-300" />
+              </a>
             </div>
           </div>
 
@@ -93,25 +143,49 @@ export default function Footer() {
             <div className="ml-auto flex flex-col items-end space-y-4">
               {/* Others links (horizontal in desktop) */}
               <div className="flex flex-row space-x-6 text-[16px]">
-                <a href="#" className="hover:underline">
+                <a href="https://ieeenitp.vercel.app/" className="hover:underline">
                   Old Website
                 </a>
                 <a href="#" className="hover:underline">
                   Contact Us
                 </a>
-                <a href="#" className="hover:underline">
+                <a href="/projects" className="hover:underline">
                   Projects
                 </a>
               </div>
 
               {/* Social Icons (desktop right-aligned) */}
               <div className="flex space-x-6 text-2xl">
-                <FaDiscord className="cursor-pointer hover:text-gray-300" />
-                <FaFacebook className="cursor-pointer hover:text-gray-300" />
-                <FaInstagram className="cursor-pointer hover:text-gray-300" />
-                <FaXTwitter className="cursor-pointer hover:text-gray-300" />
-                <FaGithub className="cursor-pointer hover:text-gray-300" />
-                <FaLinkedin className="cursor-pointer hover:text-gray-300" />
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <FaDiscord className="cursor-pointer hover:text-gray-300" />
+                </a>
+                <a
+                  href="https://www.facebook.com/ieee.nitp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaFacebook className="cursor-pointer hover:text-gray-300" />
+                </a>
+                <a
+                  href="https://www.instagram.com/ieee_nitp/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaInstagram className="cursor-pointer hover:text-gray-300" />
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <FaXTwitter className="cursor-pointer hover:text-gray-300" />
+                </a>
+                <a href="https://github.com/IEEESBNITP" target="_blank" rel="noopener noreferrer">
+                  <FaGithub className="cursor-pointer hover:text-gray-300" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/ieee-sb-nitp/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaLinkedin className="cursor-pointer hover:text-gray-300" />
+                </a>
               </div>
             </div>
           </div>
@@ -119,7 +193,7 @@ export default function Footer() {
           {/* ===== Bottom Line ===== */}
           <div className="border-t border-gray-400 pt-4 text-center text-[12px] md:text-sm">
             © 2024{" "}
-            <a href="#" className="underline">
+            <a href="/" className="cursor-pointer font-semibold hover:underline">
               IEEE SB NITP
             </a>
             . All Rights Reserved.

@@ -14,7 +14,7 @@ export async function sendEmail(prevState, formData) {
 
     const mailOptions = {
       from: email,
-      to: "ieeesb.nitp.ac.in", // Replace with your desired recipient email
+      to: "ieeeclub@nitp.ac.in",
       subject: `📩 New Contact Form Submission — ${name}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 6px; background-color: #fafafa;">

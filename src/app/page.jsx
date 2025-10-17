@@ -1,6 +1,5 @@
 import React from "react";
 import ContactSection from "../components/ContactSection";
-import DevelopersSection from "../components/DevelopersSection";
 
 export default function Home() {
   return (
