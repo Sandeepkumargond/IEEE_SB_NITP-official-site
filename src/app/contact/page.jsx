@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import "../styles/contactSection.css";
+import "./contact.css";
 import { IoIosMail } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
-import { sendEmail } from "../lib/contactAction";
+import { sendEmail } from "src/lib/contactAction.js";
 
 const initialState = {
   message: null,
@@ -26,7 +26,7 @@ function SubmitButton() {
   );
 }
 
-export default function ContactSection({ className = "" }) {
+export default function ContactPage() {
   const [state, formAction] = useActionState(sendEmail, initialState);
 
   useEffect(() => {
@@ -39,37 +39,39 @@ export default function ContactSection({ className = "" }) {
   }, [state]);
 
   return (
-    <section className={className}>
-      <div className="py-20 flex items-center justify-center bg-[linear-gradient(167.78deg,_rgba(13,_43,_204,_0.82)_20.79%,_rgba(255,_255,_255,_0.82)_91.1%)] p-4 md:p-6">
+    <div className="contact-page min-h-screen">
+      <div className="pt-24 md:pt-28 lg:pt-32 pb-16 md:pb-20 lg:pb-24 min-h-screen flex items-center justify-center bg-[linear-gradient(167.78deg,_rgba(13,_43,_204,_0.82)_20.79%,_rgba(255,_255,_255,_0.82)_91.1%)] px-4 md:px-6 lg:px-8">
         <div
-          className="relative w-full max-w-6xl rounded-[30px] border-2 border-solid border-white/60 bg-[linear-gradient(117.4deg,_rgba(255,_255,_255,_0.2)_1.72%,_rgba(255,_255,_255,_0.05)_97.87%)] backdrop-blur-[20px] shadow-[0px_20px_40px_0px_#0000001A] opacity-[0.95] flex flex-col items-center justify-center mx-auto p-4 md:p-6"
+          className="relative w-full max-w-6xl rounded-[30px] border-2 border-solid border-white/60 bg-[linear-gradient(117.4deg,_rgba(255,_255,_255,_0.2)_1.72%,_rgba(255,_255,_255,_0.05)_97.87%)] backdrop-blur-[20px] shadow-[0px_20px_40px_0px_#0000001A] opacity-[0.95] flex flex-col items-center justify-center mx-auto p-6 md:p-10 lg:p-12"
           style={{
             backgroundImage: "url(/Rectangle 25.svg)",
             backgroundSize: "cover",
           }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-2">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-3 md:mb-4">
             Connect with our experts
           </h1>
-          <h2 className="text-lg md:text-xl text-white text-center mb-6">
+          <h2 className="text-lg md:text-xl lg:text-2xl text-white text-center mb-8 md:mb-10 lg:mb-12">
             We are here for you! How can we help?
           </h2>
-          <div className="w-full max-w-4xl opacity-[1] rounded-[20px] flex flex-col md:flex-row items-center bg-[linear-gradient(117.4deg,_rgba(255,_255,_255,_0.4)_1.72%,_rgba(137,_255,_241,_0.2)_97.87%)] relative">
-            <div className="w-full md:w-1/2 p-6 md:p-8 flex items-center justify-center">
+
+          <div className="w-full max-w-4xl opacity-[1] rounded-[20px] md:rounded-[30px] flex flex-col md:flex-row items-stretch bg-[linear-gradient(117.4deg,_rgba(255,_255,_255,_0.4)_1.72%,_rgba(137,_255,_241,_0.2)_97.87%)] relative min-h-[500px] md:min-h-[650px] lg:min-h-[600px]">
+            <div className="w-full md:w-1/2 p-6 md:p-8 lg:p-10 flex items-center justify-center">
               <img
                 src="/contact-vector.svg"
                 alt="Contact illustration"
-                className="w-full h-full object-contain"
+                className="w-full h-auto max-h-[250px] md:max-h-full object-contain"
               />
             </div>
-            <div className="w-full md:w-1/2 p-6 md:p-8 rounded-b-2xl md:rounded-r-2xl md:rounded-bl-none flex flex-col relative overflow-hidden">
+
+            <div className="w-full md:w-1/2 p-6 md:p-8 lg:p-10 rounded-b-2xl md:rounded-r-2xl md:rounded-bl-none flex flex-col justify-center relative overflow-hidden">
               <div className="w-full z-10">
-                <form action={formAction} className="space-y-4">
+                <form action={formAction} className="space-y-5 md:space-y-6">
                   <div>
                     <label htmlFor="name" className="sr-only">
                       Your Name
                     </label>
-                    <div className="relative mt-[15px] rounded-[25px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_15px_30px_0px_#0000001A] backdrop-blur-[15px] opacity-100 py-2 px-5 transition-none">
+                    <div className="relative rounded-[25px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_15px_30px_0px_#0000001A] backdrop-blur-[15px] opacity-100 py-3 md:py-4 px-5 transition-all duration-200">
                       <div className="w-[calc(100%-40px)] border-b border-gray-400">
                         <input
                           id="name"
@@ -85,12 +87,13 @@ export default function ContactSection({ className = "" }) {
                       </span>
                     </div>
                   </div>
+
                   <div>
                     <label htmlFor="email" className="sr-only">
                       Email Address
                     </label>
-                    <div className="relative mt-[15px] rounded-[25px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_15px_30px_0px_#0000001A] backdrop-blur-[15px] opacity-100 py-2 px-5 transition-none">
-                      <div className="w-[calc(100%-40px)] border-b border-gray-400">
+                    <div className="relative rounded-[25px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_15px_30px_0px_#0000001A] backdrop-blur-[15px] opacity-100 py-3 md:py-4 px-5 transition-all duration-200">
+                      <div className="w-[calc(100%-40px)] border-b border-gray.400">
                         <input
                           id="email"
                           name="email"
@@ -105,18 +108,19 @@ export default function ContactSection({ className = "" }) {
                       </span>
                     </div>
                   </div>
+
                   <div>
                     <label htmlFor="message" className="sr-only">
                       Message
                     </label>
-                    <div className="relative mt-[15px] rounded-[25px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_15px_30px_0px_#0000001A] backdrop-blur-[15px] opacity-100 py-2 px-5 transition-none">
+                    <div className="relative rounded-[25px] border-2 border-white/60 bg-[linear-gradient(117.4deg,rgba(255,_255,_255,_0.4)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] hover:bg-[linear-gradient(117.4deg,_rgba(3,_246,_234,_0.1)_1.72%,_rgba(255,_255,_255,_0.1)_97.87%)] shadow-[0px_15px_30px_0px_#0000001A] backdrop-blur-[15px] opacity-100 py-3 md:py-4 px-5 transition-all duration-200">
                       <div className="w-[calc(100%-40px)] border-b border-gray-400">
                         <textarea
                           id="message"
                           name="message"
                           placeholder="Message"
                           required
-                          className="w-full bg-transparent outline-none pb-1 text-base md:text-lg h-20 resize-none"
+                          className="w-full bg-transparent outline-none pb-1 text-base md:text-lg h-24 md:h-28 resize-none"
                         />
                       </div>
                       <span className="absolute top-4 right-5 flex items-center pointer-events-none">
@@ -124,6 +128,7 @@ export default function ContactSection({ className = "" }) {
                       </span>
                     </div>
                   </div>
+
                   <SubmitButton />
                 </form>
               </div>
@@ -131,6 +136,6 @@ export default function ContactSection({ className = "" }) {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
