@@ -249,7 +249,7 @@ useEffect(() => {
             {/* Add Blogs Button with margin top */}
             <div className="mt-6">
               <Link
-                href="blog/create"
+                href="blogs/create"
                 className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
               >
                 Add Blogs
@@ -335,7 +335,7 @@ useEffect(() => {
             {/* Add Projects Button with margin top */}
             <div className="mt-6">
               <Link
-                href="project/create"
+                href="projects/create"
                 className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
               >
                 Add Projects
