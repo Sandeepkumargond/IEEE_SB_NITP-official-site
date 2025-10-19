@@ -28,9 +28,6 @@ function highlight(text = "", q = "") {
 }
 
 export default function ProjectCard({ project, view = "grid" , highlight: q }) {
-  
-  
-  
   const imgHeight = view === "list" ? "h-40" : "h-63";
 
   const Card = ({ children }) => (

@@ -3,16 +3,35 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, Trash2 } from "lucide-react";
 import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
+import { fetchAllProjects } from "@/lib/projectAction";
+import { createEvent, deleteEvent, fetchAllEvents } from "@/lib/eventAction";
 import Link from "next/link";
-import { getAdmin } from "@/lib/adminAction";
+import { fetchAllMembers, getAdmin } from "@/lib/adminAction";
 import { deleteProjects } from "@/lib/projectAction";
 
 export default function AdminDashboard() {
   const [blogs, setBlogs] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [members, setMembers] = useState([]);
 
   // member addition and showcase
+ useEffect(() => {
+  const fetchMembers = async() => {
+    try {
+      const response = await fetchAllMembers();
+      console.log(response);
+
+      setMembers(response.data || [])
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
+  
+  fetchMembers();
+ },[])
 
   // fetching the admins
   useEffect(() => {
@@ -60,21 +79,49 @@ export default function AdminDashboard() {
     }
   };
 
-  // fetching all projects
+  // fetching events
   useEffect(() => {
-    const fetchAllProjects = async() => {
+    const fetchEvents = async () => {
       try {
-        const response = await fetchAllProjects();
+        const response = await fetchAllEvents();
         console.log(response);
-        setProjects(response.data || []);
-      } 
-      catch (error) {
-        console.log("Error in fetching projects : ",error)
-      }
-    }
 
-    fetchAllProjects();
-  },[])
+        setEvents(response.data || []);
+      } catch (error) {
+        console.error("Error loading blogs:", error);
+        setEvents([]);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const handleEventDelete = async(id) => {
+    try {
+      const response = await deleteEvent(id);
+      console.log(response);
+
+      setEvents((prevEvents) => prevEvents.filter((event) => event._id != id))
+    } 
+    catch (error) {
+      console.log("Error deleting the event : ",error);
+    }
+  }
+
+// handle project
+useEffect(() => {
+  const loadAllProjects = async () => {
+    try {
+      const response = await fetchAllProjects(); 
+      console.log(response);
+      setProjects(response.data || []);
+    } catch (error) {
+      console.log("Error in fetching projects : ", error);
+    }
+  };
+
+  loadAllProjects();
+}, []);
 
   const handleProjectDelete = async(id) => {
     try {
@@ -116,23 +163,35 @@ export default function AdminDashboard() {
 
             {/* Event Cards */}
             <div className="flex flex-col gap-5 w-full">
-              {[1, 2].map((_, index) => (
+              {events.map((event, index) => (
                 <div
                   key={index}
                   className="flex flex-col sm:flex-row items-center gap-5 bg-[#035b99] rounded-xl p-4 shadow-md hover:bg-[#0373c2] transition duration-300"
                 >
+                  {event.images.length > 0 ? 
                   <img
+                  src={event.images[0]}
+                  alt="Event"
+                  className="object-cover h-24 w-24 rounded-xl shadow-md"
+                /> : 
+                <img
                     src="https://sih.gov.in/img/events/sih-2022/3.jpg"
                     alt="Event"
                     className="object-cover h-24 w-24 rounded-xl shadow-md"
                   />
+                }
+                  
                   <div className="flex flex-col items-center sm:items-start gap-2 text-white text-center sm:text-left">
-                    <h3 className="text-lg font-bold">Smart India Hackathon</h3>
+                    <h3 className="text-lg font-bold">{event.title}</h3>
                     <div className="flex gap-2">
-                      <button className="flex items-center gap-2 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700 cursor-pointer">
+                      <Link
+                      href="/events"
+                      className="flex items-center gap-2 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700 cursor-pointer">
                         <Eye size={18} /> View
-                      </button>
-                      <button className="flex items-center gap-2 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700 cursor-pointer">
+                      </Link>
+                      <button 
+                      onClick={() => handleEventDelete(event._id)}
+                      className="flex items-center gap-2 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700 cursor-pointer">
                         <Trash2 size={16} /> Delete
                       </button>
                     </div>
@@ -140,9 +199,11 @@ export default function AdminDashboard() {
                 </div>
               ))}
             </div>
-            <button className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]">
+            <Link
+            href="/events/create"
+            className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]">
               Add Events
-            </button>
+            </Link>
           </motion.div>
 
           {/* Blog Section */}
@@ -188,7 +249,7 @@ export default function AdminDashboard() {
             {/* Add Blogs Button with margin top */}
             <div className="mt-6">
               <Link
-                href="blog/create"
+                href="blogs/create"
                 className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
               >
                 Add Blogs
@@ -254,7 +315,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex gap-3">
                       <Link
-                        href='/blog'
+                        href='/projects'
                         className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700"
                       >
                         <Eye size={18} /> View
@@ -274,7 +335,7 @@ export default function AdminDashboard() {
             {/* Add Projects Button with margin top */}
             <div className="mt-6">
               <Link
-                href="blog/create"
+                href="projects/create"
                 className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
               >
                 Add Projects
@@ -293,7 +354,7 @@ export default function AdminDashboard() {
               🙍‍♂️ Members
             </h2>
             <motion.div className="flex flex-col gap-5 w-full">
-              {admins.map((admin) => (
+              {members.map((member) => (
                 <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -306,7 +367,7 @@ export default function AdminDashboard() {
                   className="w-10 h-10 rounded-full object-cover border-2 border-white"
                 />
                 <div className="flex flex-col">
-                  <h3 className="text-xl font-semibold">{admin.username}</h3>
+                  <h3 className="text-xl font-semibold">{member.name}</h3>
                 </div>
               </motion.div>
               ))}

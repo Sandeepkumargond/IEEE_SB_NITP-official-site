@@ -1,104 +1,122 @@
-"use server"
+"use server";
 import { Event } from "./models";
 import { verifyToken } from "./adminAction";
 import { NextResponse } from "next/server";
 import { connectDB } from "./connectDB";
 
 /* event addition, edit, delete (CRUD) */
-export const createEvent = async (FormData) => {
+export const createEvent = async ({
+  title,
+  desc,
+  images,
+  eventDate,
+  location,
+  registrationLink,
+}) => {
   try {
     await connectDB();
 
     // throw error on unauthorized access
     const data = await verifyToken();
     if (!data.isVerified) {
-      throw new Error("Unauthorized access !!");
+      return {
+        message: "Unauthorized access !!",
+        success: false,
+      };
     }
 
-    // taking out form data
-    const eventData = Object.fromEntries(FormData.entries());
+    const existingEvent = await Event.findOne({ title: title });
+    if (existingEvent) {
+      return {
+        message: "An event with this title already exists.",
+        success: false,
+      };
+    }
 
     const newEvent = new Event({
-      title: eventData.title,
-      desc: eventData.desc,
-      images: eventData.images,
-      eventDate: eventData.eventDate,
-      location: eventData.location || "Patna,Bihar,India",
-      registrationLink: eventData.registrationLink,
+      title: title,
+      desc: desc,
+      images: images || [],
+      eventDate: eventDate,
+      location: location || "Patna,Bihar,India",
+      registrationLink: registrationLink,
     });
 
     await newEvent.save();
-    return NextResponse.json(
-      {
-        message: "New event is created successfully!!",
-        success: true,
-        data: newEvent,
-      },
-      { status: 200 }
-    );
+    return {
+      message: "New event is created successfully!!",
+      success: true,
+      data: newEvent,
+    };
   } catch (error) {
     console.log("Error creating new event : ", error);
-    return NextResponse.json(
-      {
-        message: "Error creating new event",
-        success: false,
-      },
-      { status: 500 }
-    );
+    return {
+      message: "Error creating new event",
+      success: false,
+    };
   }
 };
 
-export const editEvent = async (FormData) => {
+export const editEvent = async ({
+  id,
+  title,
+  desc,
+  images,
+  eventDate,
+  location,
+  registrationLink,
+}) => {
   try {
     await connectDB();
 
     // throw error on unauthorized access
     const data = await verifyToken();
     if (!data.isVerified) {
-      throw new Error("Unauthorized access !!");
+      return {
+        message: "Unauthorized access !!",
+        success: false,
+      };
     }
 
-    const formData = Object.fromEntries(FormData.entries());
-
-    const eventId = formData._id || formData.id;
+    const eventId = id;
     if (!eventId) {
-      throw new Error("Event ID is required to update the event.");
+      return{
+        message : "Event ID is required to update the event.",
+        success : false
+      };
     }
 
     const updatedEvent = await Event.findByIdAndUpdate(
       eventId,
       {
-        title: formData.title,
-        desc: formData.desc,
-        images: formData.images,
-        eventDate: formData.eventDate,
-        location: formData.location || "Patna, Bihar, India",
-        registrationLink: formData.registrationLink,
+        title: title,
+        desc: desc,
+        images: images || [],
+        eventDate: eventDate,
+        location: location || "Patna, Bihar, India",
+        registrationLink: registrationLink,
       },
       { new: true }
     );
 
     if (!updatedEvent) {
-      throw new Error("Event not found!");
+      return {
+        message: "Event not found!",
+        success: false,
+      };
     }
 
-    return NextResponse.json(
-      {
-        message: "Event updated successfully!",
-        success: true,
-        data: updatedEvent,
-      },
-      { status: 200 }
-    );
+    return {
+      message: "Event updated successfully!",
+      success: true,
+      data: updatedEvent,
+    };
   } catch (error) {
     console.log("Error editing the event : ", error);
-    return NextResponse.json(
-      {
-        message: "Error editing the event",
-        success: false,
-      },
-      { status: 500 }
-    );
+    return {
+      message: "Error editing the event",
+      success: false,
+    };
   }
 };
 
@@ -109,12 +127,18 @@ export const deleteEvent = async (id) => {
     // throw error on unauthorized access
     const data = await verifyToken();
     if (!data.isVerified) {
-      throw new Error("Unauthorized access !!");
+      return {
+        message: "Unauthorized access !!",
+        success: false,
+      };
     }
 
     const eventId = id;
     if (!eventId) {
-      throw new Error("Event id is required !");
+      return {
+        message: "Event id is required !",
+        success: false,
+      };
     }
 
     const event = await Event.findById(eventId);
@@ -125,21 +149,35 @@ export const deleteEvent = async (id) => {
 
     await Event.findByIdAndDelete(eventId);
 
-    return NextResponse.json(
-      {
-        message: "Event deleted successfully!!",
-        success: true,
-      },
-      { status: 200 }
-    );
+    return {
+      message: "Event deleted successfully!!",
+      success: true,
+    };
   } catch (error) {
     console.log("Error deleting the event : ", error);
-    return NextResponse.json(
-      {
-        message: "Error deleting the event",
-        success: false,
-      },
-      { status: 500 }
-    );
+    return {
+      message: "Error deleting the event",
+      success: false,
+    };
   }
 };
+
+export const fetchAllEvents = async() => {
+  try {
+    await connectDB();
+
+    const events = await Event.find().sort({ eventDate: -1 });
+
+    return {
+      success: true,
+      data: events,
+    };
+  } 
+  catch (error) {
+    console.error("Error fetching events:", error);
+    return {
+      success: false,
+      message: "Failed to fetch events",
+    };
+  }
+}
