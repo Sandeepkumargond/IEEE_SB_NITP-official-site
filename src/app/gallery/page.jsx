@@ -1,47 +1,87 @@
-
 "use client";
-
 
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-// Define your gallery items with multiple images for each
 const galleryItems = [
   {
     title: "Impulse 2023",
     cover: "/images.jpeg",
-    images: ["/images.jpeg", "/images.jpeg", "/images.jpeg", "/images.jpeg", "/images.jpeg", "/images.jpeg"],
+    images: [
+      "/images.jpeg",
+      "/images.jpeg",
+      "/images.jpeg",
+      "/images.jpeg",
+      "/images.jpeg",
+      "/images.jpeg",
+    ],
   },
   {
     title: "TechnoHunt",
     cover: "/images-2.jpeg",
-    images: ["/images-2.jpeg", "/images-2.jpeg","/images-2.jpeg","/images-2.jpeg", "/images-2.jpeg","/images-2.jpeg"],
+    images: [
+      "/images-2.jpeg",
+      "/images-2.jpeg",
+      "/images-2.jpeg",
+      "/images-2.jpeg",
+      "/images-2.jpeg",
+      "/images-2.jpeg",
+    ],
   },
   {
     title: "Projects",
     cover: "/images-3.jpeg",
-    images: ["/images-3.jpeg", "/images-3.jpeg", "/images-3.jpeg","/images-3.jpeg", "/images-3.jpeg", "/images-3.jpeg"],
+    images: [
+      "/images-3.jpeg",
+      "/images-3.jpeg",
+      "/images-3.jpeg",
+      "/images-3.jpeg",
+      "/images-3.jpeg",
+      "/images-3.jpeg",
+    ],
   },
   {
     title: "Code the Uncoded",
     cover: "/images-4.jpeg",
-    images: ["/images-4.jpeg", "/images-4.jpeg","/images-4.jpeg", "/images-4.jpeg","/images-4.jpeg", "/images-4.jpeg"],
+    images: [
+      "/images-4.jpeg",
+      "/images-4.jpeg",
+      "/images-4.jpeg",
+      "/images-4.jpeg",
+      "/images-4.jpeg",
+      "/images-4.jpeg",
+    ],
   },
   {
     title: "PPT Round",
     cover: "/images-5.jpeg",
-    images: ["/images-5.jpeg","/images-5.jpeg","/images-5.jpeg","/images-5.jpeg","/images-5.jpeg","/images-5.jpeg", ],
+    images: [
+      "/images-5.jpeg",
+      "/images-5.jpeg",
+      "/images-5.jpeg",
+      "/images-5.jpeg",
+      "/images-5.jpeg",
+      "/images-5.jpeg",
+    ],
   },
   {
     title: "Alumnus Meet",
     cover: "/images-6.jpeg",
-    images: ["/images-6.jpeg","/images-6.jpeg","/images-6.jpeg","/images-6.jpeg","/images-6.jpeg","/images-6.jpeg"],
+    images: [
+      "/images-6.jpeg",
+      "/images-6.jpeg",
+      "/images-6.jpeg",
+      "/images-6.jpeg",
+      "/images-6.jpeg",
+      "/images-6.jpeg",
+    ],
   },
 ];
 
 export default function Gallery() {
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
@@ -77,13 +117,12 @@ export default function Gallery() {
         </div>
       </section>
 
-      
       <Footer />
 
       
       {selectedEvent && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-4 max-w-4xl w-full mx-4 overflow-y-auto max-h-[90vh] shadow-lg">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-4 max-w-5xl w-full overflow-y-auto max-h-[90vh] shadow-lg relative">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-semibold text-[#0a4d87]">
                 {selectedEvent.title}
@@ -102,11 +141,32 @@ export default function Gallery() {
                   key={idx}
                   src={img}
                   alt=""
-                  className="rounded-lg w-full h-48 object-cover shadow"
+                  onClick={() => setSelectedImage(img)}
+                  className="rounded-lg w-full h-56 object-cover shadow cursor-pointer hover:scale-[1.02] transition-transform"
                 />
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+     
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black flex items-center justify-center z-[9999] transition-all duration-300"
+          onClick={() => setSelectedImage(null)}
+        >
+          <img
+            src={selectedImage}
+            alt="Full screen"
+            className="w-screen h-screen object-cover transition-transform duration-500 transform scale-100 hover:scale-[1.02]"
+          />
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="absolute top-6 right-6 text-white text-4xl font-bold hover:text-red-500 transition-colors"
+          >
+            ✕
+          </button>
         </div>
       )}
     </div>
