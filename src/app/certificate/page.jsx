@@ -1,8 +1,8 @@
 
 // import CertificateForm from '../../../Components/CertificateForm';
-import CertificateForm from '../../../src/components/CertificateForm'
-import Footer from '../../../src/components/Footer';
-import Navbar from '../../../src/components/Navbar';
+import CertificateForm from '../../components/CertificateForm'
+import Footer from '../../components/Footer';
+import Navbar from '../../components/Navbar';
 
 
 export default function ECertificatePage() {
