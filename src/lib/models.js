@@ -117,12 +117,6 @@ const ProjectSchema = new Schema({
         type : String,
         required : true,
     },
-    demo : {
-        type : String,
-        trim : true,
-        lowercase : true,
-        required : true
-    },
     date : {
         type : Date,
         required : true
