@@ -60,7 +60,7 @@ export default async function TeamPage({ params }) {
           <TeamComponent />
         </Suspense>
       </main>
-      <Footer />
+     
     </>
   );
 }
