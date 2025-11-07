@@ -1,4 +1,3 @@
-// src/app/teams/[team]/page.jsx
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '../../components/Navbar';
@@ -15,6 +14,15 @@ const COMPONENT_MAP = {
   'ai': dynamic(() => import('../../components/developers/AI'))
 };
 
+const sharedMainBase = {
+  // No black overlay or opacity applied here. The background image will be rendered
+  // as a positioned <img /> in the components so it stays pure and can be rotated.
+  color: '#fff',
+  minHeight: '80vh',
+  position: 'relative', // required so the absolutely positioned bg <img /> sits behind content
+  overflow: 'hidden'
+};
+
 export default async function TeamPage({ params }) {
   // Await params before using its properties (required by Next.js App Router)
   const awaited = await params;
@@ -25,7 +33,8 @@ export default async function TeamPage({ params }) {
     return (
       <>
         <Navbar />
-        <main style={{ background: '#000', color: '#fff', minHeight: '80vh', padding: 48 }}>
+        <main style={{ ...sharedMainBase, padding: 48 }}>
+          {/* Background image intentionally not added here; developer pages/components add the rotated image */}
           <h2 style={{ textAlign: 'center' }}>Team not specified</h2>
           <p style={{ textAlign: 'center' }}>No team slug was provided in the route.</p>
         </main>
@@ -41,7 +50,7 @@ export default async function TeamPage({ params }) {
     return (
       <>
         <Navbar />
-        <main style={{ background: '#000', color: '#fff', minHeight: '80vh', padding: 48 }}>
+        <main style={{ ...sharedMainBase, padding: 48 }}>
           <h2 style={{ textAlign: 'center' }}>Team: {team}</h2>
           <p style={{ textAlign: 'center' }}>
             No component found for this team. Check COMPONENT_MAP keys and paths under components/developers.
@@ -55,12 +64,12 @@ export default async function TeamPage({ params }) {
   return (
     <>
       <Navbar />
-      <main style={{ background: '#000', color: '#fff', minHeight: '80vh' }}>
+      <main style={sharedMainBase}>
         <Suspense fallback={<div style={{ padding: 40, color: '#fff' }}>Loading...</div>}>
           <TeamComponent />
         </Suspense>
       </main>
-     
+      <Footer />
     </>
   );
 }
