@@ -19,11 +19,16 @@ export default function Register() {
     try {
       const response = await registerAdmin(formData)
       console.log(response)
-      if(response.success) router.push('/admin')
-      else alert("Error registering admin!")
+      if(response.success) {
+        router.push('/admin')
+      }
+      else {
+        if(response.redirect) router.push('/auth/login')
+        alert("Error registering admin!")
+      }
     } 
     catch (error) {
-      console.log("Regsiter error", error)
+      console.log("Regsiter error : ", error)
     }
   }
 
@@ -90,7 +95,7 @@ export default function Register() {
           <button
             type="submit"
             onClick={regsiterUser}
-            className="bg-[#03426793] text-white py-2 rounded-2xl font-semibold hover:scale-3d hover:scale-105 transition cursor-pointer duration-300 shadow-lg"
+            className="bg-[#0a1e2993] text-white py-2 rounded-2xl font-semibold hover:scale-3d hover:scale-105 transition cursor-pointer duration-300 shadow-lg"
           >
             Register
           </button>

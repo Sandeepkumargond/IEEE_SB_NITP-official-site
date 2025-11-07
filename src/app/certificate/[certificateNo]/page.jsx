@@ -3,51 +3,36 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-
-// import Footer from '../../../components/Footer'
-// import Navbar from '../../../components/Navbar';
+import { fetchMember } from "@/lib/adminAction";
 
 export default function CertificatePage() {
   const params = useParams();
   const certificateNo = params?.certificateNo;
 
   const [member, setMember] = useState(null);
-  const [certificate, setCertificate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-      if (!certificateNo) {
-      setError("Missing certificate number in URL");
+    if (!certificateNo) {
+      setError("Missing certificate number");
       setLoading(false);
       return;
     }
+
     const fetchCertificate = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // Fetch mock.json from public folder
-        const res = await fetch("/mock.json");
-        if (!res.ok) throw new Error("mock.json fetch failed");
-        const data = await res.json();
+        const response = await fetchMember({ certificateNo });
 
-        // Find the member matching the certificateNo
-        const foundMember = data.members4Certificate?.find(m => m.certificate_no === certificateNo);
-
-         if (!foundMember) {
-          setError("Certificate not found");
+        if (!response.success || !response.data) {
+          setError(response.message || "Certificate not found");
           return;
         }
 
-        // Simulate certificate object
-        const cert = {
-          certificate_no: foundMember.certificate_no,
-          generated_on: foundMember.generated_on
-        };
-
-        setMember(foundMember);
-        setCertificate(cert);
+        setMember(response.data);
       } catch (err) {
         console.error(err);
         setError("Failed to fetch certificate data");
@@ -56,20 +41,19 @@ export default function CertificatePage() {
       }
     };
 
-     fetchCertificate();
+    fetchCertificate();
   }, [certificateNo]);
+
 
   if (loading) {
     return (
      <>
-      {/* <Navbar /> */}
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-700 mx-auto"></div>
           <p className="mt-4 text-lg text-gray-700">Loading certificate...</p>
         </div>
       </div>
-      {/* <footer/> */}
      </>
     );
   }
@@ -77,7 +61,6 @@ export default function CertificatePage() {
   if (error) {
     return (
       <>
-      {/* <Navbar/> */}
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full border-2 border-red-600">
           <div className="text-center">
@@ -94,14 +77,13 @@ export default function CertificatePage() {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
       </>
     );
   }
 
   return (
     <>
-    {/* <Navbar/> */}
+
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
         {/* Certificate Header */}
@@ -115,10 +97,10 @@ export default function CertificatePage() {
           <div className="border-4 border-gray-200 p-2 md:p-8 rounded-lg relative z-10 bg-white">
             <div className="text-center mb-8">
               <h2 className="text-lg md:text-2xl font-bold text-gray-800">
-                Certificate No: {certificate?.certificate_no}
+                Certificate No: {certificateNo ? certificateNo : null}
               </h2>
               <p className="text-gray-600 mt-1">
-                Generated on: {new Date(certificate?.generated_on).toLocaleDateString()}
+                Generated on: {new Date(member?.issuanceDate).toLocaleDateString()}
               </p>
             </div>
 

@@ -136,24 +136,43 @@ export default function BlogUpdateForm() {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-              <CldUploadWidget uploadPreset="ieee_website"
-              onSuccess={(result) => {
-                const url = result.info.secure_url
+              <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <CldUploadWidget
+                uploadPreset="ieee_website"
+                onSuccess={(result) => {
+                  const url = result.info.secure_url;
 
-                setFormData(prev => ({
-                  ...prev,
-                  images : [...prev.images, url]
-                }))
-              }}
+                  setFormData((prev) => ({
+                    ...prev,
+                    images: [...prev.images, url],
+                  }));
+                }}
               >
-              {({open}) => {
-                return(
-                <button type="button" onClick={() => open()}>
+                {({ open }) => {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="bg-[#2084b2] hover:bg-[#07689F] cursor-pointer text-white px-4 py-2 rounded-md shadow transition duration-300"
+                    >
                       Upload Image
-                </button>
-              )}
-              }
+                    </button>
+                  );
+                }}
               </CldUploadWidget>
+              {/* Image preview */}
+              {formData.images.length > 0 && (
+                <div className="flex gap-3 flex-wrap mt-5">
+                  {formData.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`uploaded-${i}`}
+                      className="w-24 h-24 object-cover rounded border"
+                    />
+                  ))}
+                </div>
+              )}
             </motion.div>
             
             <motion.button

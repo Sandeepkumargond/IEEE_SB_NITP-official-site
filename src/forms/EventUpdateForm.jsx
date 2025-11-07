@@ -7,11 +7,17 @@ import {
   CalendarDays,
   Pencil,
   Newspaper,
+  Camera,
+  FileText,
+  MapPin,
+  Link,
 } from "lucide-react";
+import { CldUploadWidget } from "next-cloudinary";
 import { motion } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { addMember } from "@/lib/adminAction";
 import { useRouter } from "next/navigation";
+import { createEvent } from "@/lib/eventAction";
 
 export default function EventUpdateForm() {
 
@@ -19,12 +25,12 @@ export default function EventUpdateForm() {
 
   // logic for sending form data for further processing
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    roll: 2406126, // default
-    year: 2025, // deafult
-    designation: "",
-    contribution: "",
+    title : "",
+    desc : "",
+    images : [],
+    eventDate : Date.now(),
+    location : "",
+    registrationLink : ""
   });
 
   // for submit button to validate user input
@@ -46,18 +52,18 @@ export default function EventUpdateForm() {
         formObj.append(key,value)
       })
 
-      const response = await addMember(formObj)
+      const response = await createEvent(formData);
       console.log(response)
 
       if(response?.success){
         router.push('/admin')
       }
       else{
-        alert("Error adding members")
+        alert("Error adding events")
       }
     } 
     catch (error) {
-      console.log("Error in generating certificate : ", error) 
+      console.log("Error in adding events : ", error) 
     }
   };
 
@@ -82,7 +88,7 @@ export default function EventUpdateForm() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="text-3xl font-medium text-[#07689F] text-center mb-2"
           >
-            Certificate Issuance Form
+            Event Registration Form
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -90,138 +96,164 @@ export default function EventUpdateForm() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-[#0A5782] font-semibold text-[16px] text-center mb-8"
           >
-            ( Provide verified member details for official certificate
-            generation. )
+            ( Provide accurate event details for official listing and promotion. )
           </motion.p>
 
           {/* Form component */}
           <form 
           onSubmit={handleSubmit}
           className="flex flex-col gap-5">
-            {/* Name */}
+            {/* Title */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
               className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
             >
-              <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <Pencil className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="name"
+                name="title"
                 type="text"
-                value={formData.name}
-                placeholder="Enter member's name"
+                value={formData.title}
+                placeholder="Enter event title"
                 required
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData({ ...formData, title: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Email */}
+            {/* Description */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
             >
-              <Mail className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <input
-                name="email"
-                type="email"
-                placeholder="Enter member's email address"
+              <FileText className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <textarea
+                name="desc"
+                type="desc"
+                placeholder="Enter event description"
                 required
-                value={formData.email}
+                value={formData.desc}
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
+                  setFormData({ ...formData, desc: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Roll no */}
+            {/* eventDate */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-              <IdCard className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <CalendarDays className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="roll"
-                type="number"
-                placeholder="Enter member's roll number"
+                name="eventDate"
+                type="date"
+                placeholder="Enter event date"
                 required
-                value={formData.roll}
+                value={formData.eventDate}
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, roll: e.target.value })
+                  setFormData({ ...formData, eventDate: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Year */}
+            {/* location */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-              <CalendarDays className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <MapPin className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="year"
-                type="number"
-                placeholder="Enter academic year(e.g 2025)"
+                name="location"
+                type="text"
+                placeholder="Enter location of event"
                 required
-                value={formData.year}
+                value={formData.location}
                 className="outline-none w-full text-gray-700"
                 onChange={(e) =>
-                  setFormData({ ...formData, year: e.target.value })
+                  setFormData({ ...formData,location: e.target.value })
                 }
               />
             </motion.div>
 
-            {/* Designation */}
+            {/* Regsitration link */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-              <Pencil className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <Link className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="designation"
+                name="registrationLink"
                 type="text"
-                placeholder="Enter member's designation"
+                placeholder="Enter event registration link"
                 required
-                value={formData.designation}
+                value={formData.registrationLink}
                 onChange={(e) =>
-                  setFormData({ ...formData, designation: e.target.value })
+                  setFormData({ ...formData, registrationLink: e.target.value })
                 }
                 className="outline-none w-full text-gray-700"
               />
             </motion.div>
 
-            {/* Interets/ Contribution */}
+                {/* Images */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
               className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
             >
-              <Newspaper className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <textarea
-                name="contribution"
-                placeholder="Enter member's contribution"
-                required
-                value={formData.contribution}
-                onChange={(e) =>
-                  setFormData({ ...formData, contribution: e.target.value })
-                }
-                className="outline-none w-full text-gray-700 h-24"
-              />
+              <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <CldUploadWidget
+                uploadPreset="ieee_website"
+                onSuccess={(result) => {
+                  const url = result.info.secure_url;
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    images: [...prev.images, url],
+                  }));
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="bg-[#2084b2] hover:bg-[#07689F] cursor-pointer text-white px-4 py-2 rounded-md shadow transition duration-300"
+                    >
+                      Upload Image
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
+              {/* Image preview */}
+              {formData.images.length > 0 && (
+                <div className="flex gap-3 flex-wrap mt-5">
+                  {formData.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`uploaded-${i}`}
+                      className="w-24 h-24 object-cover rounded border"
+                    />
+                  ))}
+                </div>
+              )}
             </motion.div>
+
             <motion.button
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -234,7 +266,7 @@ export default function EventUpdateForm() {
                   : "opacity-90 hover:cursor-pointer "
               }`}
             >
-              Generate Certificate
+              Register Event
             </motion.button>
           </form>
         </motion.div>

@@ -7,6 +7,7 @@ import {
   CalendarDays,
   Pencil,
   Newspaper,
+  Tags,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -24,6 +25,7 @@ export default function PeopleUpdateForm() {
     roll: 2406126, // default
     year: 2025, // deafult
     designation: "",
+    role: "",
     contribution: "",
   });
 
@@ -41,12 +43,7 @@ export default function PeopleUpdateForm() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      const formObj = new FormData()
-      Object.entries(formData).forEach(([key,value]) => {
-        formObj.append(key,value)
-      })
-
-      const response = await addMember(formObj)
+      const response = await addMember(formData)
       console.log(response)
 
       if(response?.success){
@@ -198,6 +195,27 @@ export default function PeopleUpdateForm() {
                 value={formData.designation}
                 onChange={(e) =>
                   setFormData({ ...formData, designation: e.target.value })
+                }
+                className="outline-none w-full text-gray-700"
+              />
+            </motion.div>
+
+                {/* Role */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
+            >
+              <Tags className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <input
+                name="role"
+                type="text"
+                placeholder="Enter member's designation"
+                required
+                value={formData.role}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
                 }
                 className="outline-none w-full text-gray-700"
               />
