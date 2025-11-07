@@ -84,12 +84,16 @@ export const fetchAllProjects = async () => {
       };
     }
 
-    const allProjects = await Projects.find({}).sort({ createdAt: -1 })
+    const allProjects = await Projects.find({}).sort({ createdAt: -1 }).lean();
+    const plainProjects = allProjects.map(project => ({
+      ...project,
+      _id: project._id.toString(),
+    }));
 
     return {
       message: "All projects fetched successfully!",
       success: true,
-      data: allProjects,
+      data: plainProjects,
     };
   } catch (error) {
     console.log("Error in fetching all projects : ", error);
