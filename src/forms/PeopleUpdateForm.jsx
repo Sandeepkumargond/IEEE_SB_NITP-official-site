@@ -9,9 +9,6 @@ import {
   Newspaper,
   Tags,
 } from "lucide-react";
-import { motion } from "framer-motion";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { addMember } from "@/lib/adminAction";
 import { useRouter } from "next/navigation";
 
 export default function PeopleUpdateForm() {
@@ -40,68 +37,68 @@ export default function PeopleUpdateForm() {
     setIsDisabled(isFieldEmpty);
   }, [formData]);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await addMember(formData)
-      console.log(response)
 
-      if(response?.success){
-        router.push('/admin')
+    // build payload expected by server (note: server expects `contributions`)
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      year: Number(formData.year),
+      designation: formData.designation,
+      role: formData.role,
+      contributions: formData.contribution || "",
+    };
+
+    try {
+      const res = await fetch("/api/members", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const response = await res.json();
+
+      if (res.ok && response?.success) {
+        router.push("/admin");
+      } else {
+        alert(response?.message || "Error adding members");
       }
-      else{
-        alert("Error adding members")
-      }
-    } 
-    catch (error) {
-      console.log("Error in generating certificate : ", error) 
+    } catch (error) {
+      console.log("Error in generating certificate : ", error);
+      alert("Error adding members");
     }
   };
 
   return (
     <div className="bg-gradient-to-b from-[#30a5da] to-[#07689F] min-h-screen items-center justify-center py-20">
-      {/* animation div */}
       <div className="grid md:grid-cols-2 bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
-        <motion.div className="flex justify-center items-center bg-white p-10">
-          <DotLottieReact
-            src="https://lottie.host/66945788-7de6-4653-8826-182979014259/3Kt5hgkbNK.lottie"
-            loop
-            autoplay
-            className="w-full h-auto max-w-xl scale-200 md:scale-250 p-5" // Increased from md to xl
-          />
-        </motion.div>
+        {/* Static visual (removed heavy lottie animation for performance) */}
+        <div className="flex justify-center items-center bg-white p-10">
+          <div className="text-center p-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-36 w-36 text-[#07689F] mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-3 0-5 2-5 5v3h10v-3c0-3-2-5-5-5z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v2" />
+            </svg>
+            <p className="mt-4 text-[#0A5782] font-medium">Certificate issuance</p>
+          </div>
+        </div>
 
         {/* form div */}
-        <motion.div className="bg-gradient-to-b from-[#eaf4f9] to-[#d8eefb] p-10 ">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-3xl font-medium text-[#07689F] text-center mb-2"
-          >
-            Certificate Issuance Form
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-[#0A5782] font-semibold text-[16px] text-center mb-8"
-          >
-            ( Provide verified member details for official certificate
-            generation. )
-          </motion.p>
+        <div className="bg-gradient-to-b from-[#eaf4f9] to-[#d8eefb] p-10 ">
+          <h2 className="text-3xl font-medium text-[#07689F] text-center mb-2">Certificate Issuance Form</h2>
+          <p className="text-[#0A5782] font-semibold text-[16px] text-center mb-8">( Provide verified member details for official certificate generation. )</p>
 
           {/* Form component */}
-          <form 
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {/* Name */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400"
-            >
+            <div className="flex items-start border-[#0781C2] rounded-lg p-3 focus-within:ring-2 border-1 focus-within:ring-[#3DBAF3] shadow-sm shadow-blue-400">
               <User className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
                 name="name"
@@ -110,19 +107,12 @@ export default function PeopleUpdateForm() {
                 placeholder="Enter member's name"
                 required
                 className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
-            </motion.div>
+            </div>
 
             {/* Email */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]"
-            >
+            <div className="flex items-start border border-[#0781C2] rounded-lg p-3 shadow-sm shadow-blue-400 focus-within:ring-2 focus-within:ring-[#3DBAF3]">
               <Mail className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
                 name="email"
@@ -131,19 +121,12 @@ export default function PeopleUpdateForm() {
                 required
                 value={formData.email}
                 className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
-            </motion.div>
+            </div>
 
-            {/* Roll no */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
+            {/* Roll no (kept as input but not sent to server - model doesn't include roll) */}
+            <div className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]">
               <IdCard className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
                 name="roll"
@@ -152,19 +135,12 @@ export default function PeopleUpdateForm() {
                 required
                 value={formData.roll}
                 className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, roll: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, roll: e.target.value })}
               />
-            </motion.div>
+            </div>
 
             {/* Year */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
+            <div className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]">
               <CalendarDays className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
                 name="year"
@@ -173,19 +149,12 @@ export default function PeopleUpdateForm() {
                 required
                 value={formData.year}
                 className="outline-none w-full text-gray-700"
-                onChange={(e) =>
-                  setFormData({ ...formData, year: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
               />
-            </motion.div>
+            </div>
 
             {/* Designation */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
+            <div className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]">
               <Pencil className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
                 name="designation"
@@ -193,20 +162,13 @@ export default function PeopleUpdateForm() {
                 placeholder="Enter member's designation"
                 required
                 value={formData.designation}
-                onChange={(e) =>
-                  setFormData({ ...formData, designation: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
                 className="outline-none w-full text-gray-700"
               />
-            </motion.div>
+            </div>
 
-                {/* Role */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
+            {/* Role */}
+            <div className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]">
               <Tags className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
                 name="role"
@@ -214,48 +176,35 @@ export default function PeopleUpdateForm() {
                 placeholder="Enter member's designation"
                 required
                 value={formData.role}
-                onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                 className="outline-none w-full text-gray-700"
               />
-            </motion.div>
+            </div>
 
             {/* Interets/ Contribution */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
-            >
+            <div className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]">
               <Newspaper className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <textarea
                 name="contribution"
                 placeholder="Enter member's contribution"
                 required
                 value={formData.contribution}
-                onChange={(e) =>
-                  setFormData({ ...formData, contribution: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, contribution: e.target.value })}
                 className="outline-none w-full text-gray-700 h-24"
               />
-            </motion.div>
-            <motion.button
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.2, duration: 0.5 }}
+            </div>
+
+            <button
               type="submit"
-              onClick={handleSubmit}
-              className={`w-full bg-gradient-to-r from-[#3DBAF3] to-[#07689F] text-white py-3 rounded-lg hover:-translate-y-1 transition duration-500 shadow-md shadow-[#1a80b0] ${
-                isDisabled
-                  ? "opacity-60 cursor-not-allowed"
-                  : "opacity-90 hover:cursor-pointer "
+              className={`w-full bg-gradient-to-r from-[#3DBAF3] to-[#07689F] text-white py-3 rounded-lg transition duration-200 shadow-md shadow-[#1a80b0] ${
+                isDisabled ? "opacity-60 cursor-not-allowed" : "opacity-90 hover:cursor-pointer"
               }`}
+              disabled={isDisabled}
             >
               Generate Certificate
-            </motion.button>
+            </button>
           </form>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
