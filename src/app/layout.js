@@ -1,5 +1,6 @@
-
 import "./globals.css";
+import Navbar from "src/components/Navbar";
+import Footer from "src/components/Footer";
 
 export const metadata = {
   title: "IEEE_Official_Website",
@@ -10,8 +11,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-      
+        <Navbar/>
+        <div
+        className="mt-10">
         {children}
+        </div>
+        <Footer/>
       </body>
     </html>
   );
