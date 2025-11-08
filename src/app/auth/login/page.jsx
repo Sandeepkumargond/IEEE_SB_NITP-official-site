@@ -14,13 +14,13 @@ export default function AdminLogin() {
   });
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await loginAdmin(formData)
       console.log(response)
       if(response.success){
         router.push('/admin')
-      }
-      else if(response.message = "Admin not found"){
+      } else if(response.message === "Admin not found"){
         router.push('/auth/register')
       }
       else{
@@ -94,7 +94,7 @@ export default function AdminLogin() {
               <h2 className="text-3xl md:text-[40px] font-bold mb-8 text-black text-center items-center ">
                 ADMIN LOGIN
               </h2>
-              <form action={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* The username Input Component */}
                 <div>
                   <label htmlFor="username" className="sr-only">
@@ -112,6 +112,7 @@ export default function AdminLogin() {
                         setFormData({...formData,username : e.target.value})
                         }}
                         className="w-full bg-transparent outline-none pb-1 text-base md:text-xl"
+                        suppressHydrationWarning
                       />
                     </div>
                     <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
@@ -133,6 +134,7 @@ export default function AdminLogin() {
                         value={formData.password}
                         onChange={(e) => {setFormData({...formData, password : e.target.value})}}
                         className="w-full bg-transparent outline-none pb-1 text-base md:text-xl"
+                        suppressHydrationWarning
                       />
                     </div>
                     <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
@@ -154,6 +156,7 @@ export default function AdminLogin() {
                 <button
                   type="submit"
                   className="text-base md:text-lg relative overflow-hidden flex items-center justify-center w-full max-w-[182px] h-14 py-3 px-8 mt-[20px] mx-auto font-bold text-black uppercase tracking-wider rounded-[30px] bg-[linear-gradient(117.4deg,_#0D2BCC_1.72%,_rgba(137,_255,_241,_0.5)_50.63%,_#FFFFFF_97.87%)] shadow-lg backdrop-blur-[17.4px] transition-all duration-300 ease-in-out hover:bg-[linear-gradient(117.4deg,_rgba(137,_255,_241,_0.5)_4.84%,_#0D2BCC_45.17%,_#FFFFFF_97.87%)] hover:shadow-xl gradient-border-button"
+                  suppressHydrationWarning
                 >
                   SIGN IN
                 </button>

@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Eye, Trash2 } from "lucide-react";
 import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
 import { fetchAllProjects } from "@/lib/projectAction";
 import { createEvent, deleteEvent, fetchAllEvents } from "@/lib/eventAction";
 import Link from "next/link";
-import { fetchAllMembers, getAdmin } from "@/lib/adminAction";
+import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin } from "@/lib/adminAction";
 import { deleteProjects } from "@/lib/projectAction";
 
 export default function AdminDashboard() {
@@ -15,6 +14,8 @@ export default function AdminDashboard() {
   const [projects, setProjects] = useState([]);
   const [events, setEvents] = useState([]);
   const [members, setMembers] = useState([]);
+  const [newAdminUsername, setNewAdminUsername] = useState("");
+  const [newAdminPassword, setNewAdminPassword] = useState("");
 
   // member addition and showcase
  useEffect(() => {
@@ -49,6 +50,45 @@ export default function AdminDashboard() {
 
     fetchAdmins();
   },[])
+
+  const handleAddAdmin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await registerAdmin({ username: newAdminUsername, password: newAdminPassword });
+      console.log("registerAdmin ->", response);
+      if (response.success) {
+        // refresh admin list
+        const adminsResp = await getAdmin();
+        setAdmins(adminsResp.data || []);
+        setNewAdminUsername("");
+        setNewAdminPassword("");
+        alert(response.message || "Admin added");
+      } else {
+        alert(response.message || "Failed to add admin");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error adding admin");
+    }
+  }
+
+  const handleDeleteAdmin = async (id) => {
+    if (!confirm("Are you sure you want to delete this admin?")) return;
+    try {
+      const response = await deleteAdmin(id);
+      console.log("deleteAdmin ->", response);
+      if (response.success) {
+        const adminsResp = await getAdmin();
+        setAdmins(adminsResp.data || []);
+        alert(response.message || "Admin deleted");
+      } else {
+        alert(response.message || "Failed to delete admin");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error deleting admin");
+    }
+  }
 
   // blog fetching
   useEffect(() => {
@@ -136,37 +176,27 @@ useEffect(() => {
   }
 
   return (
-    <motion.div className="bg-gradient-to-br from-[#014f74] via-[#013f60] to-[#012f4a] min-h-screen py-10 px-4">
-      <motion.div className="w-full max-w-7xl mx-auto">
+    <div className="bg-gradient-to-br from-[#014f74] via-[#013f60] to-[#012f4a] min-h-screen py-10 px-4">
+      <div className="w-full max-w-7xl mx-auto">
         {/* Heading */}
-        <motion.h1
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-white text-4xl text-center font-bold mb-10 tracking-wide"
-        >
+        <h1 className="text-white text-4xl text-center font-bold mb-10 tracking-wide">
           Admin Dashboard
-        </motion.h1>
+        </h1>
 
         {/* Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Events Section */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 items-center flex flex-col gap-4"
-          >
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 items-center flex flex-col gap-4">
             <h2 className="text-2xl font-semibold text-white text-center mb-4">
-              📅 Events
+               Events
             </h2>
 
             {/* Event Cards */}
             <div className="flex flex-col gap-5 w-full">
               {events.map((event, index) => (
                 <div
-                  key={index}
-                  className="flex flex-col sm:flex-row items-center gap-5 bg-[#035b99] rounded-xl p-4 shadow-md hover:bg-[#0373c2] transition duration-300"
+                  key={event._id || index}
+                  className="flex flex-col sm:flex-row items-center gap-5 bg-[#035b99] rounded-xl p-4 shadow-md"
                 >
                   {event.images.length > 0 ? 
                   <img
@@ -184,35 +214,26 @@ useEffect(() => {
                   <div className="flex flex-col items-center sm:items-start gap-2 text-white text-center sm:text-left">
                     <h3 className="text-lg font-bold">{event.title}</h3>
                     <div className="flex gap-2">
-                      <Link
-                      href="/events"
-                      className="flex items-center gap-2 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700 cursor-pointer">
+                      <Link href="/events" className="flex items-center gap-2 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
                         <Eye size={18} /> View
                       </Link>
-                      <button 
+                      <button
                       onClick={() => handleEventDelete(event._id)}
-                      className="flex items-center gap-2 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700 cursor-pointer">
+                      className="flex items-center gap-2 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
                         <Trash2 size={16} /> Delete
                       </button>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
-            <Link
-            href="/events/create"
-            className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]">
+            <Link href="/events/create" className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">
               Add Events
             </Link>
-          </motion.div>
+          </div>
+          </div>
 
           {/* Blog Section */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.0, duration: 0.6 }}
-            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 text-white text-center flex flex-col gap-6"
-          >
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white text-center flex flex-col gap-6">
             <h2 className="text-2xl font-semibold mb-3">📝 Blogs</h2>
 
             {blogs.length === 0 ? (
@@ -221,8 +242,8 @@ useEffect(() => {
               <div className="flex flex-col gap-5 w-full">
                 {blogs.map((blog, id) => (
                   <div
-                    key={id}
-                    className="flex items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md hover:bg-[#0373c2] transition duration-300"
+                    key={blog._id || id}
+                    className="flex items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md"
                   >
                     <h3 className="text-white text-lg font-semibold truncate max-w-xs">
                       {blog.title}
@@ -230,14 +251,11 @@ useEffect(() => {
                     <div className="flex gap-3">
                       <Link
                         href='/blog'
-                        className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700"
+                        className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700"
                       >
                         <Eye size={18} /> View
                       </Link>
-                      <button
-                        onClick={() => handleBlogDelete(blog._id)}
-                        className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700"
-                      >
+                      <button onClick={() => handleBlogDelete(blog._id)} className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
                         <Trash2 size={16} /> Delete
                       </button>
                     </div>
@@ -248,33 +266,35 @@ useEffect(() => {
 
             {/* Add Blogs Button with margin top */}
             <div className="mt-6">
-              <Link
-                href="blogs/create"
-                className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
-              >
-                Add Blogs
-              </Link>
+              <Link href="blogs/create" className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">Add Blogs</Link>
             </div>
-          </motion.div>
+          </div>
 
           {/* Admins Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 text-white flex flex-col gap-4 items-center"
-          >
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 items-center">
             <h2 className="text-2xl font-semibold mb-4 text-center">
-              👨‍💼 Admins
+               Admins
             </h2>
-            <motion.div className="flex flex-col gap-5 w-full">
+            {/* Add Admin Form */}
+            <form onSubmit={handleAddAdmin} className="w-full max-w-sm flex flex-col gap-3 mb-3">
+              <input
+                className="w-full px-3 py-2 rounded-md bg-white/10 border border-white/20 placeholder:text-gray-300 text-white"
+                placeholder="username"
+                value={newAdminUsername}
+                onChange={(e) => setNewAdminUsername(e.target.value)}
+              />
+              <input
+                className="w-full px-3 py-2 rounded-md bg-white/10 border border-white/20 placeholder:text-gray-300 text-white"
+                placeholder="password"
+                type="password"
+                value={newAdminPassword}
+                onChange={(e) => setNewAdminPassword(e.target.value)}
+              />
+              <button type="submit" className="bg-green-500 text-black px-4 py-2 rounded-lg font-semibold">Add Admin</button>
+            </form>
+            <div className="flex flex-col gap-5 w-full">
               {admins.map((admin) => (
-                <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duartion: 0.6 }}
-                className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md hover:bg-[#0373c2] transition duration-300 px-5"
-              >
+                <div key={admin._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
                   alt="member"
@@ -283,19 +303,17 @@ useEffect(() => {
                 <div className="flex flex-col">
                   <h3 className="text-xl font-semibold">{admin.username}</h3>
                 </div>
-              </motion.div>
+                <div className="ml-auto flex gap-2">
+                  <button onClick={() => handleDeleteAdmin(admin._id)} className="bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">Delete</button>
+                </div>
+                </div>
               ))}
               
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Project Section */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.0, duration: 0.6 }}
-            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 text-white text-center flex flex-col gap-6"
-          >
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white text-center flex flex-col gap-6">
             <h2 className="text-2xl font-semibold mb-3">🤖 Projects</h2>
 
             {projects.length === 0 ? (
@@ -304,26 +322,22 @@ useEffect(() => {
               <div className="flex flex-col gap-5 w-full">
                 {projects.map((project, id) => (
                   <div
-                    key={id}
-                    className="flex items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md hover:bg-[#0373c2] transition duration-300"
+                    key={project._id || id}
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md gap-3"
                   >
-                    <div>
-                    <h3 className="text-white text-lg font-semibold truncate max-w-xs">
-                      {project.title}
-                    </h3>
-                    <p>{project.description}</p>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white text-lg font-semibold truncate">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-white/90 truncate">
+                        {project.description}
+                      </p>
                     </div>
-                    <div className="flex gap-3">
-                      <Link
-                        href='/projects'
-                        className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-green-700"
-                      >
+                    <div className="flex gap-3 flex-shrink-0">
+                      <Link href='/projects' className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
                         <Eye size={18} /> View
                       </Link>
-                      <button
-                        onClick={() => handleProjectDelete(project._id)}
-                        className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium hover:scale-105 transition duration-300 shadow-sm border-b-4 border-red-700"
-                      >
+                      <button onClick={() => handleProjectDelete(project._id)} className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
                         <Trash2 size={16} /> Delete
                       </button>
                     </div>
@@ -334,33 +348,18 @@ useEffect(() => {
 
             {/* Add Projects Button with margin top */}
             <div className="mt-6">
-              <Link
-                href="projects/create"
-                className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
-              >
-                Add Projects
-              </Link>
+              <Link href="projects/create" className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">Add Projects</Link>
             </div>
-          </motion.div>
+          </div>
 
           {/* Members Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20 hover:scale-[1.02] transition-transform duration-300 text-white flex flex-col gap-4 items-center"
-          >
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 items-center">
             <h2 className="text-2xl font-semibold mb-4 text-center">
-              🙍‍♂️ Members
+              Members
             </h2>
-            <motion.div className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col gap-5 w-full">
               {members.map((member) => (
-                <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duartion: 0.6 }}
-                className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md hover:bg-[#0373c2] transition duration-300 px-5"
-              >
+                <div key={member._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
                   alt="member"
@@ -369,20 +368,15 @@ useEffect(() => {
                 <div className="flex flex-col">
                   <h3 className="text-xl font-semibold">{member.name}</h3>
                 </div>
-              </motion.div>
+                </div>
               ))}
               
-            </motion.div>
-            <Link
-              href="certificate/new"
-              className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md hover:translate-y-2 transition-all duration-500 ease-in-out cursor-pointer hover:scale-110 hover:opacity-80 hover:bg-[#5c8cab]"
-            >
-              Add Members
-            </Link>
-          </motion.div>
+            </div>
+            <Link href="certificate/new" className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">Add Members</Link>
+          </div>
 
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

@@ -1,5 +1,4 @@
-// src/components/CertificateForm.js
-// /certificate-preview/
+
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

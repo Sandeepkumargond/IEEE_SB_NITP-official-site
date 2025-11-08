@@ -20,9 +20,21 @@ export const registerAdmin = async ({username,password}) => {
       };
     }    
 
-    const isAdminPresent = await Admin.findOne({
-      username: username,
-    });
+    // If there is at least one admin already, only an authenticated admin
+    // should be able to create additional admins. If no admin exists yet
+    // (fresh install/bootstrap), allow creating the first admin without auth.
+    const adminCount = await Admin.countDocuments();
+    if (adminCount > 0) {
+      const isVerified = await verifyToken();
+      if (!isVerified || !isVerified.isVerified) {
+        return {
+          message: "Unauthorized: only logged-in admins can add a new admin",
+          success: false,
+        };
+      }
+    }
+
+    const isAdminPresent = await Admin.findOne({ username: username });
 
     // if admin is registered..redirect to login
     if (isAdminPresent) {
@@ -191,13 +203,24 @@ export const getAdmin = async() => {
       throw new Error("Unauthorized access !!")
     }
 
-    const adminData = await Admin.find({}).sort({_id : -1})
+    const adminData = await Admin.find({}).sort({_id : -1}).lean();
+
+    const plainAdmins = (Array.isArray(adminData) ? adminData : []).map((a) => {
+      const adminObj = { ...a };
+      // remove sensitive fields
+      if (adminObj.password) delete adminObj.password;
+      // ensure _id is a plain string
+      if (adminObj._id) adminObj._id = adminObj._id.toString();
+      if (adminObj.createdAt) adminObj.createdAt = new Date(adminObj.createdAt).toLocaleDateString("en-GB");
+      if (adminObj.updatedAt) adminObj.updatedAt = new Date(adminObj.updatedAt).toLocaleDateString("en-GB");
+      return adminObj;
+    });
 
     return {
-      message : "Admins fetched successfully!!",
-      data : adminData,
-      success : true
-    }
+      message: "Admins fetched successfully!!",
+      data: plainAdmins,
+      success: true,
+    };
   } 
   catch (error) {
     console.log("Error fetching admins : ", error);
@@ -234,19 +257,16 @@ export const addMember = async ({name,email,year,designation,role,contributions}
         };
     }
 
-    // generate unique certificate number
     const countMembers = await Member.countDocuments();
 
     const uniqueNumber = String(countMembers + 1).padStart(3, "0");
     const certificateNo = `ieeenitp-2025-${uniqueNumber}`;
 
-    // creating download url
     const downloadUrl = `${process.env.BASE_URL}/certificate/${certificateNo}`;
 
     console.log(process.env.MAIL_USER)
     console.log(process.env.MAIL_PASS)
 
-    // mailing setup
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -312,18 +332,21 @@ export const fetchMember = async ({certificateNo}) => {
       console.log("Enter certificate number to fetch member")
     }
 
-    const existingMember = await Member.findOne({
-      certificateNo
-    })
+    const existingMember = await Member.findOne({ certificateNo }).lean();
 
-    if(!existingMember){
-      throw new Error("No member found!!")
+    if (!existingMember) {
+      throw new Error("No member found!!");
     }
 
+    const memberObj = { ...existingMember };
+    if (memberObj._id) memberObj._id = memberObj._id.toString();
+    if (memberObj.createdAt) memberObj.createdAt = new Date(memberObj.createdAt).toLocaleDateString("en-GB");
+    if (memberObj.updatedAt) memberObj.updatedAt = new Date(memberObj.updatedAt).toLocaleDateString("en-GB");
+
     return {
-      message : "Member fetched successfully!!",
-      data : existingMember,
-      success : true
+      message: "Member fetched successfully!!",
+      data: memberObj,
+      success: true,
     };
   } 
   catch (error) {
@@ -339,13 +362,21 @@ export const fetchAllMembers = async() => {
   try {
     await connectDB()
 
-    const members = await Member.find({}).sort({certificateNo : -1});
+    const members = await Member.find({}).sort({ certificateNo: -1 }).lean();
+
+    const plainMembers = (Array.isArray(members) ? members : []).map((m) => {
+      const memberObj = { ...m };
+      if (memberObj._id) memberObj._id = memberObj._id.toString();
+      if (memberObj.createdAt) memberObj.createdAt = new Date(memberObj.createdAt).toLocaleDateString("en-GB");
+      if (memberObj.updatedAt) memberObj.updatedAt = new Date(memberObj.updatedAt).toLocaleDateString("en-GB");
+      return memberObj;
+    });
 
     return {
-      message : "Members fetched successfully!!",
-      success : true,
-      data : members
-    }
+      message: "Members fetched successfully!!",
+      success: true,
+      data: plainMembers,
+    };
   } 
   catch (error) {
     console.log("Error in fetching all member", error)
@@ -355,3 +386,53 @@ export const fetchAllMembers = async() => {
     }
   }
 }
+
+export const deleteAdmin = async (id) => {
+  try {
+    await connectDB();
+
+    const data = await verifyToken();
+    if (!data?.isVerified) {
+      return {
+        message: "Unauthorized access !!",
+        success: false,
+      };
+    }
+
+    if (!id) {
+      return {
+        message: "Admin id is required to delete",
+        success: false,
+      };
+    }
+
+    const adminCount = await Admin.countDocuments();
+    if (adminCount <= 1) {
+      return {
+        message: "Operation not allowed: at least one admin must exist",
+        success: false,
+      };
+    }
+
+    const admin = await Admin.findById(id);
+    if (!admin) {
+      return {
+        message: "Admin not found",
+        success: false,
+      };
+    }
+
+    await Admin.findByIdAndDelete(id);
+
+    return {
+      message: "Admin deleted successfully",
+      success: true,
+    };
+  } catch (error) {
+    console.log("Error deleting admin :", error);
+    return {
+      message: "Error deleting admin",
+      success: false,
+    };
+  }
+};
