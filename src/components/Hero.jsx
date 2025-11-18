@@ -115,10 +115,7 @@ export default function HeroPage() {
         </div>
       </section>
 
-      {/* ===== FOOTER ===== */}
-      <footer className="text-center text-white/70 py-6 text-sm border-t border-white/10">
-        © 2024 IEEE SB NITP. All Rights Reserved.
-      </footer>
+     
     </main>
   );
 }
