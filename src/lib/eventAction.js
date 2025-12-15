@@ -1,7 +1,6 @@
 "use server";
 import { Event } from "./models";
 import { verifyToken } from "./adminAction";
-import { NextResponse } from "next/server";
 import { connectDB } from "./connectDB";
 
 /* event addition, edit, delete (CRUD) */

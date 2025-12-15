@@ -8,7 +8,6 @@ import { fetchMember } from "@/lib/adminAction";
 export default function CertificatePage() {
   const params = useParams();
   const certificateNo = params?.certificateNo;
-
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

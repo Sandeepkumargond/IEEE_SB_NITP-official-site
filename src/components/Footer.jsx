@@ -43,7 +43,7 @@ export default function Footer() {
 
   const otherLinks = [
     { href: "https://ieeenitp.vercel.app/", label: "Old Website" },
-    { href: "/contact", label: "Contact Us" },
+    { href: "/#contact", label: "Contact Us" },
     { href: "/projects", label: "Projects" },
   ];
 

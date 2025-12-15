@@ -250,7 +250,7 @@ useEffect(() => {
                     </h3>
                     <div className="flex gap-3">
                       <Link
-                        href='/blog'
+                        href='/blogs'
                         className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700"
                       >
                         <Eye size={18} /> View

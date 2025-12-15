@@ -54,16 +54,7 @@ export default function BlogUpdateForm() {
   return (
     <div className="bg-gradient-to-b from-[#30a5da] to-[#07689F] min-h-screen items-center justify-center py-20">
       {/* animation div */}
-      <div className="grid md:grid-cols-2 bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
-        <motion.div className="flex justify-center items-center bg-white p-10">
-          <DotLottieReact
-            src="https://lottie.host/806d97d2-a3ae-4c44-a8aa-e762d8cc9ce8/p2HbGXNng1.lottie"
-            loop
-            autoplay
-            className="w-full h-auto max-w-xl scale-125 p-5" 
-          />
-        </motion.div>
-
+      <div className="grid bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
         {/* form div */}
         <motion.div className="bg-gradient-to-b from-[#eaf4f9] to-[#d8eefb] p-10 ">
           <motion.h2

@@ -1,14 +1,23 @@
+"use client"
+import { fetchDevelopers } from '@/lib/adminAction';
+import { useEffect, useState } from "react";
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 
 export default function DevelopersSection() {
-  const developers = [
-    { name: 'Manish Tyagi', role: 'Chairperson', image: '/img1.jpeg' },
-    { name: 'Nandini Prasad', role: 'Secretary', image: '/img2.jpeg' },
-    { name: 'Kapil Gupta', role: 'Joint Secretary', image: '/img3.jpeg' },
-    { name: 'Aryan Kumar Arya', role: 'Treasurer', image: '/img4.jpeg' },
-    { name: 'Saurabh Yadav', role: 'Technical Head', image: '/img5.jpeg' },
-    { name: 'Sandeep Kumar', role: 'Web Lead', image: '/img6.jpeg' },
-  ];
+  const [developers, setDevelopers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetchDevelopers();
+      setDevelopers(res?.data || []);
+
+      console.log(res)
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(developers)
 
   return (
     <section

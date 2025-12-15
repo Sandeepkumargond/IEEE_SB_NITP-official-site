@@ -11,15 +11,16 @@ const Navbar = () => {
   const navItems = [
     { id: 0, name: "Home", path: "/" },
     { id: 1, name: "About", path: "/about" },
-    { id: 2, name: "Committee", path: "/committee" },
-    { id: 3, name: "Events", path: "/events" },
-    { id: 4, name: "E-certificate", path: "/certificate" },
-    { id: 5, name: "Blogs", path: "/blogs" },
-    { id: 6, name: "Gallery", path: "/gallery" },
-    { id: 7, name: "Join IEEE", path: "/join" },
-    { id: 8, name: "Admin", path: "/auth/login" },
-    { id: 9, name: "Developers", path: "/developers"},
-    { id: 10, name: "Projects", path: "/projects" },
+    {id : 2, name : "Teams", path : "/communities"},
+    { id: 3, name: "Office", path: "/committee" },
+    { id: 4, name: "Events", path: "/events" },
+    { id: 5, name: "E-certificate", path: "/certificate" },
+    { id: 6, name: "Blogs", path: "/blogs" },
+    { id: 7, name: "Gallery", path: "/gallery" },
+    { id: 8, name: "Join IEEE", path: "/#contact" },
+    { id: 9, name: "Admin", path: "/auth/login" },
+    { id: 10, name: "Developers", path: "/developers"},
+    { id: 11, name: "Projects", path: "/projects" },
   ];
 
   return (

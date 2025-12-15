@@ -32,9 +32,9 @@ const MemberSchema = new Schema({
         type : String,
         required : [true, "Mention member's designation"]
     },
-    role : {
+    team : {
         type : String,
-        required : [true, "Enter member's role"]
+        required : [true, "Enter member's team"]
     },
     contributions : {
         type : String
@@ -51,6 +51,10 @@ const MemberSchema = new Schema({
     downloadUrl :{
         type : String,
         required : true,
+    },
+    profilePic : {
+        type : [String],
+        default : []
     }
 
 },{timestamps : true})

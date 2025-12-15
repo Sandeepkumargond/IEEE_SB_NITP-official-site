@@ -59,7 +59,10 @@ export const registerAdmin = async ({username,password}) => {
     return {
         message: "Admin registered successfully ! Login",
         success: true,
-        data: newAdmin.toObject(),
+        data: {
+          _id : newAdmin._id.toString(),
+          username : newAdmin.username
+        }
     };
       
   } catch (error) {
@@ -205,16 +208,18 @@ export const getAdmin = async() => {
 
     const adminData = await Admin.find({}).sort({_id : -1}).lean();
 
-    const plainAdmins = (Array.isArray(adminData) ? adminData : []).map((a) => {
-      const adminObj = { ...a };
-      // remove sensitive fields
-      if (adminObj.password) delete adminObj.password;
-      // ensure _id is a plain string
-      if (adminObj._id) adminObj._id = adminObj._id.toString();
-      if (adminObj.createdAt) adminObj.createdAt = new Date(adminObj.createdAt).toLocaleDateString("en-GB");
-      if (adminObj.updatedAt) adminObj.updatedAt = new Date(adminObj.updatedAt).toLocaleDateString("en-GB");
-      return adminObj;
-    });
+    const plainAdmins = adminData.map((a) => ({
+      _id: a._id?.toString(),
+      username: a.username,
+      email: a.email,
+      role: a.role,
+      createdAt: a.createdAt
+        ? new Date(a.createdAt).toISOString()
+        : null,
+      updatedAt: a.updatedAt
+        ? new Date(a.updatedAt).toISOString()
+        : null,
+    }));
 
     return {
       message: "Admins fetched successfully!!",
@@ -303,11 +308,14 @@ export const addMember = async ({name,email,year,designation,role,contributions}
 
       console.log("Mail sent successfully!!")
 
+
     const newMember = new Member({
       ...memberDetails,
       certificateNo,
       downloadUrl
     });
+
+    console.log(newMember)
 
     await newMember.save();
 
@@ -315,7 +323,8 @@ export const addMember = async ({name,email,year,designation,role,contributions}
         message: "New member added successfully!",
         success: true,
       };
-  } catch (error) {
+  } 
+  catch (error) {
     console.log("Error adding member : ", error);
     return {
         message: "Error registering the member",
@@ -433,6 +442,53 @@ export const deleteAdmin = async (id) => {
     return {
       message: "Error deleting admin",
       success: false,
+    };
+  }
+};
+
+
+// fetching developers data (web team members 2024 batch)
+
+export const fetchDevelopers = async () => {
+  try {
+    await connectDB();
+
+    const developers = await Member.find({ team: "Web" }).lean();
+
+    console.log(developers)
+
+    const plainDevelopers = developers.map((d) => ({
+      _id: d._id?.toString(),
+      name: d.name,
+      email: d.email,
+      year: d.year,
+      designation: d.designation,
+      team: d.team,
+      contributions: d.contributions ?? "",
+      certificateNo: d.certificateNo,
+      downloadUrl: d.downloadUrl,
+      profilePic: d.profilePic ?? [],
+      issuanceDate: d.issuanceDate
+        ? new Date(d.issuanceDate).toISOString()
+        : null,
+      createdAt: d.createdAt
+        ? new Date(d.createdAt).toISOString()
+        : null,
+    }));
+
+    console.log(plainDevelopers)
+
+    return {
+      success: true,
+      message: "Web team members fetched successfully",
+      data: plainDevelopers,
+    };
+  } catch (error) {
+    console.error("Error fetching web team members:", error);
+    return {
+      success: false,
+      message: "Error fetching web team members",
+      data: [],
     };
   }
 };

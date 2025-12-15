@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
-  User,
-  Mail,
-  IdCard,
   CalendarDays,
   Pencil,
   Newspaper,
@@ -14,7 +11,6 @@ import {
 } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import { motion } from "framer-motion";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { addMember } from "@/lib/adminAction";
 import { useRouter } from "next/navigation";
 import { createEvent } from "@/lib/eventAction";
@@ -70,15 +66,7 @@ export default function EventUpdateForm() {
   return (
     <div className="bg-gradient-to-b from-[#30a5da] to-[#07689F] min-h-screen items-center justify-center py-20">
       {/* animation div */}
-      <div className="grid md:grid-cols-2 bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
-        <motion.div className="flex justify-center items-center bg-white p-10">
-          <DotLottieReact
-            src="https://lottie.host/e9f7a6f6-9d2e-4b21-9963-2d8a13882058/IWouauLlKT.lottie"
-            loop
-            autoplay
-            className="w-full h-auto max-w-xl scale-150 p-5" // Increased from md to xl
-          />
-        </motion.div>
+      <div className="grid bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
 
         {/* form div */}
         <motion.div className="bg-gradient-to-b from-[#eaf4f9] to-[#d8eefb] p-10 ">

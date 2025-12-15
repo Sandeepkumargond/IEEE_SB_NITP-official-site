@@ -211,7 +211,7 @@ export default function About() {
 
         {/* Button */}
          <button
-      className="relative px-8 py-3 text-gray-900 font-medium rounded-tl-full rounded-tr-full rounded-br-full shadow-md overflow-hidden"
+      className="relative px-8 py-3 text-gray-900 font-medium rounded-tl-full rounded-tr-full rounded-br-full shadow-md overflow-hidden cursor-pointer"
       style={{ backgroundColor: '#5FD4F4' }}
       onClick={() => router.push('/')}
     >

@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import About from "@/app/about/page";
 import ContactPage from "@/app/contact/page";
 
 import Link from "next/link";
@@ -33,7 +32,7 @@ export default function HeroPage() {
             className="object-cover object-center"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001a33]/10 to-[#020817]/40 z-10" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#001a33]/10 to-[#020817]/40 z-10" />
 
         <div className="relative z-20 max-w-4xl mx-auto px-4 pt-20">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
@@ -46,15 +45,17 @@ export default function HeroPage() {
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link href="/join">
+            <Link href="#contact">
             <button className="px-6 py-2 bg-white text-[#020817] rounded-full font-semibold hover:bg-sky-200 transition">
               Become a Member
             </button>
             </Link>
             
-            <button className="px-6 py-2 border border-white rounded-full hover:bg-white/10 transition">
+            <Link 
+            href="/about"
+            className="px-6 py-2 border border-white rounded-full hover:bg-white/10 transition">
               Learn More
-            </button>
+            </Link>
           </div>
 
           <div className="mt-12 flex flex-col items-center gap-2 animate-bounce">
@@ -100,16 +101,18 @@ export default function HeroPage() {
                 </button>
               </Link>
 
-              <button className="px-6 py-2 border border-[#020817] rounded-full hover:bg-[#020817] hover:text-white transition">
+              <Link 
+              href="https://www.ieee.org/"
+              className="px-6 py-2 border border-[#020817] rounded-full hover:bg-[#020817] hover:text-white transition">
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ===== CONNECT WITH EXPERTS ===== */}
-      <section >
+      <section id="contact">
         <div>
           <ContactPage/>
         </div>

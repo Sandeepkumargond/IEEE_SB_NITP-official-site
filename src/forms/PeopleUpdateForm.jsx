@@ -8,8 +8,11 @@ import {
   Pencil,
   Newspaper,
   Tags,
+  Camera
 } from "lucide-react";
+import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
+import { addMember } from "@/lib/adminAction";
 
 export default function PeopleUpdateForm() {
 
@@ -24,6 +27,7 @@ export default function PeopleUpdateForm() {
     designation: "",
     role: "",
     contribution: "",
+    profilePic : []
   });
 
   // for submit button to validate user input
@@ -51,15 +55,12 @@ export default function PeopleUpdateForm() {
     };
 
     try {
-      const res = await fetch("/api/members", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await addMember(payload)
 
-      const response = await res.json();
 
-      if (res.ok && response?.success) {
+      console.log(response)
+
+      if (response?.success) {
         router.push("/admin");
       } else {
         alert(response?.message || "Error adding members");
@@ -72,23 +73,7 @@ export default function PeopleUpdateForm() {
 
   return (
     <div className="bg-gradient-to-b from-[#30a5da] to-[#07689F] min-h-screen items-center justify-center py-20">
-      <div className="grid md:grid-cols-2 bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
-        {/* Static visual (removed heavy lottie animation for performance) */}
-        <div className="flex justify-center items-center bg-white p-10">
-          <div className="text-center p-6">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-36 w-36 text-[#07689F] mx-auto"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-3 0-5 2-5 5v3h10v-3c0-3-2-5-5-5z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v2" />
-            </svg>
-            <p className="mt-4 text-[#0A5782] font-medium">Certificate issuance</p>
-          </div>
-        </div>
+      <div className="grid bg-white rounded-3xl shadow-2xl overflow-hidden w-[90%] lg:w-[80%] mx-auto gap-4">
 
         {/* form div */}
         <div className="bg-gradient-to-b from-[#eaf4f9] to-[#d8eefb] p-10 ">
@@ -171,9 +156,9 @@ export default function PeopleUpdateForm() {
             <div className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]">
               <Tags className="w-5 h-5 text-gray-500 mr-3 mt-1" />
               <input
-                name="role"
+                name="team"
                 type="text"
-                placeholder="Enter member's designation"
+                placeholder="Enter member's team name (e.g.: Web)"
                 required
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
@@ -192,6 +177,49 @@ export default function PeopleUpdateForm() {
                 onChange={(e) => setFormData({ ...formData, contribution: e.target.value })}
                 className="outline-none w-full text-gray-700 h-24"
               />
+            </div>
+
+            <div
+              
+              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
+            >
+              <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+              <CldUploadWidget
+                uploadPreset="ieee_website"
+                onSuccess={(result) => {
+                  const url = result.info.secure_url;
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    profilePic: [...prev.profilePic, url],
+                  }));
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="bg-[#2084b2] hover:bg-[#07689F] cursor-pointer text-white px-4 py-2 rounded-md shadow transition duration-300"
+                    >
+                      Upload Image
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
+              {/* Image preview */}
+              {formData.profilePic.length > 0 && (
+                <div className="flex gap-3 flex-wrap mt-5">
+                  {formData.profilePic.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`uploaded-${i}`}
+                      className="w-24 h-24 object-cover rounded border"
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             <button
