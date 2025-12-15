@@ -176,7 +176,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-[#014f74] via-[#013f60] to-[#012f4a] min-h-screen py-10 px-4">
+    <div className="bg-linear-to-br from-[#014f74] via-[#013f60] to-[#012f4a] min-h-screen py-10 px-4 w-full">
       <div className="w-full max-w-7xl mx-auto">
         {/* Heading */}
         <h1 className="text-white text-4xl text-center font-bold mb-10 tracking-wide">
@@ -333,7 +333,7 @@ useEffect(() => {
                         {project.description}
                       </p>
                     </div>
-                    <div className="flex gap-3 flex-shrink-0">
+                    <div className="flex gap-3 shrink-0">
                       <Link href='/projects' className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
                         <Eye size={18} /> View
                       </Link>

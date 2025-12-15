@@ -124,11 +124,6 @@ export const fetchAllBlog = async() => {
   try {
     await connectDB();
 
-    const isVerified = await verifyToken();
-    if(!isVerified){
-      throw new Error("Unauthorized access ! Please login or regsiter!");
-    }
-
     const blogs = await Blog.find().sort({createdAt : -1}).lean();
     return {
       message: "Blogs fetched successfully!!",

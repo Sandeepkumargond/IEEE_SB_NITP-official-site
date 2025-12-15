@@ -76,14 +76,6 @@ export const fetchAllProjects = async () => {
   try {
     await connectDB();
 
-    const isVerified = await verifyToken();
-    if (!isVerified) {
-      return {
-        message: "Unauthorized access!",
-        success: false,
-      };
-    }
-
     const allProjects = await Projects.find({}).sort({ createdAt: -1 }).lean();
     const plainProjects = allProjects.map(project => ({
       ...project,
