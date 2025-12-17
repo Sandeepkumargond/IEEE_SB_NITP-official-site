@@ -1,17 +1,17 @@
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import Navbar from '../../components/Navbar';
-import Footer from '../../../components/Footer';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 // Ensure these files exist and default-export a React component.
 // Do NOT use { ssr: false } here because this file is a Server Component (App Router page).
 const COMPONENT_MAP = {
-  'web-dev': dynamic(() => import('../../components/developers/web-dev')),
-  'blockchain': dynamic(() => import('../../components/developers/Blockchain')),
-  'uiux': dynamic(() => import('../../components/developers/ui')),
-  'kotlin': dynamic(() => import('../../components/developers/kotlin')),
-  'flutter': dynamic(() => import('../../components/developers/flutter')),
-  'ai': dynamic(() => import('../../components/developers/AI'))
+  'web-dev': dynamic(() => import('@/components/developers/web-dev')),
+  'blockchain': dynamic(() => import('@/components/developers/Blockchain')),
+  'uiux': dynamic(() => import('@/components/developers/ui')),
+  'kotlin': dynamic(() => import('@/components/developers/kotlin')),
+  'flutter': dynamic(() => import('@/components/developers/flutter')),
+  'ai': dynamic(() => import('@/components/developers/AI'))
 };
 
 const sharedMainBase = {

@@ -237,7 +237,7 @@ export const getAdmin = async() => {
 }
 
 /* member details registering (certificate creation and storage) and fetching */
-export const addMember = async ({name,email,year,designation,role,contributions}) => {
+export const addMember = async ({name,email,year,designation,team,contributions,githubLink,linkedInLink,profilePic}) => {
   try {
     await connectDB();
     
@@ -285,8 +285,11 @@ export const addMember = async ({name,email,year,designation,role,contributions}
       email,
       year,
       designation,
-      role,
+      team,
       contributions : contributions ? contributions : "",
+      githubLink,
+      linkedInLink,
+      profilePic
       }
 
       const mailOptions = {
@@ -461,19 +464,11 @@ export const fetchDevelopers = async () => {
       _id: d._id?.toString(),
       name: d.name,
       email: d.email,
-      year: d.year,
-      designation: d.designation,
+      githubLink : d.githubLink,
+      linkedInLink : d.linkedInLink,
       team: d.team,
-      contributions: d.contributions ?? "",
-      certificateNo: d.certificateNo,
-      downloadUrl: d.downloadUrl,
       profilePic: d.profilePic ?? [],
-      issuanceDate: d.issuanceDate
-        ? new Date(d.issuanceDate).toISOString()
-        : null,
-      createdAt: d.createdAt
-        ? new Date(d.createdAt).toISOString()
-        : null,
+
     }));
 
     console.log(plainDevelopers)

@@ -4,24 +4,138 @@ import { useEffect, useState } from "react";
 import MemberCard from "@/components/MemberCard";
 
 export default function CommitteePage() {
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("/mock.json", { cache: "no-store" });
-        const data = await res.json();
-        setMembers(Array.isArray(data.members) ? data.members : []);
-      } catch (e) {
-        console.error("Failed to load members", e);
-        setMembers([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+  const officeBearers = [
+    {
+      name : "Vansh Tyagi",
+      designation : "Co-Chairperson",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Vansh Tyagi",
+      designation : "Co-Chairperson",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Vansh Tyagi",
+      designation : "Co-Chairperson",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Nandini Prasad",
+      designation : "Co-Chairperson",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Kapil Gupta",
+      designation : "Joint Secretary",
+      githubLink : "https://github.com/Kapilgupta25",
+      linkedInLink : "https://www.linkedin.com/in/kapil-gupta-a41216289",
+      profilePic : "https://drive.google.com/open?id=1-5m5oFkysgxYhhF35a_nzOsVUeY-fQTM"
+    },
+    {
+      name : "Aryan Kumar Arya",
+      designation : "Treasurer",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Saurabh Yadav",
+      designation : "Technical Lead",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Gungun Singh",
+      designation : "Project Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Sandeep Kumar Gond",
+      designation : "Web Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Prashasti Prabhakar",
+      designation : "Event Management Head",
+      githubLink : "https://github.com/Prashasti-27",
+      linkedInLink : "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
+      instagramLink : "",
+      profilePic : "https://drive.google.com/open?id=1uaY8Z2wsQS-4nyJNxjt2TvfZ9vgn-SyY"
+    },
+    {
+      name : "Deepak Kumar",
+      designation : "PR & Sponser Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Lisha Rani",
+      designation : "PR & Sponser Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Navneet Shreya",
+      designation : "ML Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Devansh Pratap Singh",
+      designation : "ML Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Md. Yaseen Siddiqui",
+      designation : "Design Head",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    },
+    {
+      name : "Prabrity Rani",
+      designation : "Editor-In-Chief",
+      githubLink : "",
+      linkedInLink : "",
+      instagramLink : "",
+      profilePic : ""
+    }
+  ]
+
+  
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-sky-200 via-cyan-100 to-white">
@@ -33,17 +147,12 @@ export default function CommitteePage() {
           Meet the masterminds behind the innovation! Introducing the dynamic team leaders of IEEE NIT Patna.
         </p>
 
-        {loading ? (
-          <div className="mt-12 grid place-items-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-2 border-sky-600 border-t-transparent" />
-          </div>
-        ) : (
+        
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {members.map((m) => (
-              <MemberCard key={m.id} name={m.name} role={m.role} image={m.image} socials={m.socials} />
+            {officeBearers.map((m,id) => (
+              <MemberCard key={id} name={m.name} role={m.designation} image={m.profilePic} githubLink={m.githubLink} linkedInLink={m.linkedInLink} instagramLink={m.instagramLink} />
             ))}
           </div>
-        )}
       </div>
     </main>
   );

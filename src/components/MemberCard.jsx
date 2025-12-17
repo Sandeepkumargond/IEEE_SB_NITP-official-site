@@ -1,6 +1,8 @@
 "use client";
 
-export default function MemberCard({ name, role, image, socials }) {
+import { Github, Instagram, Linkedin } from "lucide-react";
+
+export default function MemberCard({ name, role, image, githubLink, linkedInLink, instagramLink}) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition">
       <div className="relative mx-auto h-44 w-44 overflow-hidden rounded-2xl bg-slate-100">
@@ -11,14 +13,43 @@ export default function MemberCard({ name, role, image, socials }) {
         <p className="text-sm text-slate-600">{role}</p>
       </div>
       <div className="mt-4 flex items-center justify-center gap-3">
-        {socials?.twitter && (
-          <a aria-label="Twitter" href={socials.twitter} className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white">t</a>
+        {githubLink && (
+          <a
+          href={githubLink}
+          aria-label="github"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white 
+                     transition-all duration-300 hover:bg-sky-700 hover:scale-110"
+        >
+          <Github className="h-5 w-5" />
+        </a>
+        
         )}
-        {socials?.linkedin && (
-          <a aria-label="LinkedIn" href={socials.linkedin} className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white">in</a>
+        {linkedInLink && (
+         <a
+         href={linkedInLink}
+         aria-label="LinkedIn"
+         target="_blank"
+         rel="noopener noreferrer"
+         className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white 
+                    transition-all duration-300 hover:bg-sky-700 hover:scale-110"
+       >
+         <Linkedin className="h-5 w-5" />
+       </a>       
         )}
-        {socials?.email && (
-          <a aria-label="Email" href={socials.email} className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white">@</a>
+        {instagramLink && (
+          <a
+          href={instagramLink}
+          aria-label="instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white 
+                     transition-all duration-300 hover:bg-sky-700 hover:scale-110"
+        >
+          <Instagram className="h-5 w-5" />
+        </a>
+        
         )}
       </div>
     </div>

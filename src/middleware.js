@@ -5,7 +5,7 @@ export async function middleware(request) {
   const token = request.cookies.get("admin_token")?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("auth/login", request.url));
   }
 
   try {

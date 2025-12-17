@@ -36,6 +36,12 @@ const MemberSchema = new Schema({
         type : String,
         required : [true, "Enter member's team"]
     },
+    githubLink : {
+        type : String,
+    },
+    linkedInLink : {
+        type : String,
+    },
     contributions : {
         type : String
     },
