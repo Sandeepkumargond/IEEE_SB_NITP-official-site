@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import Navbar from '../../components/Navbar';
-import Footer from '../../../components/Footer';
+
 
 // Ensure these files exist and default-export a React component.
 // Do NOT use { ssr: false } here because this file is a Server Component (App Router page).
@@ -32,13 +31,13 @@ export default async function TeamPage({ params }) {
   if (!team) {
     return (
       <>
-        <Navbar />
+        
         <main style={{ ...sharedMainBase, padding: 48 }}>
           {/* Background image intentionally not added here; developer pages/components add the rotated image */}
           <h2 style={{ textAlign: 'center' }}>Team not specified</h2>
           <p style={{ textAlign: 'center' }}>No team slug was provided in the route.</p>
         </main>
-        <Footer />
+        
       </>
     );
   }
@@ -49,27 +48,27 @@ export default async function TeamPage({ params }) {
   if (!TeamComponent) {
     return (
       <>
-        <Navbar />
+       
         <main style={{ ...sharedMainBase, padding: 48 }}>
           <h2 style={{ textAlign: 'center' }}>Team: {team}</h2>
           <p style={{ textAlign: 'center' }}>
             No component found for this team. Check COMPONENT_MAP keys and paths under components/developers.
           </p>
         </main>
-        <Footer />
+        
       </>
     );
   }
 
   return (
     <>
-      <Navbar />
+     
       <main style={sharedMainBase}>
         <Suspense fallback={<div style={{ padding: 40, color: '#fff' }}>Loading...</div>}>
           <TeamComponent />
         </Suspense>
       </main>
-      <Footer />
+      
     </>
   );
 }

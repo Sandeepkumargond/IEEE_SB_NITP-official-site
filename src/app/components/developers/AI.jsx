@@ -1,7 +1,5 @@
 'use client';
 import React, { useMemo, useState } from 'react';
-import Navbar from '../Navbar';
-import Footer from '../../../components/Footer';
 
 const MEMBERS = [
   { id: 'suryansh-verma', name: 'Suryansh Verma', dept: 'Electrical Engineering Department', photo: '/img1.jpeg', linkedin: 'https://www.linkedin.com/in/suryansh-verma' },
@@ -24,7 +22,7 @@ export default function AI() {
 
   return (
     <>
-      <Navbar />
+      
 
       <main
         style={{
