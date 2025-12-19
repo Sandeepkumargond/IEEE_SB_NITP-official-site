@@ -33,6 +33,8 @@ export default function PeopleUpdateForm() {
     profilePic: [],
   });
 
+  const teamOptions = ["Web","Kotlin","AIML","Blockchain","Design","Flutter"] 
+
   const [isDisabled, setIsDisabled] = useState(true);
 
   // Disable submit if any field is empty
@@ -128,12 +130,20 @@ export default function PeopleUpdateForm() {
           />
 
           {/* Team */}
-          <Input
-            icon={<Tags />}
+          <select
             value={formData.team}
-            placeholder="Enter team (e.g. Web)"
-            onChange={(v) => setFormData({ ...formData, team: v })}
-          />
+            onChange={(e) => setFormData({ ...formData, team: e.target.value })}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="" disabled>
+              Select team
+            </option>
+            {teamOptions.map((team) => (
+              <option key={team} value={team}>
+                {team}
+              </option>
+            ))}
+          </select>
 
           {/* GitHub */}
           <Input
@@ -166,59 +176,61 @@ export default function PeopleUpdateForm() {
 
           {/* Image Upload */}
           <div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="flex items-start border border-[#0781C2] rounded-lg p-3 focus-within:ring-2 shadow-sm shadow-blue-400 focus-within:ring-[#3DBAF3]"
+          >
+            <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1" />
+            <CldUploadWidget
+              uploadPreset="ieee_website"
+              onSuccess={(result) => {
+                const url = result.info.secure_url;
+
+                setFormData((prev) => ({
+                  ...prev,
+                  profilePic: [...prev.profilePic, url],
+                }));
+              }}
             >
-              <Camera className="w-5 h-5 text-gray-500 mr-3 mt-1" />
-              <CldUploadWidget
-                uploadPreset="ieee_website"
-                onSuccess={(result) => {
-                  const url = result.info.secure_url;
+              {({ open }) => {
+                return (
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="bg-[#2084b2] hover:bg-[#07689F] cursor-pointer text-white px-4 py-2 rounded-md shadow transition duration-300"
+                  >
+                    Upload Image
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
+            {/* Image preview */}
+            {formData.profilePic.length > 0 && (
+              <div className="flex gap-3 flex-wrap mt-5">
+                {formData.profilePic.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`uploaded-${i}`}
+                    className="w-24 h-24 object-cover rounded border"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
 
-                  setFormData((prev) => ({
-                    ...prev,
-                    profilePic: [...prev.profilePic, url],
-                  }));
-                }}
-              >
-                {({ open }) => {
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="bg-[#2084b2] hover:bg-[#07689F] cursor-pointer text-white px-4 py-2 rounded-md shadow transition duration-300"
-                    >
-                      Upload Image
-                    </button>
-                  );
-                }}
-              </CldUploadWidget>
-              {/* Image preview */}
-              {formData.profilePic.length > 0 && (
-                <div className="flex gap-3 flex-wrap mt-5">
-                  {formData.profilePic.map((img, i) => (
-                    <img
-                      key={i}
-                      src={img}
-                      alt={`uploaded-${i}`}
-                      className="w-24 h-24 object-cover rounded border"
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-
-    <button
-      type="submit"
-      className={`w-full bg-gradient-to-r from-[#3DBAF3] to-[#07689F] text-white py-3 rounded-lg transition duration-200 shadow-md shadow-[#1a80b0] ${
-        isDisabled ? "opacity-60 cursor-not-allowed" : "opacity-90 hover:cursor-pointer"
-      }`}
-      disabled={isDisabled}
-    >
-      Generate Certificate
-    </button>
+          <button
+            type="submit"
+            className={`w-full bg-gradient-to-r from-[#3DBAF3] to-[#07689F] text-white py-3 rounded-lg transition duration-200 shadow-md shadow-[#1a80b0] ${
+              isDisabled
+                ? "opacity-60 cursor-not-allowed"
+                : "opacity-90 hover:cursor-pointer"
+            }`}
+            disabled={isDisabled}
+          >
+            Generate Certificate
+          </button>
         </form>
       </div>
     </div>

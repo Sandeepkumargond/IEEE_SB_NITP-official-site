@@ -1,8 +1,8 @@
 "use client";
 
-import { Github, Instagram, Linkedin } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 
-export default function MemberCard({ name, role, image, githubLink, linkedInLink, instagramLink}) {
+export default function MemberCard({ name, role, image, githubLink, linkedInLink}) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition">
       <div className="relative mx-auto h-44 w-44 overflow-hidden rounded-2xl bg-slate-100">
@@ -37,19 +37,6 @@ export default function MemberCard({ name, role, image, githubLink, linkedInLink
        >
          <Linkedin className="h-5 w-5" />
        </a>       
-        )}
-        {instagramLink && (
-          <a
-          href={instagramLink}
-          aria-label="instagram"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="grid h-9 w-9 place-items-center rounded-full bg-sky-600 text-white 
-                     transition-all duration-300 hover:bg-sky-700 hover:scale-110"
-        >
-          <Instagram className="h-5 w-5" />
-        </a>
-        
         )}
       </div>
     </div>

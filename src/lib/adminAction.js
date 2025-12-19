@@ -106,7 +106,7 @@ export const loginAdmin = async ({username,password}) => {
       }
     }
 
-    // set token for 5 hrs for secired path
+    // set token for 5 hrs for secured path
     const token = jwt.sign(
       {
         id: isAdminRegistered._id,
@@ -117,7 +117,7 @@ export const loginAdmin = async ({username,password}) => {
     );
 
     // set cookies
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
 
     cookieStore.set("admin_token", token,
       {
@@ -344,7 +344,7 @@ export const fetchMember = async ({certificateNo}) => {
       console.log("Enter certificate number to fetch member")
     }
 
-    const existingMember = await Member.findOne({ certificateNo }).lean();
+    const existingMember = await Member.findOne({ certificateNo }).lean()
 
     if (!existingMember) {
       throw new Error("No member found!!");
@@ -374,7 +374,7 @@ export const fetchAllMembers = async() => {
   try {
     await connectDB()
 
-    const members = await Member.find({}).sort({ certificateNo: -1 }).lean();
+    const members = await Member.find({}).sort({ certificateNo: -1 }).limit(5).lean();
 
     const plainMembers = (Array.isArray(members) ? members : []).map((m) => {
       const memberObj = { ...m };
