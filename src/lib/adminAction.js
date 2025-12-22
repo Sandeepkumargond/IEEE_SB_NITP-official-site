@@ -355,3 +355,42 @@ export const fetchAllMembers = async() => {
     }
   }
 }
+
+
+//fetching dvelopers data (web team members 2024 batch)
+
+export const fetchDevelopers = async () => {
+  try {
+    await connectDB();
+
+    const developers = await Member.find({ team: "Web" }).lean();
+
+    console.log(developers)
+
+    const plainDevelopers = developers.map((d) => ({
+      _id: d._id?.toString(),
+      name: d.name,
+      email: d.email,
+      githubLink : d.githubLink,
+      linkedInLink : d.linkedInLink,
+      team: d.team,
+      profilePic: d.profilePic ?? [],
+
+    }));
+
+    console.log(plainDevelopers)
+
+    return {
+      success: true,
+      message: "Web team members fetched successfully",
+      data: plainDevelopers,
+    };
+  } catch (error) {
+    console.error("Error fetching web team members:", error);
+    return {
+      success: false,
+      message: "Error fetching web team members",
+      data: [],
+    };
+  }
+};
