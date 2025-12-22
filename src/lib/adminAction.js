@@ -357,7 +357,7 @@ export const fetchAllMembers = async() => {
 }
 
 
-//fetching developers data (web team members 2024 batch)
+//fetching dvelopers data (web team members 2024 batch)
 
 export const fetchDevelopers = async () => {
   try {

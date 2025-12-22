@@ -1,4 +1,4 @@
-//here we will be describing the developers of the website
+
 
 "use client";
 import { fetchDevelopers } from "@/lib/adminAction";
