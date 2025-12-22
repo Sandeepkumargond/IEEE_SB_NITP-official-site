@@ -1,5 +1,8 @@
 "use client"
-import DevelopersSection from "@/components/DevelopersSection"
+import DevelopersSection from "../../components/DevelopersSection.jsx";
+
+
+
 
 export default function DeveloperSection(){
     return(
