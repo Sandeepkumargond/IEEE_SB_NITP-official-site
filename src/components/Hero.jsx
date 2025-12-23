@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import ContactPage from "@/app/contact/page";
+import OfficeBearsSection from "@/components/OfficeBearsSection";
 
 import Link from "next/link";
 
@@ -110,6 +111,9 @@ export default function HeroPage() {
           </div>
         </div>
       </section>
+
+      {/* ===== OFFICE BEARERS SECTION ===== */}
+      <OfficeBearsSection />
 
       {/* ===== CONNECT WITH EXPERTS ===== */}
       <section id="contact">

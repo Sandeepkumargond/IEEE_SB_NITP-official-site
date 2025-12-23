@@ -68,7 +68,7 @@ const Projects = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 px-4">Projects</h1>
           <p className="text-white text-sm sm:text-base md:text-lg px-4">Capturing moments of innovation, collaboration, and learning.</p>
         </div>
-        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-x-16 lg:gap-y-12 sm:mb-16">
+        <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-x-6 lg:gap-y-6 sm:mb-16">
           {displayedProjects.map((project) => (
             <ProjectCard key={project._id} project={project} />
           ))}

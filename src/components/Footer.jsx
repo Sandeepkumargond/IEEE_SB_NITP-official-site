@@ -1,9 +1,8 @@
 import {
-  FaFacebook,
   FaInstagram,
-  FaGithub,
   FaLinkedin,
   FaDiscord,
+  FaYoutube,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -11,100 +10,57 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: FaDiscord, href: "#", label: "Discord" },
-    {
-      icon: FaFacebook,
-      href: "https://www.facebook.com/ieee.nitp",
-      label: "Facebook",
-    },
     {
       icon: FaInstagram,
       href: "https://www.instagram.com/ieee_nitp/",
       label: "Instagram",
     },
-    { icon: FaXTwitter, href: "#", label: "Twitter" },
-    { icon: FaGithub, href: "https://github.com/IEEESBNITP", label: "GitHub" },
     {
       icon: FaLinkedin,
       href: "https://www.linkedin.com/company/ieee-sb-nitp/",
       label: "LinkedIn",
     },
+    { icon: FaDiscord, href: "#", label: "Discord" },
+    { icon: FaYoutube, href: "#", label: "YouTube" },
+    { icon: FaXTwitter, href: "#", label: "Twitter" },
   ];
 
-  const ieeeLinks = [
-    { href: "https://www.ieee.org/about-ieee", label: "About IEEE" },
-    { href: "https://www.ieee.org/membership/renew", label: "IEEE Renew" },
-    {
-      href: "https://ieeexplore.ieee.org/Xplore/home.jsp",
-      label: "IEEE Xplore",
-    },
-    { href: "https://www.ieee.org/membership", label: "IEEE Membership" },
+  const quickLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/events", label: "Events" },
+    { href: "/blogs", label: "Blogs" },
+    { href: "/developers", label: "Developers" },
   ];
 
-  const otherLinks = [
-    { href: "https://ieeenitp.vercel.app/", label: "Old Website" },
-    { href: "/#contact", label: "Contact Us" },
+  const communityLinks = [
+    { href: "/teams", label: "Teams" },
+    { href: "/committee", label: "Committee" },
+    { href: "#", label: "Discord Community" },
+    { href: "#", label: "Sponsor Us" },
+  ];
+
+  const resourceLinks = [
     { href: "/projects", label: "Projects" },
+    { href: "/gallery", label: "Gallery" },
+    { href: "/certificate", label: "E-Certificate" },
+    { href: "/admin", label: "Admin Portal" },
   ];
 
   return (
-    <footer className="bg-[#0a5782] text-[#F0F9FF] font-poppins">
-      <div className="mx-auto max-w-[1440px] px-5 md:px-[70px] py-8 md:py-10">
-        <div className="mx-auto max-w-[1300px] space-y-6">
-          {/* Desktop Layout */}
-          <div className="hidden md:block space-y-4">
-            {/* Top Row - Logo and IEEE Links */}
-            <div className="flex justify-between items-start">
-              <img
-                src="/IEEE.png"
-                alt="IEEE Logo"
-                className="w-40 h-16 object-contain"
-              />
-              <nav
-                className="flex gap-6 text-base font-medium"
-                aria-label="IEEE Navigation"
-              >
-                {ieeeLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="hover:underline transition-all"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </nav>
-            </div>
-
-            {/* Address */}
-            <p className="text-base">
-              National Institute of Technology Patna, Bihar (800005), India
-            </p>
-
-            {/* Bottom Row - Other Links and Social */}
-            <div className="flex justify-end items-center gap-8">
-              <nav
-                className="flex gap-6 text-base"
-                aria-label="Additional Navigation"
-              >
-                {otherLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="hover:underline transition-all"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </nav>
-
-              <div
-                className="flex gap-6 text-2xl"
-                role="list"
-                aria-label="Social Media"
-              >
+    <footer className="bg-[#0a5782] text-white font-poppins">
+      {/* Main Footer Content */}
+      <div className="mx-auto max-w-[1440px] px-5 md:px-[70px] py-16 md:py-20">
+        <div className="mx-auto max-w-[1300px]">
+          {/* Logo and Description */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-10 mb-12">
+            {/* Brand Section */}
+            <div className="col-span-1">
+              <h2 className="text-lg font-bold mb-4">IEEE SB NITP</h2>
+              <p className="text-sm text-gray-200 leading-relaxed mb-6">
+                Advancing technology for humanity through innovation, learning, and collaboration.
+              </p>
+              <div className="flex gap-5 text-xl" role="list" aria-label="Social Media">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (
@@ -114,7 +70,7 @@ export default function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.label}
-                      className="hover:text-gray-300 transition-colors"
+                      className="hover:text-gray-300 transition-colors duration-300"
                     >
                       <Icon />
                     </a>
@@ -122,93 +78,92 @@ export default function Footer() {
                 })}
               </div>
             </div>
-          </div>
 
-          {/* Mobile Layout */}
-          <div className="md:hidden space-y-6 text-center">
-            {/* Logo */}
-            <div className="flex justify-center">
-              <img
-                src="/IEEE.png"
-                alt="IEEE Logo"
-                className="w-40 h-16 object-contain"
-              />
-            </div>
-
-            {/* Address */}
-            <p className="text-xs leading-relaxed">
-              National Institute of Technology Patna,
-              <br />
-              Bihar (800005), India
-            </p>
-
-            {/* IEEE Links */}
-            <nav className="space-y-2 text-sm" aria-label="IEEE Navigation">
-              <p className="text-[#3DBAF3] font-semibold text-base">IEEE</p>
-              {ieeeLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="block hover:underline transition-all"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-
-            {/* Other Links */}
-            <nav
-              className="space-y-2 text-sm"
-              aria-label="Additional Navigation"
-            >
-              <p className="text-[#3DBAF3] font-semibold text-base">Others</p>
-              {otherLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="block hover:underline transition-all"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-
-            {/* Social Icons */}
-            <div
-              className="flex justify-center gap-6 text-2xl"
-              role="list"
-              aria-label="Social Media"
-            >
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider">Quick Links</h3>
+              <nav className="space-y-3" aria-label="Quick Links">
+                {quickLinks.map((link) => (
                   <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="hover:text-gray-300 transition-colors"
+                    key={link.label}
+                    href={link.href}
+                    className="block text-sm text-gray-200 hover:text-white transition-colors duration-300"
                   >
-                    <Icon />
+                    {link.label}
                   </a>
-                );
-              })}
+                ))}
+              </nav>
+            </div>
+
+            {/* Community */}
+            <div>
+              <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider">Community</h3>
+              <nav className="space-y-3" aria-label="Community Links">
+                {communityLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="block text-sm text-gray-200 hover:text-white transition-colors duration-300"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            {/* Resources */}
+            <div>
+              <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider">Resources</h3>
+              <nav className="space-y-3" aria-label="Resource Links">
+                {resourceLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="block text-sm text-gray-200 hover:text-white transition-colors duration-300"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            {/* Get In Touch */}
+            <div>
+              <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider">Get In Touch</h3>
+              <div className="space-y-6">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-300 mb-2">Email</p>
+                  <a
+                    href="mailto:ieee.nitp@nitp.ac.in"
+                    className="text-sm text-gray-200 hover:text-white transition-colors duration-300 break-all"
+                  >
+                    ieee.nitp@nitp.ac.in
+                  </a>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-300 mb-2">Location</p>
+                  <p className="text-sm text-gray-200">
+                    NIT Patna BIHTA Campus,
+                    <br />
+                    Patna, Bihar 801103
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Copyright */}
-          <div className="border-t border-gray-400 pt-4 text-center text-xs md:text-sm">
-            © {currentYear}{" "}
-            <a
-              href="/"
-              className="font-semibold hover:underline transition-all"
-            >
-              IEEE SB NITP
-            </a>
-            . All Rights Reserved.
+          {/* Divider */}
+          <div className="border-t border-gray-600 mb-8"></div>
+
+          {/* Bottom Footer */}
+          <div className="flex flex-col md:flex-row items-center justify-between text-xs text-gray-300">
+            <div className="text-center md:text-left mb-4 md:mb-0">
+              <p>© {currentYear} IEEE Student Branch, NIT Patna. All Rights Reserved.</p>
+            </div>
+            <div className="text-center md:text-right space-y-1">
+              <p>Version 1.0</p>
+              <p>Designed with <span className="text-red-400">❤</span> by IEEE Team</p>
+            </div>
           </div>
         </div>
       </div>

@@ -25,10 +25,16 @@ export const createBlog = async ({title,desc,images}) => {
     });
 
     await newBlog.save();
+    const blogData = newBlog.toObject();
     return {
         message: "New blog is created successfully!!",
         success: true,
-        data: newBlog.toObject(),
+        data: {
+          ...blogData,
+          _id: blogData._id.toString(),
+          createdAt: blogData.createdAt ? new Date(blogData.createdAt).toLocaleDateString("en-GB") : null,
+          updatedAt: blogData.updatedAt ? new Date(blogData.updatedAt).toLocaleDateString("en-GB") : null
+        },
       };
   } 
   catch (error) {
@@ -69,10 +75,16 @@ export const editBlog = async ({id,title, desc, images,author}) => {
       throw new Error("Blog not found!");
     }
 
+    const blogData = updatedBlog.toObject();
     return {
         message: "Blog updated successfully!",
         success: true,
-        data: updatedBlog.toObject(),
+        data: {
+          ...blogData,
+          _id: blogData._id.toString(),
+          createdAt: blogData.createdAt ? new Date(blogData.createdAt).toLocaleDateString("en-GB") : null,
+          updatedAt: blogData.updatedAt ? new Date(blogData.updatedAt).toLocaleDateString("en-GB") : null
+        },
       };
   } catch (error) {
     console.log("Error editing the blog : ", error);

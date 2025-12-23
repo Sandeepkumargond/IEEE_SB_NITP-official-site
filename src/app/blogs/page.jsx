@@ -39,59 +39,60 @@ export default function BlogPage() {
   function scrollByCards(direction) {
     const el = trackRef.current;
     if (!el) return;
-    const card = el.querySelector("[data-card]");
-    const width = card ? card.clientWidth + 32 : 320; // include gap
-    el.scrollBy({ left: direction * width, behavior: "smooth" });
+    el.scrollBy({ left: direction * 400, behavior: "smooth" });
   }
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-sky-200 via-cyan-100 to-white flex items-center justify-center">
+      <main className="min-h-screen bg-gradient-to-b from-[#020817] to-[#0a3a52] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto"></div>
-          <p className="mt-4 text-sky-600">Loading blogs...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-300 mx-auto"></div>
+          <p className="mt-4 text-sky-300">Loading blogs...</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-sky-200 via-cyan-100 to-white">
-      <div className="mx-auto max-w-7xl px-4 py-10">
-        <div className="flex items-center gap-3">
+    <main className="min-h-screen bg-gradient-to-b from-[#020817] via-[#0a3a52] to-[#020817] text-white pt-24">
+      <div className="mx-auto max-w-7xl px-4 py-12">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-2">
+            <span className="text-white">IEEE </span>
+            <span className="text-sky-300">Blogs</span>
+          </h1>
+          <p className="text-gray-300 text-lg">Insights, stories, and updates from our community</p>
+        </div>
+
+        {/* Search Section */}
+        <div className="flex items-center gap-3 mb-12 max-w-xl mx-auto">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search"
-            className="w-full max-w-md rounded-xl border border-slate-200 bg-white/90 px-5 py-3 text-slate-800 shadow-sm outline-none ring-0 placeholder:text-slate-400"
+            placeholder="Search articles..."
+            className="flex-1 rounded-lg border border-sky-500/30 bg-[#0a3a52]/50 px-5 py-3 text-white shadow-sm outline-none placeholder:text-gray-400 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition"
           />
           <button
             aria-label="Search"
-            className="grid h-12 w-12 place-items-center rounded-2xl bg-sky-500 text-white shadow-md"
+            className="grid h-12 w-12 place-items-center rounded-lg bg-[#0a5782] text-white shadow-md hover:bg-sky-400 hover:text-[#020817] transition"
           >
             <span className="text-xl">🔍</span>
           </button>
         </div>
 
-        <div className="relative mt-10">
-          <button
-            aria-label="Previous"
-            onClick={() => scrollByCards(-1)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 grid h-12 w-12 place-items-center rounded-full bg-sky-600 text-white shadow-md hover:bg-sky-700"
-          >
-            ‹
-          </button>
-
+        {/* Blog Grid Section */}
+        <div className="relative mt-10 w-full">
           <div
             ref={trackRef}
-            className="overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none]"
+            className="overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:thin] [-ms-overflow-style:auto] scrollbar-thin scrollbar-thumb-sky-500/50 scrollbar-track-sky-500/10"
           >
-            <div className="flex gap-8 py-2 [ &::-webkit-scrollbar]:hidden">
+            <div className="flex gap-8 py-4 min-w-min">
               {filtered.map((b) => (
                 <div
-                  key={b.id}
+                  key={b._id || b.id || Math.random()}
                   data-card
-                  className="snap-start shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[32%]"
+                  className="snap-start shrink-0 w-80"
                 >
                   <BlogCard
                     title={b.title}
@@ -103,14 +104,6 @@ export default function BlogPage() {
               ))}
             </div>
           </div>
-
-          <button
-            aria-label="Next"
-            onClick={() => scrollByCards(1)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 grid h-12 w-12 place-items-center rounded-full bg-sky-600 text-white shadow-md hover:bg-sky-700"
-          >
-            ›
-          </button>
         </div>
       </div>
     </main>
