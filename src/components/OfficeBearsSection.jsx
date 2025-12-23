@@ -124,19 +124,19 @@ export default function OfficeBearsSection() {
   );
 
   return (
-    <section className="bg-gradient-to-b from-slate-900 via-blue-900 to-slate-50 py-20 px-6">
+    <section className="bg-gradient-to-b from-slate-900 via-blue-900 to-slate-50 py-12 md:py-20 px-4 md:px-6">
       <div className="mx-auto max-w-7xl">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-white text-center">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white text-center">
           Meet our <span className="text-blue-300">Office Bearers</span>
         </h2>
-        <p className="mt-3 text-center text-gray-200 max-w-3xl mx-auto">
+        <p className="mt-2 md:mt-3 text-center text-gray-200 text-sm md:text-base max-w-3xl mx-auto">
           Meet the masterminds behind the innovation! Introducing the dynamic
           team leaders of IEEE NIT Patna.
         </p>
 
         {/* Chairperson and Co-Chairperson */}
-        <div className="mt-12 flex justify-center">
-          <div className="grid grid-cols-2 gap-3 w-96 h-48">
+        <div className="mt-12 flex justify-center px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-md">
             {chairpersonTeam.map((member, idx) => (
               <MemberCard
                 key={`chair-${idx}`}
@@ -151,8 +151,8 @@ export default function OfficeBearsSection() {
         </div>
 
         {/* All other team members */}
-        <div className="mt-24">
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+        <div className="mt-16 md:mt-24">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
             {otherMembers.map((member, idx) => (
               <MemberCard
                 key={`other-${idx}`}
