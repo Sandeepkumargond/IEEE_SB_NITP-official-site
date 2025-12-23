@@ -487,3 +487,39 @@ export const fetchDevelopers = async () => {
     };
   }
 };
+
+export const fetchTeamMembers = async(teamId) => {
+  try {
+    await connectDB();
+
+    const developers = await Member.find({ team: teamId }).lean();
+
+    console.log(developers)
+
+    const teamMembers = developers.map((d) => ({
+      _id: d._id?.toString(),
+      name: d.name,
+      email: d.email,
+      githubLink : d.githubLink,
+      linkedInLink : d.linkedInLink,
+      team: d.team,
+      profilePic: d.profilePic ?? [],
+
+    }));
+
+    console.log(teamMembers)
+
+    return {
+      success: true,
+      message: "Team members fetched successfully",
+      data: teamMembers,
+    };
+  } catch (error) {
+    console.error("Error fetching team members:", error);
+    return {
+      success: false,
+      message: "Error fetching team members",
+      data: [],
+    };
+  }
+}
