@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { fetchMember } from "@/lib/adminAction";
+import { Download, CheckCircle2, Printer } from "lucide-react";
 
 export default function CertificatePage() {
   const params = useParams();
@@ -11,6 +12,7 @@ export default function CertificatePage() {
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const certificateRef = useRef(null);
 
   useEffect(() => {
     if (!certificateNo) {
@@ -22,159 +24,191 @@ export default function CertificatePage() {
     const fetchCertificate = async () => {
       try {
         setLoading(true);
-        setError(null);
-
         const response = await fetchMember({ certificateNo });
-
         if (!response.success || !response.data) {
           setError(response.message || "Certificate not found");
           return;
         }
-
         setMember(response.data);
       } catch (err) {
-        console.error(err);
         setError("Failed to fetch certificate data");
       } finally {
         setLoading(false);
       }
     };
-
     fetchCertificate();
   }, [certificateNo]);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownload = async () => {
+    try {
+      const element = certificateRef.current;
+      if (!element) return;
+
+      const html2pdf = (await import("html2pdf.js")).default;
+
+      const options = {
+        margin: [5, 5, 5, 5],
+        filename: `IEEE_Certificate_${member?.name || "Member"}.pdf`,
+        image: { type: "jpeg", quality: 1.0 },
+        html2canvas: { 
+          scale: 3, 
+          useCORS: true,
+          logging: false,
+          onclone: (clonedDoc) => {
+            const cert = clonedDoc.getElementById('certificate-area');
+            if (cert) cert.style.backgroundColor = "#ffffff";
+          }
+        },
+        jsPDF: { orientation: "landscape", unit: "mm", format: "a4" },
+      };
+
+      await html2pdf().set(options).from(element).save();
+    } catch (err) {
+      console.error("Download error:", err);
+      handlePrint(); // Fallback
+    }
+  };
 
   if (loading) {
     return (
-     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-700 mx-auto"></div>
-          <p className="mt-4 text-lg text-gray-700">Loading certificate...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+        <div className="relative flex items-center justify-center">
+          <div className="absolute h-20 w-20 rounded-full border-4 border-[#1e3a8a]/10"></div>
+          <div className="h-20 w-20 animate-spin rounded-full border-4 border-t-[#1e3a8a] border-r-transparent border-b-transparent border-l-transparent"></div>
+          <div className="absolute h-10 w-10 bg-[#1e3a8a]/10 rounded-full animate-pulse"></div>
         </div>
+        <p className="mt-8 text-xl font-serif font-bold text-[#1e3a8a] tracking-widest animate-pulse">VERIFYING</p>
       </div>
-     </>
     );
   }
 
   if (error) {
     return (
-      <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full border-2 border-red-600">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600 mb-2">Certificate Verification Failed</h1>
-            <p className="text-gray-600">{error}</p>
-            <div className="mt-6">
-              <Link
-                href="/"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
-              >
-                Return Home
-              </Link>
-            </div>
-          </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+        <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-lg border border-red-200 text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Verification Failed</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <Link href="/" className="px-6 py-2 bg-red-600 text-white rounded-lg">Return Home</Link>
         </div>
       </div>
-      </>
     );
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-slate-100 py-12 px-4 print:p-0 print:bg-white">
+      <div className="max-w-5xl mx-auto print:max-w-full">
+        
+        {/* ================= CERTIFICATE AREA ================= */}
+        <div 
+          id="certificate-area"
+          ref={certificateRef}
+          className="bg-white shadow-2xl p-2 print:shadow-none"
+          style={{ border: '12px double #ca8a04', minHeight: '600px' }}
+        >
+          <div 
+            className="h-full p-10 flex flex-col items-center justify-between bg-white text-center relative overflow-hidden"
+            style={{ border: '2px solid #1e3a8a' }}
+          >
+            {/* Header / Logo */}
+            <div>
+              <img src="/IEEE.png" alt="IEEE Logo" className="h-20 mx-auto mb-2 object-contain" />
+              <p className="font-serif font-bold tracking-[0.2em] text-xs uppercase" style={{ color: '#1e3a8a' }}>
+                IEEE Student Branch NIT Patna
+              </p>
+            </div>
 
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-        {/* Certificate Header */}
-        <div className="bg-green-700 text-white py-8 px-8 text-center">
-          <h1 className="text-4xl font-bold mb-2">CERTIFICATE</h1>
-          <h2 className="text-2xl font-semibold">OF APPRECIATION</h2>
+            {/* Title */}
+            <div>
+              <h1 className="text-6xl font-serif italic font-bold" style={{ color: '#1e3a8a' }}>Certificate</h1>
+              <div className="flex items-center justify-center gap-4 mt-2">
+                <div className="h-[1px] w-16" style={{ backgroundColor: '#ca8a04' }} />
+                <span className="text-lg font-serif tracking-[0.2em] uppercase" style={{ color: '#a16207' }}>of Appreciation</span>
+                <div className="h-[1px] w-16" style={{ backgroundColor: '#ca8a04' }} />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="my-6">
+              <p className="text-gray-500 italic font-serif text-lg mb-2">This certificate is proudly presented to</p>
+              <h2 className="text-4xl font-serif font-bold mb-6 border-b-2 border-gray-100 inline-block px-10 pb-1" style={{ color: '#1d4ed8' }}>
+                {member?.name}
+              </h2>
+              <div className="max-w-2xl mx-auto space-y-3">
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  For outstanding dedication and contribution as a member of the 
+                  <span className="font-bold" style={{ color: '#1e3a8a' }}> {member?.team} Team </span> 
+                  within the IEEE Student Branch, NIT Patna, during the Academic Session 2025-2026.
+                </p>
+              </div>
+            </div>
+
+            {/* Signatures */}
+            <div className="w-full flex justify-between items-end px-12 mt-4">
+              <div className="text-center">
+                <div className="w-40 h-[1px] mb-2 mx-auto" style={{ backgroundColor: '#1e3a8a' }} />
+                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e3a8a' }}>Branch Counselor</p>
+              </div>
+              <div className="text-[10px] font-mono text-gray-400">ID: {certificateNo}</div>
+              <div className="text-center">
+                <div className="w-40 h-[1px] mb-2 mx-auto" style={{ backgroundColor: '#1e3a8a' }} />
+                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e3a8a' }}>Professor In-Charge</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Certificate Content */}
-        <div className="p-2 md:p-8 relative">
-          <div className="border-4 border-gray-200 p-2 md:p-8 rounded-lg relative z-10 bg-white">
-            <div className="text-center mb-8">
-              <h2 className="text-lg md:text-2xl font-bold text-gray-800">
-                Certificate No: {certificateNo ? certificateNo : null}
-              </h2>
-              <p className="text-gray-600 mt-1">
-                Generated on: {new Date(member?.issuanceDate).toLocaleDateString()}
-              </p>
-            </div>
-
-            <div className="text-center mb-10">
-              <p className="text-xl text-gray-800">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
-              <h3 className="text-4xl font-bold text-green-800 my-6 font-serif">{member?.name}</h3>
-              <p className="text-xl text-gray-800">
-                for being an active and dedicated member of the <span className="font-semibold">IEEE CLUB</span>, NIT Patna,
-                and for making remarkable contributions during the Academic Session 2025-2026.
-              </p>
-            </div>
-
-            <div className="text-lg text-center text-gray-700 mb-8">
-              <p>In recognition of {member?.role === 'volunteer' ? 'his/her' : 'his'} valuable contributions towards the design, 
-                development, and continuous maintenance of the IEEE NITP official website.</p>
-            </div>
-
-            {/* Digital signatures */}
-            <div className="mt-16 flex justify-between items-end">
-              <div className="text-center">
-                <div className="text-sm md:text-lg italic font-medium text-blue-900 mb-2">Digitally signed by</div>
-                <div className="font-signature text-xl mb-1 text-blue-800">PROF NAME</div>
-                <div className="h-0.5 w-30 md:w-40 bg-blue-500 mb-1 mx-auto"></div>
-                <p className="text-xs md:text-sm text-gray-700 mt-1">PROFESSOR Designation</p>
+        {/* ================= RESTORED BOTTOM SECTION ================= */}
+        <div className="print:hidden">
+          <div className="mt-8 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-800">Verification Details</h3>
+                <p className="text-slate-500 text-sm">Official record of achievement for the 2025-26 session.</p>
               </div>
-              <div className="text-center">
-                <div className="text-sm md:text-lg italic font-medium text-blue-900 mb-2">Digitally signed by</div>
-                <div className="font-signature text-xl mb-1 text-blue-800">PROF NAME</div>
-                <div className="h-0.5 w-30 md:w-40 bg-blue-500 mb-1 mx-auto"></div>
-                <p className="text-xs md:text-sm text-gray-700 mt-1">PROFESSOR Designation</p>
+              <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100 text-sm font-bold">
+                <CheckCircle2 size={18} />
+                Verified & Authentic
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Member Name</label><p className="text-lg font-semibold text-slate-800">{member?.name}</p></div>
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Assigned Team</label><p className="text-lg font-semibold text-blue-600">{member?.team}</p></div>
+              </div>
+              <div className="space-y-4">
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Official Role</label><p className="text-lg font-semibold text-slate-800 capitalize">{member?.role}</p></div>
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Certificate ID</label><p className="text-lg font-mono font-semibold text-slate-800">{certificateNo}</p></div>
+              </div>
+              <div className="space-y-4">
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Issuance Date</label><p className="text-lg font-semibold text-slate-800">{new Date(member?.issuanceDate).toLocaleDateString()}</p></div>
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Designation</label><p className="text-lg font-semibold text-slate-800">{member?.designation || 'Member'}</p></div>
               </div>
             </div>
           </div>
 
-          {/* Member Details */}
-          <div className="mt-8 bg-green-50 p-6 rounded-lg border border-green-200">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-green-800">Member Details</h3>
-              <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                Verified ✓
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <p className="text-gray-600">Name: <span className="font-medium text-gray-800">{member?.name}</span></p>
-                <p className="text-gray-600">Email: <span className="font-medium text-gray-800">{member?.email}</span></p>
-                <p className="text-gray-600">Role: <span className="font-medium text-gray-800">{member?.role === 'volunteer' ? 'Volunteer' : 'Professor In-Charge'}</span></p>
-              </div>
-              <div>
-                <p className="text-gray-600">Year: <span className="font-medium text-gray-800">{member?.year}</span></p>
-                <p className="text-gray-600">Designation: <span className="font-medium text-gray-800">{member?.designation}</span></p>
-              </div>
-            </div>
-
-            {member?.interests && (
-              <div className="mt-4">
-                <p className="text-gray-600">Contributions:</p>
-                <p className="font-medium text-gray-800 mt-1">{member.interests}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-8 text-center">
-            <Link
-              href="/"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-700 hover:bg-green-800"
-            >
-              Back to Home
-            </Link>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center pb-12">
+            <button onClick={handleDownload} className="inline-flex items-center gap-3 px-12 py-4 bg-[#1e3a8a] text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg hover:scale-[1.02] active:scale-95">
+              <Download size={20} /> Download Certificate (PDF)
+            </button>
+            <button onClick={handlePrint} className="inline-flex items-center gap-3 px-12 py-4 bg-white text-[#1e3a8a] border-2 border-[#1e3a8a] rounded-xl font-bold hover:bg-slate-50 transition-all">
+              <Printer size={20} /> Print Directly
+            </button>
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @media print {
+          body { background: white !important; }
+          .print\:hidden { display: none !important; }
+          #certificate-area { border: 5px double #ca8a04 !important; width: 100% !important; margin: 0 !important; }
+        }
+      `}</style>
     </div>
-    {/* <Footer/> */}
-    </>
   );
 }

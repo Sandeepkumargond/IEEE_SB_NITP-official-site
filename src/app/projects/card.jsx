@@ -16,7 +16,7 @@ const ProjectCard = ({ project }) => {
   const imageSrc = project.images?.[0] && isValidUrl(project.images[0]) ? project.images[0] : '/fallback-image.jpg';
 
   return (
-    <div className="relative p-4 py-2 md:h-full mb-6  sm:h-[50vh]">
+    <div className="relative p-2 py-1 md:h-full mb-4 sm:h-auto">
       {/* SVG Border */}
       <div className="absolute inset-0 pointer-events-none z-21">
         <svg
@@ -34,13 +34,13 @@ const ProjectCard = ({ project }) => {
       </div>
 
       {/* Card Content */}
-      <div className="relative  bg-white p-4 min-w-fit  sm:p-4 md:p-6  min-h-full sm:mx-1 md:mx-1.5 z-9  overflow-hidden ">
+      <div className="relative bg-white p-3 min-w-fit sm:p-3 md:p-4 min-h-full sm:mx-0.5 md:mx-1 z-9 overflow-hidden">
 
-        <div className="mb-4 sm:mb-6 overflow-hidden rounded-md relative">
+        <div className="mb-3 sm:mb-3 overflow-hidden rounded-md relative">
           <img
             src={imageSrc}
             alt='NO IMG FOUND'
-            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover"
+            className="w-full h-32 sm:h-40 md:h-48 lg:h-56 object-cover"
           />
 
           <div className="absolute top-1 left-1">
@@ -51,8 +51,8 @@ const ProjectCard = ({ project }) => {
         </div>
 
 
-        <div className="flex items-start justify-between mb-2 min-h-15">
-          <h3 className="flex-1 pr-3  text-xl sm:text-2xl md:text-3xl font-medium text-[#012B42] leading-tight line-clamp-2 ">
+        <div className="flex items-start justify-between mb-2 min-h-12">
+          <h3 className="flex-1 pr-2 text-lg sm:text-xl md:text-2xl font-medium text-[#012B42] leading-tight line-clamp-2">
             {project.title || 'Untitled Project'}
           </h3>
           {project.repo && isValidUrl(project.repo) ? (
@@ -60,21 +60,21 @@ const ProjectCard = ({ project }) => {
               href={project.repo}
               target="_blank"
 
-              className="flex-shrink-0 w-10 h-10 bg-[#0a5782] text-white flex items-center justify-center hover:bg-[#024060]  rounded-md "
+              className="flex-shrink-0 w-8 h-8 bg-[#0a5782] text-white flex items-center justify-center hover:bg-[#024060] rounded-md"
               title="View Repository"
             >
-              <ExternalLink className="w-4 h-4" />
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
           ) : (
-            <div className="flex-shrink-0 w-10 h-10 bg-gray-300 text-white flex items-center justify-center rounded-md opacity-50 cursor-not-allowed">
-              <ExternalLink className="w-4 h-4" />
+            <div className="flex-shrink-0 w-8 h-8 bg-gray-300 text-white flex items-center justify-center rounded-md opacity-50 cursor-not-allowed">
+              <ExternalLink className="w-3.5 h-3.5" />
             </div>
           )}
         </div>
 
 
-        <div className="min-h-14  ">
-          <p className="text-[#012B42] text-xl sm:text-base md:text-xl  line-clamp-3 overflow-ellipsis ">
+        <div className="min-h-10">
+          <p className="text-[#012B42] text-sm sm:text-base md:text-lg line-clamp-3 overflow-ellipsis">
             {project.description || 'No description available.'}
           </p>
         </div>

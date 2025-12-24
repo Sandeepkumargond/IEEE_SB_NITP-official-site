@@ -1,14 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Trash2, LogOut } from "lucide-react";
 import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
 import { fetchAllProjects } from "@/lib/projectAction";
 import { createEvent, deleteEvent, fetchAllEvents } from "@/lib/eventAction";
 import Link from "next/link";
-import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin } from "@/lib/adminAction";
+import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin, logoutAdmin } from "@/lib/adminAction";
 import { deleteProjects } from "@/lib/projectAction";
+import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -16,6 +18,24 @@ export default function AdminDashboard() {
   const [members, setMembers] = useState([]);
   const [newAdminUsername, setNewAdminUsername] = useState("");
   const [newAdminPassword, setNewAdminPassword] = useState("");
+  
+  // Pagination states
+  const [eventsPage, setEventsPage] = useState(1);
+  const [blogsPage, setBlogsPage] = useState(1);
+  const [projectsPage, setProjectsPage] = useState(1);
+  const [membersPage, setMembersPage] = useState(1);
+  const [adminsPage, setAdminsPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const handleLogout = async () => {
+    try {
+      await logoutAdmin();
+      router.push("/auth/login");
+    } catch (error) {
+      console.log(error);
+      alert("Error logging out");
+    }
+  }
 
   // member addition and showcase
  useEffect(() => {
@@ -178,22 +198,36 @@ useEffect(() => {
   return (
     <div className="bg-linear-to-br from-[#014f74] via-[#013f60] to-[#012f4a] min-h-screen py-10 px-4 w-full">
       <div className="w-full max-w-7xl mx-auto">
-        {/* Heading */}
-        <h1 className="text-white text-4xl text-center font-bold mb-10 tracking-wide">
-          Admin Dashboard
-        </h1>
+        {/* Heading with Logout */}
+        <div className="flex items-center justify-between mb-10">
+          <h1 className="text-white text-4xl text-center font-bold tracking-wide flex-1">
+            Admin Dashboard
+          </h1>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold"
+          >
+            <LogOut size={20} />
+            Logout
+          </button>
+        </div>
 
         {/* Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Events Section */}
           <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 items-center flex flex-col gap-4">
-            <h2 className="text-2xl font-semibold text-white text-center mb-4">
-               Events
-            </h2>
+            <div className="flex items-center justify-between w-full">
+              <h2 className="text-2xl font-semibold text-white">
+                Events
+              </h2>
+              <Link href="/events/create" className="bg-green-500 text-black px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-600">
+                add event
+              </Link>
+            </div>
 
             {/* Event Cards */}
             <div className="flex flex-col gap-5 w-full">
-              {events.map((event, index) => (
+              {events.slice((eventsPage - 1) * itemsPerPage, eventsPage * itemsPerPage).map((event, index) => (
                 <div
                   key={event._id || index}
                   className="flex flex-col sm:flex-row items-center gap-5 bg-[#035b99] rounded-xl p-4 shadow-md"
@@ -226,48 +260,87 @@ useEffect(() => {
                   </div>
                 </div>
               ))}
-            <Link href="/events/create" className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">
-              Add Events
-            </Link>
-          </div>
+            </div>
+            {events.length > itemsPerPage && (
+              <div className="flex items-center justify-between w-full mt-auto pt-4">
+                <button
+                  onClick={() => setEventsPage(eventsPage - 1)}
+                  disabled={eventsPage === 1}
+                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                >
+                  Prev
+                </button>
+                <span className="text-white font-semibold">{eventsPage}/{Math.ceil(events.length / itemsPerPage)}</span>
+                <button
+                  onClick={() => setEventsPage(eventsPage + 1)}
+                  disabled={eventsPage >= Math.ceil(events.length / itemsPerPage)}
+                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Blog Section */}
-          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white text-center flex flex-col gap-6">
-            <h2 className="text-2xl font-semibold mb-3">📝 Blogs</h2>
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-6">
+            <div className="flex items-center justify-between w-full">
+              <h2 className="text-2xl font-semibold">📝 Blogs</h2>
+              <Link href="/blogs/create" className="bg-green-500 text-black px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-600">
+                add blog
+              </Link>
+            </div>
 
             {blogs.length === 0 ? (
               <p className="text-sm text-gray-300">Blog section coming soon!</p>
             ) : (
-              <div className="flex flex-col gap-5 w-full">
-                {blogs.map((blog, id) => (
-                  <div
-                    key={blog._id || id}
-                    className="flex items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md"
-                  >
-                    <h3 className="text-white text-lg font-semibold truncate max-w-xs">
-                      {blog.title}
-                    </h3>
-                    <div className="flex gap-3">
-                      <Link
-                        href='/blogs'
-                        className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700"
-                      >
-                        <Eye size={18} /> View
-                      </Link>
-                      <button onClick={() => handleBlogDelete(blog._id)} className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
-                        <Trash2 size={16} /> Delete
-                      </button>
+              <>
+                <div className="flex flex-col gap-5 w-full">
+                  {blogs.slice((blogsPage - 1) * itemsPerPage, blogsPage * itemsPerPage).map((blog, id) => (
+                    <div
+                      key={blog._id || id}
+                      className="flex items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md"
+                    >
+                      <h3 className="text-white text-lg font-semibold truncate max-w-xs">
+                        {blog.title}
+                      </h3>
+                      <div className="flex gap-3">
+                        <Link
+                          href='/blogs'
+                          className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700"
+                        >
+                          <Eye size={18} /> View
+                        </Link>
+                        <button onClick={() => handleBlogDelete(blog._id)} className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
+                          <Trash2 size={16} /> Delete
+                        </button>
+                      </div>
                     </div>
+                  ))}
+                </div>
+                {blogs.length > itemsPerPage && (
+                  <div className="flex items-center justify-between w-full mt-auto pt-4">
+                    <button
+                      onClick={() => setBlogsPage(blogsPage - 1)}
+                      disabled={blogsPage === 1}
+                      className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                    >
+                      Prev
+                    </button>
+                    <span className="text-white font-semibold">{blogsPage}/{Math.ceil(blogs.length / itemsPerPage)}</span>
+                    <button
+                      onClick={() => setBlogsPage(blogsPage + 1)}
+                      disabled={blogsPage >= Math.ceil(blogs.length / itemsPerPage)}
+                      className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                    >
+                      Next
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
 
             {/* Add Blogs Button with margin top */}
-            <div className="mt-6">
-              <Link href="blogs/create" className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">Add Blogs</Link>
-            </div>
           </div>
 
           {/* Admins Section */}
@@ -293,7 +366,7 @@ useEffect(() => {
               <button type="submit" className="bg-green-500 text-black px-4 py-2 rounded-lg font-semibold">Add Admin</button>
             </form>
             <div className="flex flex-col gap-5 w-full">
-              {admins.map((admin) => (
+              {admins.slice((adminsPage - 1) * itemsPerPage, adminsPage * itemsPerPage).map((admin) => (
                 <div key={admin._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
@@ -308,57 +381,103 @@ useEffect(() => {
                 </div>
                 </div>
               ))}
-              
             </div>
+            {admins.length > itemsPerPage && (
+              <div className="flex items-center justify-between w-full mt-auto pt-4">
+                <button
+                  onClick={() => setAdminsPage(adminsPage - 1)}
+                  disabled={adminsPage === 1}
+                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                >
+                  Prev
+                </button>
+                <span className="text-white font-semibold">{adminsPage}/{Math.ceil(admins.length / itemsPerPage)}</span>
+                <button
+                  onClick={() => setAdminsPage(adminsPage + 1)}
+                  disabled={adminsPage >= Math.ceil(admins.length / itemsPerPage)}
+                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Project Section */}
-          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white text-center flex flex-col gap-6">
-            <h2 className="text-2xl font-semibold mb-3">🤖 Projects</h2>
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-6">
+            <div className="flex items-center justify-between w-full">
+              <h2 className="text-2xl font-semibold">🤖 Projects</h2>
+              <Link href="/projects/create" className="bg-green-500 text-black px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-600">
+                add project
+              </Link>
+            </div>
 
             {projects.length === 0 ? (
               <p className="text-sm text-gray-300">Projetcs coming soon!</p>
             ) : (
-              <div className="flex flex-col gap-5 w-full">
-                {projects.map((project, id) => (
-                  <div
-                    key={project._id || id}
-                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md gap-3"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-white text-lg font-semibold truncate">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm text-white/90 truncate">
-                        {project.description}
-                      </p>
+              <>
+                <div className="flex flex-col gap-5 w-full">
+                  {projects.slice((projectsPage - 1) * itemsPerPage, projectsPage * itemsPerPage).map((project, id) => (
+                    <div
+                      key={project._id || id}
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#035b99] rounded-xl p-4 shadow-md gap-3"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-white text-lg font-semibold truncate">
+                          {project.title}
+                        </h3>
+                        <p className="text-sm text-white/90 truncate">
+                          {project.description}
+                        </p>
+                      </div>
+                      <div className="flex gap-3 shrink-0">
+                        <Link href='/projects' className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
+                          <Eye size={18} /> View
+                        </Link>
+                        <button onClick={() => handleProjectDelete(project._id)} className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
+                          <Trash2 size={16} /> Delete
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex gap-3 shrink-0">
-                      <Link href='/projects' className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
-                        <Eye size={18} /> View
-                      </Link>
-                      <button onClick={() => handleProjectDelete(project._id)} className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700">
-                        <Trash2 size={16} /> Delete
-                      </button>
-                    </div>
+                  ))}
+                </div>
+                {projects.length > itemsPerPage && (
+                  <div className="flex items-center justify-between w-full mt-auto pt-4">
+                    <button
+                      onClick={() => setProjectsPage(projectsPage - 1)}
+                      disabled={projectsPage === 1}
+                      className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                    >
+                      Prev
+                    </button>
+                    <span className="text-white font-semibold">{projectsPage}/{Math.ceil(projects.length / itemsPerPage)}</span>
+                    <button
+                      onClick={() => setProjectsPage(projectsPage + 1)}
+                      disabled={projectsPage >= Math.ceil(projects.length / itemsPerPage)}
+                      className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                    >
+                      Next
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
 
             {/* Add Projects Button with margin top */}
-            <div className="mt-6">
-              <Link href="projects/create" className="inline-block bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">Add Projects</Link>
-            </div>
           </div>
 
           {/* Members Section */}
           <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 items-center">
-            <h2 className="text-2xl font-semibold mb-4 text-center">
-              Members
-            </h2>
+            <div className="flex items-center justify-between w-full">
+              <h2 className="text-2xl font-semibold">
+                Members
+              </h2>
+              <Link href="/certificate/new" className="bg-green-500 text-black px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-600">
+                add member
+              </Link>
+            </div>
             <div className="flex flex-col gap-5 w-full">
-              {members.map((member) => (
+              {members.slice((membersPage - 1) * itemsPerPage, membersPage * itemsPerPage).map((member) => (
                 <div key={member._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
@@ -370,9 +489,26 @@ useEffect(() => {
                 </div>
                 </div>
               ))}
-              
             </div>
-            <Link href="certificate/new" className="bg-[#02406a] px-6 py-2 rounded-xl text-white font-semibold shadow-md">Add Members</Link>
+            {members.length > itemsPerPage && (
+              <div className="flex items-center justify-between w-full mt-auto pt-4">
+                <button
+                  onClick={() => setMembersPage(membersPage - 1)}
+                  disabled={membersPage === 1}
+                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                >
+                  Prev
+                </button>
+                <span className="text-white font-semibold">{membersPage}/{Math.ceil(members.length / itemsPerPage)}</span>
+                <button
+                  onClick={() => setMembersPage(membersPage + 1)}
+                  disabled={membersPage >= Math.ceil(members.length / itemsPerPage)}
+                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
 
         </div>

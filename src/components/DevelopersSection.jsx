@@ -6,93 +6,71 @@ import Image from "next/image";
 export default function DevelopersSection() {
   const topDevelopers = [
     {
-      name: "Sandeeep Kumar Gond",
+      name: "Website Lead Name",
       email: "lead@example.com",
       role: "Website Lead",
-      profilePic: "/office_bearers/Sandeep_Kumar.jpg",
-      githubLink: "https://github.com/Sandeepkumargond",
-      linkedInLink: "https://www.linkedin.com/in/sandeepkumargond/",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
     {
-      name: "Diksha Bharti",
-      email: "dikshab.ug24.cs@nitp.ac.in",
+      name: "Website POC Name",
+      email: "poc@example.com",
       role: "Website POC",
-      profilePic: "/developers/DIKSHA.jpeg",
-      githubLink: "https://github.com/Diksha8-db",
-      linkedInLink: "https://www.linkedin.com/in/diksha-bharti-055499326",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
   ];
 
   const otherDevelopers = [
     {
-      name: "Sanya Singh",
-      email: "sanyavns2727@gmail.com ",
-      profilePic: "/developers/Sanya.jpeg",
-      githubLink: "https://github.com/SanyaSingh0001",
-      linkedInLink: "-https://www.linkedin.com/in/sanya-singh-08aa3b323",
+      name: "Developer Name 1",
+      email: "dev1@example.com",
+      role: "Full Stack Developer",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
     {
-      name: "Aditya Ranjan",
-      email: "adityar.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/ADITYA RANJAN.jpg",
-      githubLink: "https://github.com/adityaranjan-091",
-      linkedInLink: "https://www.linkedin.com/in/aditya-ranjan-783739324",
+      name: "Developer Name 2",
+      email: "dev2@example.com",
+      role: "Frontend Developer",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
     {
-      name: "Prachi",
-      email: "prachi.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/Prachi.jpeg",
-      githubLink: "https://github.com/Prachi-2407",
-      linkedInLink: "https://www.linkedin.com/in/prachi-8096aa358",
+      name: "Developer Name 3",
+      email: "dev3@example.com",
+      role: "Backend Developer",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
     {
-      name: "Ayushi Prajapati",
-      email: "ayuship.ug24.ec@nitp.ac.in ",
-      profilePic: "/developers/AYUSHI PRAJAPATI.jpg",
-      githubLink: "https://github.com/ayuship29",
-      linkedInLink: "https://www.linkedin.com/in/ayushi-prajapati-b3a15b326",
+      name: "Developer Name 4",
+      email: "dev4@example.com",
+      role: "UI/UX Designer",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
     {
-      name: "Sakshi",
-      email: "sakshi.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/SAKSHI SAKSHI.jpg",
-      githubLink: "https://github.com/adityaranjan-091",
-      linkedInLink: "https://www.linkedin.com/in/sakshi-80b99b336",
+      name: "Developer Name 5",
+      email: "dev5@example.com",
+      role: "Database Engineer",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
     {
-      name: "Shivam Kumar",
-      email: "sanyavns2727@gmail.com ",
-      profilePic: "/developers/SHIVAM KUMAR.png",
-      githubLink: "https://github.com/shivv23",
-      linkedInLink: "https://www.linkedin.com/in/shivamkumar23",
-    },
-    {
-      name: "Md Aman",
-      email: "mdaman13720@gmail.com",
-      profilePic: "/developers/aman.jpeg",
-      githubLink: "https://github.com/md-aman012/",
-      linkedInLink: "https://www.linkedin.com/in/md-aman-76000a324",
-    },
-    {
-      name: "Anand Kumar Thakur",
-      email: "anandt.dd24.cs@nitp.ac.in",
-      profilePic: "/developers/Anad.jpeg",
-      githubLink: "https://github.com/yutgcx",
-      linkedInLink: "",
-    },
-    {
-      name: "Shristi",
-      email: "shristi.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/SHRISTI SHRISTI.jpg",
-      githubLink: "https://github.com/shristi482004",
-      linkedInLink: "https://www.linkedin.com/in/shristi-shristi-21a025327",
-    },
-    {
-      name: "Najuk Singh",
-      email: "najuks.ug24.ec@nitp.ac.in",
-      profilePic: "/developers/NAJUK SINGH.jpg",
-      githubLink: "https://github.com/NAJUKSINGH",
-      linkedInLink: "https://www.linkedin.com/in/najuk-singh-44915433b",
+      name: "Developer Name 6",
+      email: "dev6@example.com",
+      role: "DevOps Engineer",
+      profilePic: "/office_bearers/placeholder.jpg",
+      githubLink: "https://github.com",
+      linkedInLink: "https://linkedin.com",
     },
   ];
 
@@ -133,21 +111,13 @@ export default function DevelopersSection() {
         style={{
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(to bottom, rgba(2, 8, 23, 0.7), rgba(15, 20, 25, 0.85))",
+          background: "linear-gradient(to bottom, rgba(2, 8, 23, 0.7), rgba(15, 20, 25, 0.85))",
           zIndex: 1,
         }}
       />
 
       {/* Content */}
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
+      <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "80px" }}>
           <h2
@@ -185,9 +155,8 @@ export default function DevelopersSection() {
               fontWeight: 500,
             }}
           >
-            The talented developers crafting innovative solutions for IEEE NIT
-            Patna. Passionate about code, design, and building exceptional
-            digital experiences.
+            The talented developers crafting innovative solutions for IEEE NIT Patna. 
+            Passionate about code, design, and building exceptional digital experiences.
           </p>
         </div>
 
@@ -216,10 +185,7 @@ export default function DevelopersSection() {
                   hoveredIdx === `top-${idx}`
                     ? "0 25px 50px rgba(56, 189, 248, 0.2)"
                     : "0 10px 30px rgba(0, 0, 0, 0.4)",
-                transform:
-                  hoveredIdx === `top-${idx}`
-                    ? "translateY(-10px)"
-                    : "translateY(0)",
+                transform: hoveredIdx === `top-${idx}` ? "translateY(-10px)" : "translateY(0)",
                 border: "2px solid #38bdf8",
                 maxWidth: "280px",
                 minWidth: "260px",
@@ -248,8 +214,7 @@ export default function DevelopersSection() {
                     borderRadius: "50%",
                     objectFit: "cover",
                     transition: "transform 0.3s ease",
-                    transform:
-                      hoveredIdx === `top-${idx}` ? "scale(1.05)" : "scale(1)",
+                    transform: hoveredIdx === `top-${idx}` ? "scale(1.05)" : "scale(1)",
                   }}
                 />
               </div>
@@ -321,8 +286,7 @@ export default function DevelopersSection() {
                     width: "38px",
                     height: "38px",
                     borderRadius: "8px",
-                    background:
-                      hoveredIdx === `top-${idx}` ? "#38bdf8" : "#2d3748",
+                    background: hoveredIdx === `top-${idx}` ? "#38bdf8" : "#2d3748",
                     color: hoveredIdx === `top-${idx}` ? "#0f1419" : "#e0e7ff",
                     transition: "all 0.3s ease",
                     textDecoration: "none",
@@ -342,8 +306,7 @@ export default function DevelopersSection() {
                     width: "38px",
                     height: "38px",
                     borderRadius: "8px",
-                    background:
-                      hoveredIdx === `top-${idx}` ? "#0ea5e9" : "#2d3748",
+                    background: hoveredIdx === `top-${idx}` ? "#0ea5e9" : "#2d3748",
                     color: hoveredIdx === `top-${idx}` ? "#0f1419" : "#e0e7ff",
                     transition: "all 0.3s ease",
                     textDecoration: "none",
@@ -361,8 +324,7 @@ export default function DevelopersSection() {
           style={{
             width: "80px",
             height: "4px",
-            background:
-              "linear-gradient(90deg, transparent, #38bdf8, transparent)",
+            background: "linear-gradient(90deg, transparent, #38bdf8, transparent)",
             margin: "40px auto 60px",
             borderRadius: "2px",
           }}
@@ -394,10 +356,7 @@ export default function DevelopersSection() {
                   hoveredIdx === `dev-${idx}`
                     ? "0 20px 40px rgba(56, 189, 248, 0.15)"
                     : "0 8px 24px rgba(0, 0, 0, 0.3)",
-                transform:
-                  hoveredIdx === `dev-${idx}`
-                    ? "translateY(-8px)"
-                    : "translateY(0)",
+                transform: hoveredIdx === `dev-${idx}` ? "translateY(-8px)" : "translateY(0)",
                 border: "1px solid rgba(56, 189, 248, 0.2)",
               }}
             >
@@ -424,8 +383,7 @@ export default function DevelopersSection() {
                     borderRadius: "50%",
                     objectFit: "cover",
                     transition: "transform 0.3s ease",
-                    transform:
-                      hoveredIdx === `dev-${idx}` ? "scale(1.05)" : "scale(1)",
+                    transform: hoveredIdx === `dev-${idx}` ? "scale(1.05)" : "scale(1)",
                   }}
                 />
               </div>
@@ -442,6 +400,24 @@ export default function DevelopersSection() {
               >
                 {dev.name}
               </h3>
+
+              {/* Role */}
+              <div
+                style={{
+                  display: "inline-block",
+                  padding: "6px 16px",
+                  backgroundColor: "#e0f2fe",
+                  color: "#0c4a6e",
+                  borderRadius: "20px",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  marginBottom: "12px",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                {dev.role}
+              </div>
 
               {/* Email */}
               <p
@@ -479,8 +455,7 @@ export default function DevelopersSection() {
                     width: "40px",
                     height: "40px",
                     borderRadius: "8px",
-                    background:
-                      hoveredIdx === `dev-${idx}` ? "#38bdf8" : "#2d3748",
+                    background: hoveredIdx === `dev-${idx}` ? "#38bdf8" : "#2d3748",
                     color: hoveredIdx === `dev-${idx}` ? "#0f1419" : "#e0e7ff",
                     transition: "all 0.3s ease",
                     textDecoration: "none",
@@ -500,8 +475,7 @@ export default function DevelopersSection() {
                     width: "40px",
                     height: "40px",
                     borderRadius: "8px",
-                    background:
-                      hoveredIdx === `dev-${idx}` ? "#0ea5e9" : "#2d3748",
+                    background: hoveredIdx === `dev-${idx}` ? "#0ea5e9" : "#2d3748",
                     color: hoveredIdx === `dev-${idx}` ? "#0f1419" : "#e0e7ff",
                     transition: "all 0.3s ease",
                     textDecoration: "none",

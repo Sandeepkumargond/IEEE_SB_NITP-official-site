@@ -3,11 +3,11 @@ import Link from "next/link";
 
 const domains = [
   { key: "Web", title: "Web Dev", image: "/web.jpg" },
-  { key: "Blockchain", title: "Blockchain", image: "/blockchain.jpg" },
+  { key: "Technical", title: "Technical", image: "/technical.jpg" },
   { key: "AIML", title: "AI-ML", image: "/ai.jpeg" },
-  { key: "Flutter", title: "Flutter", image: "/flutter.jpeg" },
-  { key: "Kotlin", title: "Kotlin", image: "/kotlin.jpeg" },
-  { key: "Design", title: "UI/UX", image: "/ui.jpeg" },
+  { key: "Event", title: "Event Management Team", image: "/event.jpg" },
+  { key: "PR", title: "PR and Sponsors", image: "/pr.jpg" },
+  { key: "Design", title: "Content and Design", image: "/ui.jpeg" },
 ];
 
 export default function TeamsPage() {
