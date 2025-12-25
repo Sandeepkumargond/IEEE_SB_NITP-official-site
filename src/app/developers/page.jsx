@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function DevelopersSection() {
   const topDevelopers = [
     {
-      name: "Sandeeep Kumar Gond",
+      name: "Sandeep Kumar Gond",
       email: "lead@example.com",
       role: "Website Lead",
       profilePic: "/office_bearers/Sandeep_Kumar.jpg",
@@ -24,332 +24,108 @@ export default function DevelopersSection() {
   ];
 
   const otherDevelopers = [
-    {
-      name: "Sanya Singh",
-      email: "sanyavns2727@gmail.com ",
-      profilePic: "/developers/Sanya.jpeg",
-      githubLink: "https://github.com/SanyaSingh0001",
-      linkedInLink: "-https://www.linkedin.com/in/sanya-singh-08aa3b323",
-    },
-    {
-      name: "Aditya Ranjan",
-      email: "adityar.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/ADITYA RANJAN.jpg",
-      githubLink: "https://github.com/adityaranjan-091",
-      linkedInLink: "https://www.linkedin.com/in/aditya-ranjan-783739324",
-    },
-    {
-      name: "Prachi",
-      email: "prachi.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/Prachi.jpeg",
-      githubLink: "https://github.com/Prachi-2407",
-      linkedInLink: "https://www.linkedin.com/in/prachi-8096aa358",
-    },
-    {
-      name: "Ayushi Prajapati",
-      email: "ayuship.ug24.ec@nitp.ac.in ",
-      profilePic: "/developers/AYUSHI PRAJAPATI.jpg",
-      githubLink: "https://github.com/ayuship29",
-      linkedInLink: "https://www.linkedin.com/in/ayushi-prajapati-b3a15b326",
-    },
-    {
-      name: "Sakshi",
-      email: "sakshi.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/SAKSHI SAKSHI.jpg",
-      githubLink: "https://github.com/adityaranjan-091",
-      linkedInLink: "https://www.linkedin.com/in/sakshi-80b99b336",
-    },
-    {
-      name: "Shivam Kumar",
-      email: "sanyavns2727@gmail.com ",
-      profilePic: "/developers/SHIVAM KUMAR.png",
-      githubLink: "https://github.com/shivv23",
-      linkedInLink: "https://www.linkedin.com/in/shivamkumar23",
-    },
-    {
-      name: "Md Aman",
-      email: "mdaman13720@gmail.com",
-      profilePic: "/developers/aman.jpeg",
-      githubLink: "https://github.com/md-aman012/",
-      linkedInLink: "https://www.linkedin.com/in/md-aman-76000a324",
-    },
-    {
-      name: "Anand Kumar Thakur",
-      email: "anandt.dd24.cs@nitp.ac.in",
-      profilePic: "/developers/Anad.jpeg",
-      githubLink: "https://github.com/yutgcx",
-      linkedInLink: "",
-    },
-    {
-      name: "Shristi",
-      email: "shristi.ug24.cs@nitp.ac.in",
-      profilePic: "/developers/SHRISTI SHRISTI.jpg",
-      githubLink: "https://github.com/shristi482004",
-      linkedInLink: "https://www.linkedin.com/in/shristi-shristi-21a025327",
-    },
-    {
-      name: "Najuk Singh",
-      email: "najuks.ug24.ec@nitp.ac.in",
-      profilePic: "/developers/NAJUK SINGH.jpg",
-      githubLink: "https://github.com/NAJUKSINGH",
-      linkedInLink: "https://www.linkedin.com/in/najuk-singh-44915433b",
-    },
+    { name: "Sanya Singh", email: "sanyavns2727@gmail.com ", profilePic: "/developers/Sanya.jpeg", githubLink: "https://github.com/SanyaSingh0001", linkedInLink: "https://www.linkedin.com/in/sanya-singh-08aa3b323" },
+    { name: "Aditya Ranjan", email: "adityar.ug24.cs@nitp.ac.in", profilePic: "/developers/ADITYA RANJAN.jpg", githubLink: "https://github.com/adityaranjan-091", linkedInLink: "https://www.linkedin.com/in/aditya-ranjan-783739324" },
+    { name: "Prachi", email: "prachi.ug24.cs@nitp.ac.in", profilePic: "/developers/Prachi.jpeg", githubLink: "https://github.com/Prachi-2407", linkedInLink: "https://www.linkedin.com/in/prachi-8096aa358" },
+    { name: "Ayushi Prajapati", email: "ayuship.ug24.ec@nitp.ac.in ", profilePic: "/developers/AYUSHI PRAJAPATI.jpg", githubLink: "https://github.com/ayuship29", linkedInLink: "https://www.linkedin.com/in/ayushi-prajapati-b3a15b326" },
+    { name: "Sakshi", email: "sakshi.ug24.cs@nitp.ac.in", profilePic: "/developers/SAKSHI SAKSHI.jpg", githubLink: "https://github.com/adityaranjan-091", linkedInLink: "https://www.linkedin.com/in/sakshi-80b99b336" },
+    { name: "Shivam Kumar", email: "sanyavns2727@gmail.com ", profilePic: "/developers/SHIVAM KUMAR.png", githubLink: "https://github.com/shivv23", linkedInLink: "https://www.linkedin.com/in/shivamkumar23" },
+    { name: "Md Aman", email: "mdaman13720@gmail.com", profilePic: "/developers/aman.jpeg", githubLink: "https://github.com/md-aman012/", linkedInLink: "https://www.linkedin.com/in/md-aman-76000a324" },
+    { name: "Anand Kumar Thakur", email: "anandt.dd24.cs@nitp.ac.in", profilePic: "/developers/Anad.jpeg", githubLink: "https://github.com/yutgcx", linkedInLink: "" },
+    { name: "Shristi", email: "shristi.ug24.cs@nitp.ac.in", profilePic: "/developers/SHRISTI SHRISTI.jpg", githubLink: "https://github.com/shristi482004", linkedInLink: "https://www.linkedin.com/in/shristi-shristi-21a025327" },
+    { name: "Najuk Singh", email: "najuks.ug24.ec@nitp.ac.in", profilePic: "/developers/NAJUK SINGH.jpg", githubLink: "https://github.com/NAJUKSINGH", linkedInLink: "https://www.linkedin.com/in/najuk-singh-44915433b" },
   ];
 
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   return (
-    <section
-      style={{
-        minHeight: "100vh",
-        padding: "120px 24px",
-        fontFamily: "'Segoe UI', 'Roboto', sans-serif",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
+    <section className="relative min-h-screen overflow-hidden px-6 py-[120px] font-sans">
       {/* Background Image */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 0,
-        }}
-      >
+      <div className="absolute inset-0 z-0">
         <Image
           src="/hero-bg.png"
           alt="IEEE background"
           fill
           priority
-          style={{
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
+          className="object-cover object-center"
         />
       </div>
 
       {/* Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to bottom, rgba(2, 8, 23, 0.7), rgba(15, 20, 25, 0.85))",
-          zIndex: 1,
-        }}
-      />
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#020817]/70 to-[#0f1419]/85" />
 
       {/* Content */}
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
+      <div className="relative z-20 mx-auto max-w-[1200px]">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "80px" }}>
-          <h2
-            style={{
-              fontSize: "48px",
-              fontWeight: 800,
-              marginBottom: "16px",
-              background: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              letterSpacing: "-1px",
-            }}
-          >
+        <div className="mb-20 text-center">
+          <h2 className="mb-4 text-[48px] font-extrabold tracking-[-1px] text-transparent bg-clip-text bg-gradient-to-br from-[#38bdf8] to-[#0ea5e9]">
             Meet Our Development Team
           </h2>
 
-          <div
-            style={{
-              width: "60px",
-              height: "4px",
-              background: "linear-gradient(90deg, #38bdf8, #0ea5e9)",
-              margin: "20px auto 30px",
-              borderRadius: "2px",
-            }}
-          />
+          <div className="mx-auto mb-[30px] mt-5 h-1 w-[60px] rounded-[2px] bg-gradient-to-r from-[#38bdf8] to-[#0ea5e9]" />
 
-          <p
-            style={{
-              fontSize: "18px",
-              color: "#e0e7ff",
-              maxWidth: "700px",
-              margin: "0 auto",
-              lineHeight: "1.8",
-              fontWeight: 500,
-            }}
-          >
+          <p className="mx-auto max-w-[700px] text-lg font-medium leading-[1.8] text-[#e0e7ff]">
             The talented developers crafting innovative solutions for IEEE NIT
             Patna. Passionate about code, design, and building exceptional
             digital experiences.
           </p>
         </div>
 
-        {/* Top Developers Section - Website Lead & POC */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "40px",
-            marginBottom: "80px",
-            flexWrap: "wrap",
-          }}
-        >
+        {/* Top Developers Section - Responsive Flex */}
+        <div className="mb-20 flex flex-wrap justify-center gap-10">
           {topDevelopers.map((dev, idx) => (
             <div
               key={idx}
               onMouseEnter={() => setHoveredIdx(`top-${idx}`)}
               onMouseLeave={() => setHoveredIdx(null)}
-              style={{
-                background: "#1a1f2e",
-                borderRadius: "16px",
-                padding: "25px 28px",
-                textAlign: "center",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                boxShadow:
-                  hoveredIdx === `top-${idx}`
-                    ? "0 25px 50px rgba(56, 189, 248, 0.2)"
-                    : "0 10px 30px rgba(0, 0, 0, 0.4)",
-                transform:
-                  hoveredIdx === `top-${idx}`
-                    ? "translateY(-10px)"
-                    : "translateY(0)",
-                border: "2px solid #38bdf8",
-                maxWidth: "280px",
-                minWidth: "260px",
-              }}
+              className={`w-full min-w-[260px] max-w-[280px] rounded-2xl border-2 border-[#38bdf8] bg-[#1a1f2e] px-7 py-[25px] text-center transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                hoveredIdx === `top-${idx}`
+                  ? "translate-y-[-10px] shadow-[0_25px_50px_rgba(56,189,248,0.2)]"
+                  : "translate-y-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+              }`}
             >
               {/* Profile Image */}
-              <div
-                style={{
-                  position: "relative",
-                  width: "130px",
-                  height: "130px",
-                  margin: "0 auto 14px",
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  background: "linear-gradient(135deg, #195289, #0f3a5e)",
-                  padding: "4px",
-                  cursor: "pointer",
-                }}
-              >
+              <div className="mx-auto mb-3.5 h-[130px] w-[130px] cursor-pointer overflow-hidden rounded-full bg-gradient-to-br from-[#195289] to-[#0f3a5e] p-1">
                 <img
                   src={dev.profilePic}
                   alt={dev.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    transition: "transform 0.3s ease",
-                    transform:
-                      hoveredIdx === `top-${idx}` ? "scale(1.05)" : "scale(1)",
-                  }}
+                  className={`h-full w-full rounded-full object-cover transition-transform duration-300 ${
+                    hoveredIdx === `top-${idx}` ? "scale-105" : "scale-100"
+                  }`}
                 />
               </div>
 
-              {/* Name */}
-              <h3
-                style={{
-                  fontSize: "20px",
-                  fontWeight: 800,
-                  color: "#f1f5f9",
-                  margin: "10px 0 8px",
-                  letterSpacing: "-0.5px",
-                }}
-              >
+              <h3 className="mb-2 text-xl font-extrabold tracking-[-0.5px] text-[#f1f5f9]">
                 {dev.name}
               </h3>
 
-              {/* Role */}
-              <div
-                style={{
-                  display: "inline-block",
-                  padding: "5px 14px",
-                  backgroundColor: "#38bdf8",
-                  color: "#0f1419",
-                  borderRadius: "20px",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  marginBottom: "8px",
-                  letterSpacing: "0.5px",
-                  textTransform: "uppercase",
-                }}
-              >
+              <div className="mb-2 inline-block rounded-[20px] bg-[#38bdf8] px-3.5 py-[5px] text-[11px] font-bold uppercase tracking-[0.5px] text-[#0f1419]">
                 {dev.role}
               </div>
 
-              {/* Email */}
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "#cbd5e1",
-                  margin: "8px 0",
-                  wordBreak: "break-all",
-                  fontWeight: 500,
-                }}
-              >
+              <p className="my-2 break-all text-[12px] font-medium text-[#cbd5e1]">
                 {dev.email}
               </p>
 
               {/* Social Links */}
-              <div
-                style={{
-                  marginTop: "12px",
-                  paddingTop: "12px",
-                  borderTop: "2px solid #334155",
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "12px",
-                }}
-              >
+              <div className="mt-3 flex justify-center gap-3 border-t-2 border-[#334155] pt-3">
                 <a
                   href={dev.githubLink}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${dev.name} GitHub`}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "8px",
-                    background:
-                      hoveredIdx === `top-${idx}` ? "#38bdf8" : "#2d3748",
-                    color: hoveredIdx === `top-${idx}` ? "#0f1419" : "#e0e7ff",
-                    transition: "all 0.3s ease",
-                    textDecoration: "none",
-                  }}
+                  className={`flex h-[38px] w-[38px] items-center justify-center rounded-lg transition-all duration-300 ${
+                    hoveredIdx === `top-${idx}` ? "bg-[#38bdf8] text-[#0f1419]" : "bg-[#2d3748] text-[#e0e7ff]"
+                  }`}
                 >
-                  <FaGithub style={{ fontSize: "18px" }} />
+                  <FaGithub className="text-[18px]" />
                 </a>
                 <a
                   href={dev.linkedInLink}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${dev.name} LinkedIn`}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "8px",
-                    background:
-                      hoveredIdx === `top-${idx}` ? "#0ea5e9" : "#2d3748",
-                    color: hoveredIdx === `top-${idx}` ? "#0f1419" : "#e0e7ff",
-                    transition: "all 0.3s ease",
-                    textDecoration: "none",
-                  }}
+                  className={`flex h-[38px] w-[38px] items-center justify-center rounded-lg transition-all duration-300 ${
+                    hoveredIdx === `top-${idx}` ? "bg-[#0ea5e9] text-[#0f1419]" : "bg-[#2d3748] text-[#e0e7ff]"
+                  }`}
                 >
-                  <FaLinkedin style={{ fontSize: "18px" }} />
+                  <FaLinkedin className="text-[18px]" />
                 </a>
               </div>
             </div>
@@ -357,157 +133,57 @@ export default function DevelopersSection() {
         </div>
 
         {/* Divider */}
-        <div
-          style={{
-            width: "80px",
-            height: "4px",
-            background:
-              "linear-gradient(90deg, transparent, #38bdf8, transparent)",
-            margin: "40px auto 60px",
-            borderRadius: "2px",
-          }}
-        />
+        <div className="mx-auto mb-[60px] mt-10 h-1 w-20 rounded-[2px] bg-[linear-gradient(90deg,transparent,#38bdf8,transparent)]" />
 
-        {/* Other Members Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "40px",
-            padding: "0 20px",
-            maxWidth: "1000px",
-            margin: "0 auto",
-          }}
-        >
+        {/* Other Members Grid - Responsive Grid */}
+        <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-10 px-5 sm:grid-cols-2 lg:grid-cols-3">
           {otherDevelopers.map((dev, idx) => (
             <div
               key={idx}
               onMouseEnter={() => setHoveredIdx(`dev-${idx}`)}
               onMouseLeave={() => setHoveredIdx(null)}
-              style={{
-                background: "#1a1f2e",
-                borderRadius: "16px",
-                padding: "28px 20px",
-                textAlign: "center",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                boxShadow:
-                  hoveredIdx === `dev-${idx}`
-                    ? "0 20px 40px rgba(56, 189, 248, 0.15)"
-                    : "0 8px 24px rgba(0, 0, 0, 0.3)",
-                transform:
-                  hoveredIdx === `dev-${idx}`
-                    ? "translateY(-8px)"
-                    : "translateY(0)",
-                border: "1px solid rgba(56, 189, 248, 0.2)",
-              }}
+              className={`rounded-2xl border border-[#38bdf8]/20 bg-[#1a1f2e] px-5 py-7 text-center transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                hoveredIdx === `dev-${idx}`
+                  ? "translate-y-[-8px] shadow-[0_20px_40px_rgba(56,189,248,0.15)]"
+                  : "translate-y-0 shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+              }`}
             >
-              {/* Profile Image */}
-              <div
-                style={{
-                  position: "relative",
-                  width: "130px",
-                  height: "130px",
-                  margin: "0 auto 16px",
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  background: "linear-gradient(135deg, #38bdf8, #0ea5e9)",
-                  padding: "4px",
-                  cursor: "pointer",
-                }}
-              >
+              <div className="mx-auto mb-4 h-[130px] w-[130px] cursor-pointer overflow-hidden rounded-full bg-gradient-to-br from-[#38bdf8] to-[#0ea5e9] p-1">
                 <img
                   src={dev.profilePic}
                   alt={dev.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    transition: "transform 0.3s ease",
-                    transform:
-                      hoveredIdx === `dev-${idx}` ? "scale(1.05)" : "scale(1)",
-                  }}
+                  className={`h-full w-full rounded-full object-cover transition-transform duration-300 ${
+                    hoveredIdx === `dev-${idx}` ? "scale-105" : "scale-100"
+                  }`}
                 />
               </div>
 
-              {/* Name */}
-              <h3
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 700,
-                  color: "#f1f5f9",
-                  margin: "12px 0 6px",
-                  letterSpacing: "-0.5px",
-                }}
-              >
+              <h3 className="mb-1.5 text-lg font-bold tracking-[-0.5px] text-[#f1f5f9]">
                 {dev.name}
               </h3>
 
-              {/* Email */}
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "#cbd5e1",
-                  margin: "8px 0",
-                  wordBreak: "break-all",
-                  fontWeight: 500,
-                }}
-              >
+              <p className="my-2 break-all text-[12px] font-medium text-[#cbd5e1]">
                 {dev.email}
               </p>
 
-              {/* Social Links */}
-              <div
-                style={{
-                  marginTop: "16px",
-                  paddingTop: "14px",
-                  borderTop: "1px solid #334155",
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "12px",
-                }}
-              >
+              <div className="mt-4 flex justify-center gap-3 border-t border-[#334155] pt-3.5">
                 <a
                   href={dev.githubLink}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${dev.name} GitHub`}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "8px",
-                    background:
-                      hoveredIdx === `dev-${idx}` ? "#38bdf8" : "#2d3748",
-                    color: hoveredIdx === `dev-${idx}` ? "#0f1419" : "#e0e7ff",
-                    transition: "all 0.3s ease",
-                    textDecoration: "none",
-                  }}
+                  className={`flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300 ${
+                    hoveredIdx === `dev-${idx}` ? "bg-[#38bdf8] text-[#0f1419]" : "bg-[#2d3748] text-[#e0e7ff]"
+                  }`}
                 >
-                  <FaGithub style={{ fontSize: "18px" }} />
+                  <FaGithub className="text-[18px]" />
                 </a>
                 <a
                   href={dev.linkedInLink}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${dev.name} LinkedIn`}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "8px",
-                    background:
-                      hoveredIdx === `dev-${idx}` ? "#0ea5e9" : "#2d3748",
-                    color: hoveredIdx === `dev-${idx}` ? "#0f1419" : "#e0e7ff",
-                    transition: "all 0.3s ease",
-                    textDecoration: "none",
-                  }}
+                  className={`flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300 ${
+                    hoveredIdx === `dev-${idx}` ? "bg-[#0ea5e9] text-[#0f1419]" : "bg-[#2d3748] text-[#e0e7ff]"
+                  }`}
                 >
-                  <FaLinkedin style={{ fontSize: "18px" }} />
+                  <FaLinkedin className="text-[18px]" />
                 </a>
               </div>
             </div>
@@ -516,4 +192,4 @@ export default function DevelopersSection() {
       </div>
     </section>
   );
-}
+};
