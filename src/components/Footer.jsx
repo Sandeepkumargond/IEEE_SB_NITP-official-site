@@ -44,7 +44,7 @@ export default function Footer() {
     { href: "/projects", label: "Projects" },
     { href: "/gallery", label: "Gallery" },
     { href: "/certificate", label: "E-Certificate" },
-    { href: "/admin", label: "Admin Portal" },
+    { href: "/auth/login", label: "Admin Portal" },
   ];
 
   return (
