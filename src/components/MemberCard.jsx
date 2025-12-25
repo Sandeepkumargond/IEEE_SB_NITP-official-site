@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { Github, Linkedin } from "lucide-react";
 
@@ -40,8 +40,4 @@ export default function MemberCard({ name, role, image, githubLink, linkedInLink
         )}
       </div>
     </div>
-  );
-}
-
-
-
+    )}

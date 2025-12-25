@@ -33,7 +33,7 @@ export default function PeopleUpdateForm() {
     profilePic: [],
   });
 
-  const teamOptions = ["Web","Kotlin","AIML","Blockchain","Design","Flutter"] 
+  const teamOptions = ["Web","AIML","PR","Event","Design","Technical"] 
 
   const [isDisabled, setIsDisabled] = useState(true);
 

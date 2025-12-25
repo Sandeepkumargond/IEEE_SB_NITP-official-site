@@ -12,13 +12,14 @@ const Navbar = () => {
     { id: 0, name: "Home", path: "/" },
     { id: 1, name: "About", path: "/about" },
     { id: 2, name: "Events", path: "/events" },
-    { id: 3, name: "Gallery", path: "/gallery" },
-    { id: 4, name: "Teams", path: "/teams" },
-    { id: 5, name: "Office", path: "/committee" },
-    { id: 6, name: "Projects", path: "/projects" },
-    { id: 7, name: "Blogs", path: "/blogs" },
-    { id: 8, name: "E-certificate", path: "/certificate" },
-    { id: 9, name: "Join IEEE", path: "https://www.ieee.org/membership/join" },
+    { id: 3, name: "Developers", path: "/developers" },
+    { id: 4, name: "Gallery", path: "/gallery" },
+    { id: 5, name: "Teams", path: "/teams" },
+    { id: 6, name: "Office", path: "/committee" },
+    { id: 7, name: "Projects", path: "/projects" },
+    { id: 8, name: "Blogs", path: "/blogs" },
+    { id: 9, name: "E-certificate", path: "/certificate" },
+    { id: 10, name: "Join IEEE", path: "https://www.ieee.org/membership/join" },
   ];
 
   return (
