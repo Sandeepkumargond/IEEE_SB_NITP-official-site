@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.17.3",
+    "@react-pdf/renderer": "^4.3.1",
     "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",

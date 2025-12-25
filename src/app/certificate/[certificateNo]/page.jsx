@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { fetchMember } from "@/lib/adminAction";
 import { Download, CheckCircle2, Printer } from "lucide-react";
+
+// React PDF Imports
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { CertificatePDF } from "@/components/CertificateTemplate";
 
 export default function CertificatePage() {
   const params = useParams();
@@ -12,26 +16,18 @@ export default function CertificatePage() {
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const certificateRef = useRef(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!certificateNo) {
-      setError("Missing certificate number");
-      setLoading(false);
-      return;
-    }
-
+    setIsClient(true);
     const fetchCertificate = async () => {
+      if (!certificateNo) return;
       try {
-        setLoading(true);
         const response = await fetchMember({ certificateNo });
-        if (!response.success || !response.data) {
-          setError(response.message || "Certificate not found");
-          return;
-        }
-        setMember(response.data);
+        if (response.success) setMember(response.data);
+        else setError(response.message || "Certificate not found");
       } catch (err) {
-        setError("Failed to fetch certificate data");
+        setError("Failed to fetch data");
       } finally {
         setLoading(false);
       }
@@ -39,39 +35,7 @@ export default function CertificatePage() {
     fetchCertificate();
   }, [certificateNo]);
 
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleDownload = async () => {
-    try {
-      const element = certificateRef.current;
-      if (!element) return;
-
-      const html2pdf = (await import("html2pdf.js")).default;
-
-      const options = {
-        margin: [5, 5, 5, 5],
-        filename: `IEEE_Certificate_${member?.name || "Member"}.pdf`,
-        image: { type: "jpeg", quality: 1.0 },
-        html2canvas: { 
-          scale: 3, 
-          useCORS: true,
-          logging: false,
-          onclone: (clonedDoc) => {
-            const cert = clonedDoc.getElementById('certificate-area');
-            if (cert) cert.style.backgroundColor = "#ffffff";
-          }
-        },
-        jsPDF: { orientation: "landscape", unit: "mm", format: "a4" },
-      };
-
-      await html2pdf().set(options).from(element).save();
-    } catch (err) {
-      console.error("Download error:", err);
-      handlePrint(); // Fallback
-    }
-  };
+  const handlePrint = () => window.print();
 
   if (loading) {
     return (
@@ -79,7 +43,6 @@ export default function CertificatePage() {
         <div className="relative flex items-center justify-center">
           <div className="absolute h-20 w-20 rounded-full border-4 border-[#1e3a8a]/10"></div>
           <div className="h-20 w-20 animate-spin rounded-full border-4 border-t-[#1e3a8a] border-r-transparent border-b-transparent border-l-transparent"></div>
-          <div className="absolute h-10 w-10 bg-[#1e3a8a]/10 rounded-full animate-pulse"></div>
         </div>
         <p className="mt-8 text-xl font-serif font-bold text-[#1e3a8a] tracking-widest animate-pulse">VERIFYING</p>
       </div>
@@ -102,10 +65,9 @@ export default function CertificatePage() {
     <div className="min-h-screen bg-slate-100 py-12 px-4 print:p-0 print:bg-white">
       <div className="max-w-5xl mx-auto print:max-w-full">
         
-        {/* ================= CERTIFICATE AREA ================= */}
+        {/* ================= CERTIFICATE PREVIEW AREA ================= */}
         <div 
           id="certificate-area"
-          ref={certificateRef}
           className="bg-white shadow-2xl p-2 print:shadow-none"
           style={{ border: '12px double #ca8a04', minHeight: '600px' }}
         >
@@ -113,55 +75,51 @@ export default function CertificatePage() {
             className="h-full p-10 flex flex-col items-center justify-between bg-white text-center relative overflow-hidden"
             style={{ border: '2px solid #1e3a8a' }}
           >
-            {/* Header / Logo */}
             <div>
               <img src="/IEEE.png" alt="IEEE Logo" className="h-20 mx-auto mb-2 object-contain" />
-              <p className="font-serif font-bold tracking-[0.2em] text-xs uppercase" style={{ color: '#1e3a8a' }}>
+              <p className="font-serif font-bold tracking-[0.2em] text-xs uppercase text-[#1e3a8a]">
                 IEEE Student Branch NIT Patna
               </p>
             </div>
 
-            {/* Title */}
             <div>
-              <h1 className="text-6xl font-serif italic font-bold" style={{ color: '#1e3a8a' }}>Certificate</h1>
+              <h1 className="text-6xl font-serif italic font-bold text-[#1e3a8a]">Certificate</h1>
               <div className="flex items-center justify-center gap-4 mt-2">
-                <div className="h-[1px] w-16" style={{ backgroundColor: '#ca8a04' }} />
-                <span className="text-lg font-serif tracking-[0.2em] uppercase" style={{ color: '#a16207' }}>of Appreciation</span>
-                <div className="h-[1px] w-16" style={{ backgroundColor: '#ca8a04' }} />
+                <div className="h-[1px] w-16 bg-[#ca8a04]" />
+                <span className="text-lg font-serif tracking-[0.2em] uppercase text-[#a16207]">of Appreciation</span>
+                <div className="h-[1px] w-16 bg-[#ca8a04]" />
               </div>
             </div>
 
-            {/* Content */}
             <div className="my-6">
               <p className="text-gray-500 italic font-serif text-lg mb-2">This certificate is proudly presented to</p>
-              <h2 className="text-4xl font-serif font-bold mb-6 border-b-2 border-gray-100 inline-block px-10 pb-1" style={{ color: '#1d4ed8' }}>
+              <h2 className="text-4xl font-serif font-bold mb-6 border-b-2 border-gray-100 inline-block px-10 pb-1 text-[#1d4ed8]">
                 {member?.name}
               </h2>
               <div className="max-w-2xl mx-auto space-y-3">
                 <p className="text-lg text-gray-700 leading-relaxed">
                   For outstanding dedication and contribution as a member of the 
-                  <span className="font-bold" style={{ color: '#1e3a8a' }}> {member?.team} Team </span> 
+                  <span className="font-bold text-[#1e3a8a]"> {member?.team} Team </span> 
                   within the IEEE Student Branch, NIT Patna, during the Academic Session 2025-2026.
                 </p>
               </div>
             </div>
 
-            {/* Signatures */}
             <div className="w-full flex justify-between items-end px-12 mt-4">
               <div className="text-center">
-                <div className="w-40 h-[1px] mb-2 mx-auto" style={{ backgroundColor: '#1e3a8a' }} />
-                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e3a8a' }}>Branch Counselor</p>
+                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#1e3a8a]" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#1e3a8a]">Branch Counselor</p>
               </div>
               <div className="text-[10px] font-mono text-gray-400">ID: {certificateNo}</div>
               <div className="text-center">
-                <div className="w-40 h-[1px] mb-2 mx-auto" style={{ backgroundColor: '#1e3a8a' }} />
-                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e3a8a' }}>Professor In-Charge</p>
+                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#1e3a8a]" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#1e3a8a]">Professor In-Charge</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ================= RESTORED BOTTOM SECTION ================= */}
+        {/* ================= VERIFICATION SECTION ================= */}
         <div className="print:hidden">
           <div className="mt-8 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
@@ -185,16 +143,30 @@ export default function CertificatePage() {
                 <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Certificate ID</label><p className="text-lg font-mono font-semibold text-slate-800">{certificateNo}</p></div>
               </div>
               <div className="space-y-4">
-                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Issuance Date</label><p className="text-lg font-semibold text-slate-800">{new Date(member?.issuanceDate).toLocaleDateString()}</p></div>
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Issuance Date</label><p className="text-lg font-semibold text-slate-800">{member?.issuanceDate ? new Date(member.issuanceDate).toLocaleDateString() : 'N/A'}</p></div>
                 <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Designation</label><p className="text-lg font-semibold text-slate-800">{member?.designation || 'Member'}</p></div>
               </div>
             </div>
           </div>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center pb-12">
-            <button onClick={handleDownload} className="inline-flex items-center gap-3 px-12 py-4 bg-[#1e3a8a] text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg hover:scale-[1.02] active:scale-95">
-              <Download size={20} /> Download Certificate (PDF)
-            </button>
+            {isClient && member && (
+              <PDFDownloadLink 
+                document={<CertificatePDF member={member} certificateNo={certificateNo} />} 
+                fileName={`IEEE_Certificate_${member?.name.replace(/\s+/g, '_')}.pdf`}
+              >
+                {({ loading: pdfLoading }) => (
+                  <button 
+                    disabled={pdfLoading}
+                    className="inline-flex items-center gap-3 px-12 py-4 bg-[#1e3a8a] text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                  >
+                    <Download size={20} /> 
+                    {pdfLoading ? "Preparing PDF..." : "Download Certificate (PDF)"}
+                  </button>
+                )}
+              </PDFDownloadLink>
+            )}
+            
             <button onClick={handlePrint} className="inline-flex items-center gap-3 px-12 py-4 bg-white text-[#1e3a8a] border-2 border-[#1e3a8a] rounded-xl font-bold hover:bg-slate-50 transition-all">
               <Printer size={20} /> Print Directly
             </button>
