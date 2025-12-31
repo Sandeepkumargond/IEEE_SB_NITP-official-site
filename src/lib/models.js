@@ -50,9 +50,13 @@ const MemberSchema = new Schema({
         unique : true,
         required : true
     },
+    certificateIssued : {
+        type : Boolean,
+        default : false
+    },
     issuanceDate : {
         type : Date,
-        default : Date.now
+        default : null
     },
     downloadUrl :{
         type : String,

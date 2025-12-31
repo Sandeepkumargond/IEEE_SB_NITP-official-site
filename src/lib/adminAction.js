@@ -236,7 +236,7 @@ export const getAdmin = async() => {
   }
 }
 
-/* member details registering (certificate creation and storage) and fetching */
+/* member details registering (without certificate issuance - issuance happens on demand) */
 export const addMember = async ({name,email,year,designation,team,contributions,githubLink,linkedInLink,profilePic}) => {
   try {
     await connectDB();
@@ -269,19 +269,8 @@ export const addMember = async ({name,email,year,designation,team,contributions,
 
     const downloadUrl = `${process.env.BASE_URL}/certificate/${certificateNo}`;
 
-    console.log(process.env.MAIL_USER)
-    console.log(process.env.MAIL_PASS)
-
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: `${process.env.MAIL_USER}`,
-          pass: `${process.env.MAIL_PASS}`,
-        },
-      });
-
-      const memberDetails = {
-        name,
+    const memberDetails = {
+      name,
       email,
       year,
       designation,
@@ -290,32 +279,14 @@ export const addMember = async ({name,email,year,designation,team,contributions,
       githubLink,
       linkedInLink,
       profilePic
-      }
-
-      const mailOptions = {
-        from: `${process.env.MAIL_USER}`,
-        to: memberDetails.email,
-        subject: "Your IEEE Certificate is ready!",
-        html: `
-          <p>Greetings ${memberDetails.name},</p>
-          <p>We're excited to let you now that your work is recognised and your certificate has been generated!</p>
-          <p>You can download it using the link below:</p>
-        <a href="${downloadUrl}" target="_blank">${downloadUrl}</a>
-        <p><strong>Certificate Number:</strong> ${certificateNo}</p>
-        <br />
-        <p>Regards, <br/> IEEE Student Branch NIT Patna</p> 
-        `,
-      };
-   
-      await transporter.sendMail(mailOptions)
-
-      console.log("Mail sent successfully!!")
-
+    }
 
     const newMember = new Member({
       ...memberDetails,
       certificateNo,
-      downloadUrl
+      downloadUrl,
+      certificateIssued: false,
+      issuanceDate: null
     });
 
     console.log(newMember)
@@ -323,7 +294,7 @@ export const addMember = async ({name,email,year,designation,team,contributions,
     await newMember.save();
 
     return{
-        message: "New member added successfully!",
+        message: "New member added successfully! Certificate will be issued when you click the issue button.",
         success: true,
       };
   } 
@@ -333,6 +304,125 @@ export const addMember = async ({name,email,year,designation,team,contributions,
         message: "Error registering the member",
         success: false,
       };
+  }
+};
+
+/* Issue certificate to a member */
+export const issueCertificate = async (memberId) => {
+  try {
+    await connectDB();
+    
+    const isVerified = await verifyToken();
+
+    if(!isVerified){
+      return{
+        message : "Unauthorized access !",
+        success : false
+      }
+    }
+
+    // Find member by ID
+    const member = await Member.findById(memberId);
+
+    if (!member) {
+      return {
+        message: "Member not found!",
+        success: false,
+      };
+    }
+
+    // Check if certificate is already issued
+    if (member.certificateIssued) {
+      return {
+        message: "Certificate already issued to this member!",
+        success: false,
+      };
+    }
+
+    console.log(process.env.MAIL_USER)
+    console.log(process.env.MAIL_PASS)
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: `${process.env.MAIL_USER}`,
+        pass: `${process.env.MAIL_PASS}`,
+      },
+    });
+
+    const mailOptions = {
+      from: `${process.env.MAIL_USER}`,
+      to: member.email,
+      subject: "Your IEEE Certificate is ready!",
+      html: `
+        <p>Greetings ${member.name},</p>
+        <p>We're excited to let you know that your work is recognised and your certificate has been generated!</p>
+        <p>You can download it using the link below:</p>
+        <a href="${member.downloadUrl}" target="_blank">${member.downloadUrl}</a>
+        <p><strong>Certificate Number:</strong> ${member.certificateNo}</p>
+        <br />
+        <p>Regards, <br/> IEEE Student Branch NIT Patna</p> 
+      `,
+    };
+ 
+    await transporter.sendMail(mailOptions)
+
+    console.log("Mail sent successfully!!")
+
+    // Update member to mark certificate as issued
+    member.certificateIssued = true;
+    member.issuanceDate = new Date();
+    await member.save();
+
+    return{
+      message: "Certificate issued successfully! Email sent to member.",
+      success: true,
+    };
+  } 
+  catch (error) {
+    console.log("Error issuing certificate : ", error);
+    return {
+      message: "Error issuing certificate",
+      success: false,
+    };
+  }
+};
+
+/* Delete a member */
+export const deleteMember = async (memberId) => {
+  try {
+    await connectDB();
+    
+    const isVerified = await verifyToken();
+
+    if(!isVerified){
+      return{
+        message : "Unauthorized access !",
+        success : false
+      }
+    }
+
+    // Find and delete member by ID
+    const deletedMember = await Member.findByIdAndDelete(memberId);
+
+    if (!deletedMember) {
+      return {
+        message: "Member not found!",
+        success: false,
+      };
+    }
+
+    return{
+      message: "Member deleted successfully!",
+      success: true,
+    };
+  } 
+  catch (error) {
+    console.log("Error deleting member : ", error);
+    return {
+      message: "Error deleting member",
+      success: false,
+    };
   }
 };
 
@@ -374,7 +464,7 @@ export const fetchAllMembers = async() => {
   try {
     await connectDB()
 
-    const members = await Member.find({}).sort({ certificateNo: -1 }).limit(5).lean();
+    const members = await Member.find({}).sort({ certificateNo: -1 }).lean();
 
     const plainMembers = (Array.isArray(members) ? members : []).map((m) => {
       const memberObj = { ...m };

@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Eye, Trash2, LogOut } from "lucide-react";
+import { Eye, Trash2, LogOut, Send } from "lucide-react";
 import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
 import { fetchAllProjects } from "@/lib/projectAction";
 import { createEvent, deleteEvent, fetchAllEvents } from "@/lib/eventAction";
 import Link from "next/link";
-import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin, logoutAdmin } from "@/lib/adminAction";
+import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin, logoutAdmin, issueCertificate, deleteMember } from "@/lib/adminAction";
 import { deleteProjects } from "@/lib/projectAction";
 import { useRouter } from "next/navigation";
 
@@ -34,6 +34,48 @@ export default function AdminDashboard() {
     } catch (error) {
       console.log(error);
       alert("Error logging out");
+    }
+  }
+
+  // Handle Issue Certificate
+  const handleIssueCertificate = async (memberId) => {
+    try {
+      const response = await issueCertificate(memberId);
+      console.log(response);
+      
+      if (response.success) {
+        // Refresh members list
+        const membersResp = await fetchAllMembers();
+        setMembers(membersResp.data || []);
+        alert(response.message || "Certificate issued successfully!");
+      } else {
+        alert(response.message || "Failed to issue certificate");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error issuing certificate");
+    }
+  }
+
+  // Handle Delete Member
+  const handleDeleteMember = async (memberId) => {
+    if (!confirm("Are you sure you want to delete this member?")) return;
+    
+    try {
+      const response = await deleteMember(memberId);
+      console.log(response);
+      
+      if (response.success) {
+        // Refresh members list
+        const membersResp = await fetchAllMembers();
+        setMembers(membersResp.data || []);
+        alert(response.message || "Member deleted successfully!");
+      } else {
+        alert(response.message || "Failed to delete member");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error deleting member");
     }
   }
 
@@ -480,12 +522,40 @@ useEffect(() => {
               {members.slice((membersPage - 1) * itemsPerPage, membersPage * itemsPerPage).map((member) => (
                 <div key={member._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
                 <img
-                  src="https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
+                  src={member.profilePic && member.profilePic.length > 0 ? member.profilePic[0] : "https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"}
                   alt="member"
                   className="w-10 h-10 rounded-full object-cover border-2 border-white"
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col flex-1">
                   <h3 className="text-xl font-semibold">{member.name}</h3>
+                  <p className="text-sm text-gray-300">{member.email}</p>
+                  <p className="text-xs text-gray-400">
+                    {member.certificateIssued ? (
+                      <span className="text-green-400">✓ Certificate Issued</span>
+                    ) : (
+                      <span className="text-yellow-400">⚠ Pending</span>
+                    )}
+                  </p>
+                </div>
+                <div className="ml-auto flex gap-2 flex-wrap justify-end">
+                  {member.certificateIssued ? (
+                    <div className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
+                      ✓ Issued
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={() => handleIssueCertificate(member._id)}
+                      className="flex items-center gap-1 bg-blue-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-blue-700 hover:bg-blue-500 transition"
+                    >
+                      <Send size={16} /> Issue
+                    </button>
+                  )}
+                  <button 
+                    onClick={() => handleDeleteMember(member._id)}
+                    className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700 hover:bg-red-500 transition"
+                  >
+                    <Trash2 size={16} /> Delete
+                  </button>
                 </div>
                 </div>
               ))}
