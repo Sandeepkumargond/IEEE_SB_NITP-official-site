@@ -509,73 +509,76 @@ useEffect(() => {
           </div>
 
           {/* Members Section */}
-          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 items-center">
-            <div className="flex items-center justify-between w-full">
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 lg:col-span-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full">
               <h2 className="text-2xl font-semibold">
                 Members
               </h2>
-              <Link href="/certificate/new" className="bg-green-500 text-black px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-600">
-                add member
+              <Link href="/certificate/new" className="bg-green-500 hover:bg-green-600 transition text-black px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap">
+                + add member
               </Link>
             </div>
-            <div className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col gap-3 w-full">
               {members.slice((membersPage - 1) * itemsPerPage, membersPage * itemsPerPage).map((member) => (
-                <div key={member._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
-                <img
-                  src={member.profilePic && member.profilePic.length > 0 ? member.profilePic[0] : "https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"}
-                  alt="member"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white"
-                />
-                <div className="flex flex-col flex-1">
-                  <h3 className="text-xl font-semibold">{member.name}</h3>
-                  <p className="text-sm text-gray-300">{member.email}</p>
-                  <p className="text-xs text-gray-400">
+                <div key={member._id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 bg-[#035b99] rounded-xl shadow-md hover:shadow-lg transition">
+                  <img
+                    src={member.profilePic && member.profilePic.length > 0 ? member.profilePic[0] : "https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"}
+                    alt="member"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-white truncate">{member.name}</h3>
+                    <p className="text-sm text-gray-300 truncate">{member.email}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {member.certificateIssued ? (
+                        <span className="text-green-400 font-medium">✓ Certificate Issued</span>
+                      ) : (
+                        <span className="text-yellow-400 font-medium">⚠ Pending</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 shrink-0 w-full sm:w-auto">
                     {member.certificateIssued ? (
-                      <span className="text-green-400">✓ Certificate Issued</span>
+                      <div className="flex items-center justify-center gap-1 bg-green-500 text-white px-3 py-2 rounded-lg font-semibold shadow-md flex-1 sm:flex-none">
+                        <span>✓</span>
+                        <span>Issued</span>
+                      </div>
                     ) : (
-                      <span className="text-yellow-400">⚠ Pending</span>
+                      <button 
+                        onClick={() => handleIssueCertificate(member._id)}
+                        className="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition flex-1 sm:flex-none"
+                      >
+                        <Send size={16} />
+                        <span>Issue</span>
+                      </button>
                     )}
-                  </p>
-                </div>
-                <div className="ml-auto flex gap-2 flex-wrap justify-end">
-                  {member.certificateIssued ? (
-                    <div className="flex items-center gap-1 bg-green-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-green-700">
-                      ✓ Issued
-                    </div>
-                  ) : (
                     <button 
-                      onClick={() => handleIssueCertificate(member._id)}
-                      className="flex items-center gap-1 bg-blue-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-blue-700 hover:bg-blue-500 transition"
+                      onClick={() => handleDeleteMember(member._id)}
+                      className="flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition flex-1 sm:flex-none"
                     >
-                      <Send size={16} /> Issue
+                      <Trash2 size={16} />
+                      <span>Delete</span>
                     </button>
-                  )}
-                  <button 
-                    onClick={() => handleDeleteMember(member._id)}
-                    className="flex items-center gap-1 bg-red-400 text-black px-3 py-1 rounded-lg font-medium shadow-sm border-b-4 border-red-700 hover:bg-red-500 transition"
-                  >
-                    <Trash2 size={16} /> Delete
-                  </button>
-                </div>
+                  </div>
                 </div>
               ))}
             </div>
             {members.length > itemsPerPage && (
-              <div className="flex items-center justify-between w-full mt-auto pt-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 w-full mt-auto pt-4">
                 <button
                   onClick={() => setMembersPage(membersPage - 1)}
                   disabled={membersPage === 1}
-                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                  className="bg-blue-500 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 disabled:cursor-not-allowed transition"
                 >
-                  Prev
+                  ← Prev
                 </button>
-                <span className="text-white font-semibold">{membersPage}/{Math.ceil(members.length / itemsPerPage)}</span>
+                <span className="text-white font-semibold text-center flex-1 sm:flex-none">{membersPage}/{Math.ceil(members.length / itemsPerPage)}</span>
                 <button
                   onClick={() => setMembersPage(membersPage + 1)}
                   disabled={membersPage >= Math.ceil(members.length / itemsPerPage)}
-                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                  className="bg-blue-500 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 disabled:cursor-not-allowed transition"
                 >
-                  Next
+                  Next →
                 </button>
               </div>
             )}
