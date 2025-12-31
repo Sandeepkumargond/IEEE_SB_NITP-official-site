@@ -4,7 +4,7 @@ import MemberCard from "@/components/MemberCard";
 export default function OfficeBearsSection() {
   const officeBearers = [
     {
-      name: "XYZ",
+      name: "Aditya Srivastava",
       designation: "Chairperson",
       githubLink: "",
       linkedInLink: "",

@@ -29,9 +29,9 @@ export default function CertificateForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
-      <div className="rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border-t-8 border-blue-700 bg-white">
+      <div className="rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border-t-8 border-[#014f74] bg-white">
         {/* Top Section */}
-        <div className="bg-gradient-to-br from-blue-700 to-blue-800 px-8 pt-12 pb-8 text-center text-white">
+        <div className="bg-gradient-to-br from-[#014f74] to-[#012f4a] px-8 pt-12 pb-8 text-center text-white">
           <div className="mb-4 flex justify-center">
             <div className="bg-white bg-opacity-20 p-3 rounded-full">
               <Download size={32} />
@@ -60,7 +60,7 @@ export default function CertificateForm() {
                 if (error) setError(null);
               }}
               onKeyPress={handleKeyPress}
-              className="w-full px-5 py-4 rounded-xl border-2 border-gray-300 outline-none text-gray-800 bg-white text-base font-medium focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition placeholder-gray-500"
+              className="w-full px-5 py-4 rounded-xl border-2 border-gray-300 outline-none text-gray-800 bg-white text-base font-medium focus:border-[#014f74] focus:ring-2 focus:ring-[#014f74]/20 transition placeholder-gray-500"
             />
           </div>
 
@@ -68,7 +68,7 @@ export default function CertificateForm() {
           <button
             onClick={handlePreview}
             disabled={loading}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-700 to-blue-800 text-white font-bold text-lg shadow-lg hover:shadow-xl hover:from-blue-800 hover:to-blue-900 transition transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-[#014f74] to-[#012f4a] text-white font-bold text-lg shadow-lg hover:shadow-xl hover:from-[#013f60] hover:to-[#010f1a] transition transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -93,8 +93,8 @@ export default function CertificateForm() {
           {/* Helper Section */}
           <div className="mt-8 pt-6 border-t border-gray-300">
             <p className="text-xs text-gray-600 mb-3">Certificate number format:</p>
-            <div className="inline-block bg-blue-50 px-4 py-2 rounded-lg border border-blue-200">
-              <p className="text-blue-900 font-mono text-sm">ieeeenitp-YYYY-XXX</p>
+            <div className="inline-block bg-[#014f74]/10 px-4 py-2 rounded-lg border border-[#035b99]/30">
+              <p className="text-[#014f74] font-mono text-sm">ieeeenitp-YYYY-XXX</p>
             </div>
           </div>
         </div>
