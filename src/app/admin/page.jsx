@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Eye, Trash2, LogOut } from "lucide-react";
+import { Eye, Trash2, LogOut, Send } from "lucide-react";
 import { deleteBlog, fetchAllBlog } from "@/lib/blogAction";
 import { fetchAllProjects } from "@/lib/projectAction";
 import { createEvent, deleteEvent, fetchAllEvents } from "@/lib/eventAction";
 import Link from "next/link";
-import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin, logoutAdmin } from "@/lib/adminAction";
+import { fetchAllMembers, getAdmin, registerAdmin, deleteAdmin, logoutAdmin, issueCertificate, deleteMember } from "@/lib/adminAction";
 import { deleteProjects } from "@/lib/projectAction";
 import { useRouter } from "next/navigation";
 
@@ -34,6 +34,48 @@ export default function AdminDashboard() {
     } catch (error) {
       console.log(error);
       alert("Error logging out");
+    }
+  }
+
+  // Handle Issue Certificate
+  const handleIssueCertificate = async (memberId) => {
+    try {
+      const response = await issueCertificate(memberId);
+      console.log(response);
+      
+      if (response.success) {
+        // Refresh members list
+        const membersResp = await fetchAllMembers();
+        setMembers(membersResp.data || []);
+        alert(response.message || "Certificate issued successfully!");
+      } else {
+        alert(response.message || "Failed to issue certificate");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error issuing certificate");
+    }
+  }
+
+  // Handle Delete Member
+  const handleDeleteMember = async (memberId) => {
+    if (!confirm("Are you sure you want to delete this member?")) return;
+    
+    try {
+      const response = await deleteMember(memberId);
+      console.log(response);
+      
+      if (response.success) {
+        // Refresh members list
+        const membersResp = await fetchAllMembers();
+        setMembers(membersResp.data || []);
+        alert(response.message || "Member deleted successfully!");
+      } else {
+        alert(response.message || "Failed to delete member");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error deleting member");
     }
   }
 
@@ -467,45 +509,76 @@ useEffect(() => {
           </div>
 
           {/* Members Section */}
-          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 items-center">
-            <div className="flex items-center justify-between w-full">
+          <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 lg:col-span-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full">
               <h2 className="text-2xl font-semibold">
                 Members
               </h2>
-              <Link href="/certificate/new" className="bg-green-500 text-black px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-600">
-                add member
+              <Link href="/certificate/new" className="bg-green-500 hover:bg-green-600 transition text-black px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap">
+                + add member
               </Link>
             </div>
-            <div className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col gap-3 w-full">
               {members.slice((membersPage - 1) * itemsPerPage, membersPage * itemsPerPage).map((member) => (
-                <div key={member._id} className="flex items-center gap-4 p-3 bg-[#035b99] rounded-xl shadow-md px-5">
-                <img
-                  src="https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
-                  alt="member"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white"
-                />
-                <div className="flex flex-col">
-                  <h3 className="text-xl font-semibold">{member.name}</h3>
-                </div>
+                <div key={member._id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 bg-[#035b99] rounded-xl shadow-md hover:shadow-lg transition">
+                  <img
+                    src={member.profilePic && member.profilePic.length > 0 ? member.profilePic[0] : "https://static.vecteezy.com/system/resources/previews/018/742/015/original/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"}
+                    alt="member"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-white truncate">{member.name}</h3>
+                    <p className="text-sm text-gray-300 truncate">{member.email}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {member.certificateIssued ? (
+                        <span className="text-green-400 font-medium">✓ Certificate Issued</span>
+                      ) : (
+                        <span className="text-yellow-400 font-medium">⚠ Pending</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 shrink-0 w-full sm:w-auto">
+                    {member.certificateIssued ? (
+                      <div className="flex items-center justify-center gap-1 bg-green-500 text-white px-3 py-2 rounded-lg font-semibold shadow-md flex-1 sm:flex-none">
+                        <span>✓</span>
+                        <span>Issued</span>
+                      </div>
+                    ) : (
+                      <button 
+                        onClick={() => handleIssueCertificate(member._id)}
+                        className="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition flex-1 sm:flex-none"
+                      >
+                        <Send size={16} />
+                        <span>Issue</span>
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => handleDeleteMember(member._id)}
+                      className="flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition flex-1 sm:flex-none"
+                    >
+                      <Trash2 size={16} />
+                      <span>Delete</span>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
             {members.length > itemsPerPage && (
-              <div className="flex items-center justify-between w-full mt-auto pt-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 w-full mt-auto pt-4">
                 <button
                   onClick={() => setMembersPage(membersPage - 1)}
                   disabled={membersPage === 1}
-                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                  className="bg-blue-500 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 disabled:cursor-not-allowed transition"
                 >
-                  Prev
+                  ← Prev
                 </button>
-                <span className="text-white font-semibold">{membersPage}/{Math.ceil(members.length / itemsPerPage)}</span>
+                <span className="text-white font-semibold text-center flex-1 sm:flex-none">{membersPage}/{Math.ceil(members.length / itemsPerPage)}</span>
                 <button
                   onClick={() => setMembersPage(membersPage + 1)}
                   disabled={membersPage >= Math.ceil(members.length / itemsPerPage)}
-                  className="bg-blue-500 disabled:bg-gray-500 text-white px-3 py-1 rounded-lg font-medium hover:bg-blue-600"
+                  className="bg-blue-500 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 disabled:cursor-not-allowed transition"
                 >
-                  Next
+                  Next →
                 </button>
               </div>
             )}

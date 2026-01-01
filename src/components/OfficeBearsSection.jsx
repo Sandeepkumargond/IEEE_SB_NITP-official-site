@@ -4,7 +4,7 @@ import MemberCard from "@/components/MemberCard";
 export default function OfficeBearsSection() {
   const officeBearers = [
     {
-      name: "XYZ",
+      name: "Aditya Srivastava",
       designation: "Chairperson",
       githubLink: "",
       linkedInLink: "",
@@ -34,23 +34,23 @@ export default function OfficeBearsSection() {
     {
       name: "Aryan Kumar Arya",
       designation: "Treasurer",
-      githubLink: "",
-      linkedInLink: "",
-      profilePic: "",
+      githubLink: "https://github.com/AryanKumarArya007",
+      linkedInLink: "https://www.linkedin.com/in/aryan-kumar-arya-84a61628b/",
+      profilePic: "/office_bearers/ARYAN.jpeg",
     },
     {
       name: "Saurabh Yadav",
       designation: "Technical Lead",
       githubLink: "https://github.com/kg-saurabh",
       linkedInLink: "https://www.linkedin.com/in/saurabh-yadav-932a2328a",
-      profilePic: "",
+      profilePic: "/office_bearers/SOURABH.webp",
     },
     {
       name: "Gungun Singh",
       designation: "Project Head",
       githubLink: "https://github.com/gungun-2010",
       linkedInLink: "https://www.linkedin.com/in/gungun-singh-1068b12a3/",
-      profilePic: "",
+      profilePic: "/office_bearers/GUNGUN.jpg",
     },
     {
       name: "Sandeep Kumar Gond",
@@ -64,14 +64,14 @@ export default function OfficeBearsSection() {
       designation: "Event Management Head",
       githubLink: "https://github.com/Prashasti-27",
       linkedInLink: "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
-      profilePic: "",
+      profilePic: "/office_bearers/PRASHASTI.jpg",
     },
     {
       name: "Deepak Kumar",
       designation: "PR & Sponser Head",
       githubLink: "https://github.com/Deep07954",
       linkedInLink: "https://www.linkedin.com/in/deepak-kumar-4529bb28a",
-      profilePic: "",
+      profilePic: "/office_bearers/DEEPAK.jpg",
     },
     {
       name: "Lisha Rani",

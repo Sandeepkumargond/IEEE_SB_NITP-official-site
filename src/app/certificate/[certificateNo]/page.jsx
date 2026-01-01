@@ -41,10 +41,10 @@ export default function CertificatePage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-white">
         <div className="relative flex items-center justify-center">
-          <div className="absolute h-20 w-20 rounded-full border-4 border-[#1e3a8a]/10"></div>
-          <div className="h-20 w-20 animate-spin rounded-full border-4 border-t-[#1e3a8a] border-r-transparent border-b-transparent border-l-transparent"></div>
+          <div className="absolute h-20 w-20 rounded-full border-4 border-[#014f74]/10"></div>
+          <div className="h-20 w-20 animate-spin rounded-full border-4 border-t-[#014f74] border-r-transparent border-b-transparent border-l-transparent"></div>
         </div>
-        <p className="mt-8 text-xl font-serif font-bold text-[#1e3a8a] tracking-widest animate-pulse">VERIFYING</p>
+        <p className="mt-8 text-xl font-serif font-bold text-[#014f74] tracking-widest animate-pulse">VERIFYING</p>
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function CertificatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 py-12 px-4 print:p-0 print:bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#014f74]/5 to-[#035b99]/5 py-12 px-4 print:p-0 print:bg-white">
       <div className="max-w-5xl mx-auto print:max-w-full">
         
         {/* ================= CERTIFICATE PREVIEW AREA ================= */}
@@ -73,17 +73,17 @@ export default function CertificatePage() {
         >
           <div 
             className="h-full p-10 flex flex-col items-center justify-between bg-white text-center relative overflow-hidden"
-            style={{ border: '2px solid #1e3a8a' }}
+            style={{ border: '2px solid #014f74' }}
           >
             <div>
               <img src="/IEEE.png" alt="IEEE Logo" className="h-20 mx-auto mb-2 object-contain" />
-              <p className="font-serif font-bold tracking-[0.2em] text-xs uppercase text-[#1e3a8a]">
+              <p className="font-serif font-bold tracking-[0.2em] text-xs uppercase text-[#014f74]">
                 IEEE Student Branch NIT Patna
               </p>
             </div>
 
             <div>
-              <h1 className="text-6xl font-serif italic font-bold text-[#1e3a8a]">Certificate</h1>
+              <h1 className="text-6xl font-serif italic font-bold text-[#014f74]">Certificate</h1>
               <div className="flex items-center justify-center gap-4 mt-2">
                 <div className="h-[1px] w-16 bg-[#ca8a04]" />
                 <span className="text-lg font-serif tracking-[0.2em] uppercase text-[#a16207]">of Appreciation</span>
@@ -93,13 +93,13 @@ export default function CertificatePage() {
 
             <div className="my-6">
               <p className="text-gray-500 italic font-serif text-lg mb-2">This certificate is proudly presented to</p>
-              <h2 className="text-4xl font-serif font-bold mb-6 border-b-2 border-gray-100 inline-block px-10 pb-1 text-[#1d4ed8]">
+              <h2 className="text-4xl font-serif font-bold mb-6 border-b-2 border-gray-100 inline-block px-10 pb-1 text-[#014f74]">
                 {member?.name}
               </h2>
               <div className="max-w-2xl mx-auto space-y-3">
                 <p className="text-lg text-gray-700 leading-relaxed">
                   For outstanding dedication and contribution as a member of the 
-                  <span className="font-bold text-[#1e3a8a]"> {member?.team} Team </span> 
+                  <span className="font-bold text-[#014f74]"> {member?.team} Team </span> 
                   within the IEEE Student Branch, NIT Patna, during the Academic Session 2025-2026.
                 </p>
               </div>
@@ -107,13 +107,13 @@ export default function CertificatePage() {
 
             <div className="w-full flex justify-between items-end px-12 mt-4">
               <div className="text-center">
-                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#1e3a8a]" />
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#1e3a8a]">Branch Counselor</p>
+                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#014f74]" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#014f74]">Branch Counselor</p>
               </div>
               <div className="text-[10px] font-mono text-gray-400">ID: {certificateNo}</div>
               <div className="text-center">
-                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#1e3a8a]" />
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#1e3a8a]">Professor In-Charge</p>
+                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#014f74]" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#014f74]">Professor In-Charge</p>
               </div>
             </div>
           </div>
@@ -121,13 +121,13 @@ export default function CertificatePage() {
 
         {/* ================= VERIFICATION SECTION ================= */}
         <div className="print:hidden">
-          <div className="mt-8 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="mt-8 bg-white p-8 rounded-2xl border border-[#035b99]/20 shadow-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
               <div>
-                <h3 className="text-2xl font-bold text-slate-800">Verification Details</h3>
+                <h3 className="text-2xl font-bold text-[#014f74]">Verification Details</h3>
                 <p className="text-slate-500 text-sm">Official record of achievement for the 2025-26 session.</p>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100 text-sm font-bold">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[#014f74]/10 text-[#014f74] rounded-full border border-[#014f74]/30 text-sm font-bold">
                 <CheckCircle2 size={18} />
                 Verified & Authentic
               </div>
@@ -135,7 +135,7 @@ export default function CertificatePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="space-y-4">
-                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Member Name</label><p className="text-lg font-semibold text-slate-800">{member?.name}</p></div>
+                <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Assigned Team</label><p className="text-lg font-semibold text-[#014f74]">{member?.team}</p></div>
                 <div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Assigned Team</label><p className="text-lg font-semibold text-blue-600">{member?.team}</p></div>
               </div>
               <div className="space-y-4">
@@ -158,7 +158,7 @@ export default function CertificatePage() {
                 {({ loading: pdfLoading }) => (
                   <button 
                     disabled={pdfLoading}
-                    className="inline-flex items-center gap-3 px-12 py-4 bg-[#1e3a8a] text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                    className="inline-flex items-center gap-3 px-12 py-4 bg-[#014f74] text-white rounded-xl font-bold hover:bg-[#013f60] transition-all shadow-lg hover:scale-[1.02] active:scale-95 disabled:opacity-50"
                   >
                     <Download size={20} /> 
                     {pdfLoading ? "Preparing PDF..." : "Download Certificate (PDF)"}
@@ -167,7 +167,7 @@ export default function CertificatePage() {
               </PDFDownloadLink>
             )}
             
-            <button onClick={handlePrint} className="inline-flex items-center gap-3 px-12 py-4 bg-white text-[#1e3a8a] border-2 border-[#1e3a8a] rounded-xl font-bold hover:bg-slate-50 transition-all">
+            <button onClick={handlePrint} className="inline-flex items-center gap-3 px-12 py-4 bg-white text-[#014f74] border-2 border-[#014f74] rounded-xl font-bold hover:bg-slate-50 transition-all">
               <Printer size={20} /> Print Directly
             </button>
           </div>

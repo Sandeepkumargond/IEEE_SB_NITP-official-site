@@ -23,7 +23,7 @@ export default function PeopleUpdateForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    roll: 2406126,
+    roll: "",
     year: 2025,
     designation: "",
     team: "",
