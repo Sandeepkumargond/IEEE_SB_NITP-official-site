@@ -7,7 +7,7 @@ export default function DevelopersSection() {
   const topDevelopers = [
     {
       name: "Sandeep Kumar Gond",
-      email: "lead@example.com",
+      email: "sandeepg.ug23.cs@nitp.ac.in",
       role: "Website Lead",
       profilePic: "/office_bearers/Sandeep_Kumar.jpg",
       githubLink: "https://github.com/Sandeepkumargond",
