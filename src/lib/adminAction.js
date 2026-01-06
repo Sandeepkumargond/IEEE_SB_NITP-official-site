@@ -147,7 +147,7 @@ export const logoutAdmin = async () => {
   try {
     await connectDB();
     // removie cookie
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     cookieStore.delete("admin_token");
 
     return {

@@ -22,7 +22,7 @@ export default async function TeamPage({ params }) {
         role: "Technical Lead",
         github: "https://github.com/kg-saurabh",
         linkedIn: "https://www.linkedin.com/in/saurabh-yadav-932a2328a",
-        profilePic: "",
+        profilePic: "/office_bearers/SOURABH.webp",
       },
     ],
     AIML: [
@@ -49,7 +49,7 @@ export default async function TeamPage({ params }) {
         role: "PR & Sponser Head",
         github: "https://github.com/Deep07954",
         linkedIn: "https://www.linkedin.com/in/deepak-kumar-4529bb28a",
-        profilePic: "",
+        profilePic: "/office_bearers/DEEPAK.jpg",
       },
       {
         name: "Lisha Rani",
@@ -66,7 +66,7 @@ export default async function TeamPage({ params }) {
         github: "https://github.com/Prashasti-27",
         linkedIn:
           "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
-        profilePic: "",
+        profilePic: "/office_bearers/PRASHASTI.jpg",
       },
     ],
   };
