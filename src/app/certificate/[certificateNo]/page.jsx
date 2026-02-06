@@ -64,19 +64,19 @@ export default function CertificatePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#014f74]/5 to-[#035b99]/5 py-12 px-4 print:p-0 print:bg-white">
       <div className="max-w-5xl mx-auto print:max-w-full">
-        
+
         {/* ================= CERTIFICATE PREVIEW AREA ================= */}
-        <div 
+        <div
           id="certificate-area"
           className="bg-white shadow-2xl p-2 print:shadow-none"
           style={{ border: '12px double #ca8a04', minHeight: '600px' }}
         >
-          <div 
+          <div
             className="h-full p-10 flex flex-col items-center justify-between bg-white text-center relative overflow-hidden"
             style={{ border: '2px solid #014f74' }}
           >
             <div>
-              <img src="/IEEE.png" alt="IEEE Logo" className="h-20 mx-auto mb-2 object-contain" />
+              <img src="/IEEE.jpeg" alt="IEEE Logo" className="h-20 mx-auto mb-4 object-contain" />
               <p className="font-serif font-bold tracking-[0.2em] text-xs uppercase text-[#014f74]">
                 IEEE Student Branch NIT Patna
               </p>
@@ -98,22 +98,28 @@ export default function CertificatePage() {
               </h2>
               <div className="max-w-2xl mx-auto space-y-3">
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  For outstanding dedication and contribution as a member of the 
-                  <span className="font-bold text-[#014f74]"> {member?.team} Team </span> 
+                  For outstanding dedication and contribution as a member of the
+                  <span className="font-bold text-[#014f74]"> {member?.team} Team </span>
                   within the IEEE Student Branch, NIT Patna, during the Academic Session 2025-2026.
                 </p>
               </div>
             </div>
 
             <div className="w-full flex justify-between items-end px-12 mt-4">
-              <div className="text-center">
-                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#014f74]" />
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#014f74]">Branch Counselor</p>
-              </div>
               <div className="text-[10px] font-mono text-gray-400">ID: {certificateNo}</div>
-              <div className="text-center">
-                <div className="w-40 h-[1px] mb-2 mx-auto bg-[#014f74]" />
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#014f74]">Professor In-Charge</p>
+
+              <div className="text-center relative">
+
+                <img
+                  src="/sign.jpeg"
+                  alt="Branch Counselor Signature"
+                  className="mx-auto h-16 w-auto max-w-[350px] rotate-[17deg] object-contain relative z-20"
+                />
+                <div className="w-56 h-[1.5px] mx-auto bg-[#014f74] absolute left-1/2 -translate-x-1/2 top-15 z-30" />
+
+                <p className="mt-3 text-[10px] font-bold uppercase tracking-widest text-[#014f74]">
+                  Chairperson
+                </p>
               </div>
             </div>
           </div>
@@ -151,22 +157,22 @@ export default function CertificatePage() {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center pb-12">
             {isClient && member && (
-              <PDFDownloadLink 
-                document={<CertificatePDF member={member} certificateNo={certificateNo} />} 
+              <PDFDownloadLink
+                document={<CertificatePDF member={member} certificateNo={certificateNo} />}
                 fileName={`IEEE_Certificate_${member?.name.replace(/\s+/g, '_')}.pdf`}
               >
                 {({ loading: pdfLoading }) => (
-                  <button 
+                  <button
                     disabled={pdfLoading}
                     className="inline-flex items-center gap-3 px-12 py-4 bg-[#014f74] text-white rounded-xl font-bold hover:bg-[#013f60] transition-all shadow-lg hover:scale-[1.02] active:scale-95 disabled:opacity-50"
                   >
-                    <Download size={20} /> 
+                    <Download size={20} />
                     {pdfLoading ? "Preparing PDF..." : "Download Certificate (PDF)"}
                   </button>
                 )}
               </PDFDownloadLink>
             )}
-            
+
             <button onClick={handlePrint} className="inline-flex items-center gap-3 px-12 py-4 bg-white text-[#014f74] border-2 border-[#014f74] rounded-xl font-bold hover:bg-slate-50 transition-all">
               <Printer size={20} /> Print Directly
             </button>

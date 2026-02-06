@@ -7,15 +7,15 @@ export default function OfficeBearsSection() {
       name: "Aditya Srivastava",
       designation: "Chairperson",
       githubLink: "",
-      linkedInLink: "",
-      profilePic: "",
+      linkedInLink: "https://www.linkedin.com/in/adityasriofficial/",
+      profilePic: "/office_bearers/Aditya.png",
     },
     {
       name: "Vansh Tyagi",
       designation: "Co-Chairperson",
       githubLink: "https://github.com/VanshTyagi05",
       linkedInLink: "https://www.linkedin.com/in/vansh-tyagi-887a6627a/",
-      profilePic: "/office_bearers/vansh.jpg",
+      profilePic: "/office_bearers/Vansh.jpeg",
     },
     {
       name: "Nandini Prasad",
@@ -29,7 +29,7 @@ export default function OfficeBearsSection() {
       designation: "Joint Secretary",
       githubLink: "https://github.com/Kapilgupta25",
       linkedInLink: "https://www.linkedin.com/in/kapil-gupta-a41216289",
-      profilePic: "",
+      profilePic: "/office_bearers/Kapil.jpg",
     },
     {
       name: "Aryan Kumar Arya",
