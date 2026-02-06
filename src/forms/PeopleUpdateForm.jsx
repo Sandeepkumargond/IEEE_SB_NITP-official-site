@@ -7,6 +7,7 @@ import {
   IdCard,
   CalendarDays,
   Pencil,
+  Calendar1,
   Newspaper,
   Tags,
   Camera,
@@ -19,12 +20,12 @@ import { addMember } from "@/lib/adminAction";
 
 export default function PeopleUpdateForm() {
   const router = useRouter();
-
+ 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     roll: "",
-    year: 2025,
+    year: new Date().getFullYear(),
     designation: "",
     team: "",
     contribution: "",
@@ -32,6 +33,9 @@ export default function PeopleUpdateForm() {
     linkedInLink: "",
     profilePic: [],
   });
+
+  const currentYear = new Date().getFullYear();
+const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
 
   const teamOptions = ["Web","AIML","PR","Event","Design","Technical"] 
 
@@ -113,14 +117,22 @@ export default function PeopleUpdateForm() {
           />
 
           {/* Year */}
-          <Input
-            icon={<CalendarDays />}
-            type="number"
-            value={formData.year}
-            placeholder="Enter academic year"
-            onChange={(v) => setFormData({ ...formData, year: v })}
-          />
-
+          <div className="flex items-center border rounded px-3 py-2">
+  <CalendarDays className="w-5 h-5 text-gray-500 mr-2" />
+          <select
+                    value={formData.year}
+                    onChange={(e) =>
+                      setFormData({ ...formData, year: e.target.value })
+                    }
+                   className="w-full outline-none bg-transparent"
+                  >
+                  
+                    {yearOptions.map((year) => (
+                      <option key={year} value={year} className="text-black">
+                        {year}   <Calendar1 />
+                      </option>
+                    ))}
+                  </select> </div>
           {/* Designation */}
           <Input
             icon={<Pencil />}
@@ -253,3 +265,4 @@ function Input({ icon, value, onChange, placeholder, type = "text" }) {
     </div>
   );
 }
+ 
