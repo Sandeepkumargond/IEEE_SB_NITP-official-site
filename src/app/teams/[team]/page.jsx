@@ -1,12 +1,15 @@
 import LeaderCard from "@/components/LeaderCard";
-import { fetchTeamMembers } from "@/lib/adminAction";
+import { fetchTeamMembers, fetchMembersByTeamAndYear} from "@/lib/adminAction";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-
-export default async function TeamPage({ params }) {
+import YearSelector from "@/components/YearSelector";
+export default async function TeamPage({ params, searchParams }) {
   const { team } = (await params) || {};
-  const result = await fetchTeamMembers(team);
+  const year = (await searchParams)?.year || new Date().getFullYear();
+  const result = await fetchMembersByTeamAndYear(team,year);
+
 
   const TEAM_LEADERS = {
+  2025: {
     Web: [
       {
         name: "Sandeep Kumar Gond",
@@ -46,14 +49,14 @@ export default async function TeamPage({ params }) {
     PR: [
       {
         name: "Deepak Kumar",
-        role: "PR & Sponser Head",
+        role: "PR & Sponsor Head",
         github: "https://github.com/Deep07954",
         linkedIn: "https://www.linkedin.com/in/deepak-kumar-4529bb28a",
         profilePic: "/office_bearers/DEEPAK.jpg",
       },
       {
         name: "Lisha Rani",
-        role: "PR & Sponser Head",
+        role: "PR & Sponsor Head",
         github: "https://github.com/Lisha-Rani",
         linkedIn: "https://www.linkedin.com/in/lisha-rani-041455290/",
         profilePic: "/office_bearers/lisha.jpg",
@@ -64,14 +67,17 @@ export default async function TeamPage({ params }) {
         name: "Prashasti Prabhakar",
         role: "Event Management Head",
         github: "https://github.com/Prashasti-27",
-        linkedIn:
-          "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
+        linkedIn: "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
         profilePic: "/office_bearers/PRASHASTI.jpg",
       },
     ],
-  };
+  }
 
-  const leaders = TEAM_LEADERS[team] || [];
+  
+};
+
+const leaders = TEAM_LEADERS[year]?.[team] || [];
+
   const members = result?.data || [];
 
   return (
@@ -89,8 +95,11 @@ export default async function TeamPage({ params }) {
             Meet the innovators
           </span>
           <h1 className="text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500 mb-6">
-            {team} Team
+            {team} Team  
           </h1>
+          <div className="flex justify-center mt-1 mb-2">
+  <YearSelector />
+</div>
           <p className="max-w-xl mx-auto text-gray-400 text-lg leading-relaxed">
             The creative minds and technical experts building the future of 
             <span className="text-cyan-400"> IEEE NIT Patna</span>.

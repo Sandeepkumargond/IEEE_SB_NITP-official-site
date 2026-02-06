@@ -585,7 +585,7 @@ export const fetchTeamMembers = async(teamId) => {
     const developers = await Member.find({ team: teamId }).lean();
 
     console.log(developers)
-
+ 
     const teamMembers = developers.map((d) => ({
       _id: d._id?.toString(),
       name: d.name,
@@ -613,3 +613,28 @@ export const fetchTeamMembers = async(teamId) => {
     };
   }
 }
+
+export const fetchMembersByTeamAndYear = async (team, year) => {
+  try {
+    await connectDB();
+
+    const members = await Member.find({
+      team,                 
+      year: Number(year),
+    })
+      .sort({ certificateNo: -1 })
+      .lean();
+
+    return {
+      success: true,
+      data: members.map(m => ({
+        ...m,
+        _id: m._id.toString(),
+      })),
+    };
+  } catch (error) {
+    console.error(error);
+    return { success: false, data: [] };
+  }
+};
+
