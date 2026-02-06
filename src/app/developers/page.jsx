@@ -11,7 +11,7 @@ export default function DevelopersSection() {
       role: "Website Lead",
       profilePic: "/office_bearers/Sandeep_Kumar.jpg",
       githubLink: "https://github.com/Sandeepkumargond",
-      linkedInLink: "https://www.linkedin.com/in/sandeepkumargond/",
+      linkedInLink: "https://www.linkedin.com/in/sandeepkrgond/",
     },
     {
       name: "Diksha Bharti",
@@ -20,6 +20,14 @@ export default function DevelopersSection() {
       profilePic: "/developers/DIKSHA.jpeg",
       githubLink: "https://github.com/Diksha8-db",
       linkedInLink: "https://www.linkedin.com/in/diksha-bharti-055499326",
+    },
+    {
+      name: "Moh Yaseen Siddiqui",
+      email: "dikshab.ug24.cs@nitp.ac.in",
+      role: "Design Team Lead",
+      profilePic: "/office_bearers/mysPhoto.jpg",
+      githubLink: "https://github.com/Yaseen11121",
+      linkedInLink: "http://www.linkedin.com/in/mys54",
     },
   ];
 
@@ -34,6 +42,10 @@ export default function DevelopersSection() {
     { name: "Anand Kumar Thakur", email: "anandt.dd24.cs@nitp.ac.in", profilePic: "/developers/Anad.jpeg", githubLink: "https://github.com/yutgcx", linkedInLink: "" },
     { name: "Shristi", email: "shristi.ug24.cs@nitp.ac.in", profilePic: "/developers/SHRISTI SHRISTI.jpg", githubLink: "https://github.com/shristi482004", linkedInLink: "https://www.linkedin.com/in/shristi-shristi-21a025327" },
     { name: "Najuk Singh", email: "najuks.ug24.ec@nitp.ac.in", profilePic: "/developers/NAJUK SINGH.jpg", githubLink: "https://github.com/NAJUKSINGH", linkedInLink: "https://www.linkedin.com/in/najuk-singh-44915433b" },
+    { name: "Sanjana kumari", email: "sanjanak.ug24.ce@nitp.ac.in", profilePic: "/developers/SANJANAKUMARI.jpg", githubLink: "https://ieeesbnitp.vercel.app/teams/None", linkedInLink: "https://www.linkedin.com/in/sanjana-kumari-208b10347" },
+    { name: "Anmol Agrawal", email: "anmola.ug24.cs@nitp.ac.in", profilePic: "/developers/AnmolAgarwal.jpg", githubLink: "https://github.com/anmol2901", linkedInLink: "https://www.linkedin.com/in/anmol-agrawal-a58ab2208" },
+    { name: "Shreya", email: "shreya.ug24.cs@nitp.ac.in", profilePic: "/developers/ShreyaShreya.jpg", githubLink: "https://github.com/shreya302006", linkedInLink: "https://www.linkedin.com/in/shreya-05410b35a" },
+    { name: "Shreya Kumari", email: "shreyakr1.ug23.ec@nitp.ac.in", profilePic: "/developers/ShreyaKumari.jpg", githubLink: "https://github.com/Shreya0Kumari", linkedInLink: "https://www.linkedin.com/in/shreya-kumari-6b5410214" },
   ];
 
   const [hoveredIdx, setHoveredIdx] = useState(null);
