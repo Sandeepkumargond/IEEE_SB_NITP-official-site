@@ -10,14 +10,14 @@ const galleryItems = [
   cover: "/SHL02945.jpg",
     description:
       "The Inaugural Ceremony of IEEE SB NITP marked the beginning of a new chapter, bringing together students, faculty, and industry leaders to celebrate innovation and collaboration in technology.",
-    images: ["SHL02741.jpg","SHL02753.jpg","SHL02756.jpg","SHL02773.jpg","SHL02793.jpg","SHL02795.jpg","SHL02799.jpg","SHL02800.jpg","SHL02810.jpg","SHL02890.jpg","SHL02899.jpg","SHL02908.jpg","SHL02922.jpg","SHL02939.jpg","SHL02945.jpg"],
+    images: ["SHL02795.jpg","SHL02799.jpg","SHL02800.jpg","SHL02810.jpg","SHL02890.jpg","SHL02899.jpg","SHL02908.jpg","SHL02922.jpg","SHL02939.jpg","SHL02945.jpg"],
   },
   {
     title: "Hack O Fest'2024",
   cover: "/SHL03934.jpg",
     description:
       "HackO'Fest is a premier, often 30 to 36 hour, national-level hackathon organized by Think India SC NITP and IEEE SB NITP at the National Institute of Technology, Patna. It serves as a, intense, collaborative platform for students to develop innovative, functional software (web/mobile/ML) or hardware solutions to real-world problems.",
-    images: ["SHL03793.jpg","SHL03821.jpg","SHL03867.jpg","SHL03934.jpg","SHL03953.jpg","SHL03963.jpg","SHL04037.jpg","SHL04092.jpg","SHL04099.jpg","SHL04134.jpg","SHL04139.jpg","SHL04144.jpg","SHL04149.jpg","SHL04215.jpg","SHL04248.jpg"],
+    images: ["SHL03963.jpg","SHL04037.jpg","SHL04092.jpg","SHL04099.jpg","SHL04134.jpg","SHL04139.jpg","SHL04144.jpg","SHL04149.jpg","SHL04215.jpg","SHL04248.jpg"],
   },
 ];
 
