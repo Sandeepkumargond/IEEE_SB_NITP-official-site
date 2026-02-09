@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 
 const galleryItems = [
   {
@@ -10,14 +9,14 @@ const galleryItems = [
   cover: "/SHL02945.jpg",
     description:
       "The Inaugural Ceremony of IEEE SB NITP marked the beginning of a new chapter, bringing together students, faculty, and industry leaders to celebrate innovation and collaboration in technology.",
-    images: ["SHL02740.jpg","SHL02764.jpg","SHL02775.jpg","SHL02845.jpg","SHL02851.jpg","SHL02857.jpg","SHL02858.jpg","SHL02864.jpg","SHL02867.jpg","SHL02869.jpg","SHL02899.jpg","SHL02908.jpg","SHL02922.jpg","SHL02927.jpg","SHL02939.jpg","SHL02945.jpg"],
+    images: ["SHL02857.jpg","SHL02858.jpg","SHL02864.jpg","SHL02867.jpg","SHL02869.jpg","SHL02899.jpg","SHL02908.jpg","SHL02922.jpg","SHL02927.jpg","SHL02939.jpg","SHL02945.jpg"],
   },
   {
     title: "Hack O Fest 2024",
   cover: "/SHL03934.jpg",
     description:
       "HackO'Fest is a premier, often 30 to 36-hour, national-level hackathon organized by Think India SC NITP and IEEE SB NITP at the National Institute of Technology, Patna. It serves as a, intense, collaborative platform for students to develop innovative, functional software (web/mobile/ML) or hardware solutions to real-world problems.",
-    images: ["SHL03793.jpg","SHL03821.jpg","SHL03867.jpg","SHL03934.jpg","SHL03953.jpg","SHL03963.jpg","SHL03979.jpg","SHL04029.jpg","SHL04037.jpg","SHL04092.jpg","SHL04099.jpg","SHL04134.jpg","SHL04139.jpg","SHL04144.jpg","SHL04149.jpg","SHL04215.jpg"],
+    images: ["SHL03793.jpg","SHL03821.jpg","SHL03867.jpg","SHL03934.jpg","SHL03953.jpg","SHL03963.jpg","SHL03979.jpg"],
   },
 
 ];
