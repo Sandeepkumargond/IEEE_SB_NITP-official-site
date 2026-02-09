@@ -34,10 +34,12 @@ export default function PeopleUpdateForm() {
     profilePic: [],
   });
 
+
   const currentYear = new Date().getFullYear();
 const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
 
-  const teamOptions = ["Web","AIML","PR","Event","Design","Technical"] 
+  const teamOptions = ["WEB DEVELOPMENT","AI-ML","PUBLIC RELATIONS","EVENT MANAGEMENT","CONTENT AND DESIGN","TECHNICAL"] 
+
 
   const [isDisabled, setIsDisabled] = useState(true);
 
