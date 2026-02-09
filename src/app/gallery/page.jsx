@@ -6,209 +6,181 @@ import Footer from "../../components/Footer";
 
 const galleryItems = [
   {
-    title: "Impulse 2023",
-    cover: "/images.jpeg",
-    images: [
-      "/images.jpeg",
-      "/images.jpeg",
-      "/images.jpeg",
-      "/images.jpeg",
-      "/images.jpeg",
-      "/images.jpeg",
-    ],
+    title: "Inaugral Ceremony",
+  cover: "/SHL02945.jpg",
+    description:
+      "The Inaugural Ceremony of IEEE SB NITP marked the beginning of a new chapter, bringing together students, faculty, and industry leaders to celebrate innovation and collaboration in technology.",
+    images: ["SHL02741.jpg","SHL02753.jpg","SHL02756.jpg","SHL02773.jpg","SHL02793.jpg","SHL02795.jpg","SHL02799.jpg","SHL02800.jpg","SHL02810.jpg","SHL02890.jpg","SHL02899.jpg","SHL02908.jpg","SHL02922.jpg","SHL02939.jpg","SHL02945.jpg"],
   },
   {
-    title: "TechnoHunt",
-    cover: "/images-2.jpeg",
-    images: [
-      "/images-2.jpeg",
-      "/images-2.jpeg",
-      "/images-2.jpeg",
-      "/images-2.jpeg",
-      "/images-2.jpeg",
-      "/images-2.jpeg",
-    ],
-  },
-  {
-    title: "Projects",
-    cover: "/images-3.jpeg",
-    images: [
-      "/images-3.jpeg",
-      "/images-3.jpeg",
-      "/images-3.jpeg",
-      "/images-3.jpeg",
-      "/images-3.jpeg",
-      "/images-3.jpeg",
-    ],
-  },
-  {
-    title: "Code the Uncoded",
-    cover: "/images-4.jpeg",
-    images: [
-      "/images-4.jpeg",
-      "/images-4.jpeg",
-      "/images-4.jpeg",
-      "/images-4.jpeg",
-      "/images-4.jpeg",
-      "/images-4.jpeg",
-    ],
-  },
-  {
-    title: "PPT Round",
-    cover: "/images-5.jpeg",
-    images: [
-      "/images-5.jpeg",
-      "/images-5.jpeg",
-      "/images-5.jpeg",
-      "/images-5.jpeg",
-      "/images-5.jpeg",
-      "/images-5.jpeg",
-    ],
-  },
-  {
-    title: "Alumnus Meet",
-    cover: "/images-6.jpeg",
-    images: [
-      "/images-6.jpeg",
-      "/images-6.jpeg",
-      "/images-6.jpeg",
-      "/images-6.jpeg",
-      "/images-6.jpeg",
-      "/images-6.jpeg",
-    ],
+    title: "Hack O Fest 2024",
+  cover: "/SHL03934.jpg",
+    description:
+      "HackO'Fest is a premier, often 30 to 36-hour, national-level hackathon organized by Think India SC NITP and IEEE SB NITP at the National Institute of Technology, Patna. It serves as a, intense, collaborative platform for students to develop innovative, functional software (web/mobile/ML) or hardware solutions to real-world problems.",
+    images: ["SHL03793.jpg","SHL03821.jpg","SHL03867.jpg","SHL03934.jpg","SHL03953.jpg","SHL03963.jpg","SHL04037.jpg","SHL04092.jpg","SHL04099.jpg","SHL04134.jpg","SHL04139.jpg","SHL04144.jpg","SHL04149.jpg","SHL04215.jpg","SHL04248.jpg"],
   },
 ];
 
 export default function Gallery() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [exploreEvent, setExploreEvent] = useState(null);
 
-  // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        setSelectedImage(null);
         setSelectedEvent(null);
+        setSelectedImage(null);
+        setExploreEvent(null);
       }
       if (selectedImage && selectedEvent) {
         if (e.key === "ArrowRight") handleNextImage();
         if (e.key === "ArrowLeft") handlePrevImage();
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedImage, selectedEvent]);
 
   const handleNextImage = useCallback(() => {
     if (!selectedEvent || !selectedImage) return;
-    const currentIndex = selectedEvent.images.indexOf(selectedImage);
-    const nextIndex = (currentIndex + 1) % selectedEvent.images.length;
-    setSelectedImage(selectedEvent.images[nextIndex]);
+    const i = selectedEvent.images.indexOf(selectedImage);
+    setSelectedImage(selectedEvent.images[(i + 1) % selectedEvent.images.length]);
   }, [selectedEvent, selectedImage]);
 
   const handlePrevImage = useCallback(() => {
     if (!selectedEvent || !selectedImage) return;
-    const currentIndex = selectedEvent.images.indexOf(selectedImage);
-    const prevIndex = (currentIndex - 1 + selectedEvent.images.length) % selectedEvent.images.length;
-    setSelectedImage(selectedEvent.images[prevIndex]);
+    const i = selectedEvent.images.indexOf(selectedImage);
+    setSelectedImage(
+      selectedEvent.images[(i - 1 + selectedEvent.images.length) % selectedEvent.images.length]
+    );
   }, [selectedEvent, selectedImage]);
 
   return (
     <div className="bg-gradient-to-b from-[#020817] via-[#0a3a52] to-[#020817] min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Main Gallery Section */}
       <section className="pt-32 px-6 md:px-20 flex-grow pb-16">
-        {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-block mb-4 px-4 py-2 bg-blue-500/20 rounded-full border border-blue-400/50">
-            <span className="text-blue-300 font-semibold text-sm uppercase tracking-wider">Memory Lane</span>
-          </div>
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
             Gallery
           </h2>
           <p className="text-blue-100 text-lg max-w-2xl mx-auto">
-            Capturing moments of innovation, collaboration, and learning from IEEE SB NITP events.
+            Capturing moments of innovation, collaboration, and learning.
           </p>
         </div>
 
-        {/* Gallery Grid */}
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {galleryItems.map((item, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedEvent(item)}
-                className="group relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border border-blue-400/30 hover:border-blue-400/80"
-              >
-                <img
-                  src={item.cover}
-                  alt={item.title}
-                  className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-300"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent group-hover:from-black/60 transition-all duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-white font-bold text-lg group-hover:text-blue-300 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-blue-200 text-xs mt-1">{item.images.length} photos</p>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {galleryItems.map((item, index) => (
+            <div
+              key={index}
+              className="group relative rounded-xl overflow-hidden shadow-lg border border-blue-400/30"
+            >
+              <img
+                src={item.cover}
+                alt={item.title}
+                className="w-full h-56 object-cover group-hover:scale-110 transition-transform"
+              />
+
+              <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
+                <h3 className="text-white font-bold text-lg">{item.title}</h3>
+                <p className="text-blue-200 text-xs mb-3">
+                  {item.images.length} photos
+                </p>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setExploreEvent(item)}
+                    className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-sm rounded-lg"
+                  >
+                    Explore
+                  </button>
+                  <button
+                    onClick={() => setSelectedEvent(item)}
+                    className="px-4 py-1.5 bg-white/20 hover:bg-white/30 text-white text-sm rounded-lg"
+                  >
+                    View Gallery
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <Footer />
+      
 
-      {/* Event Modal */}
-      {selectedEvent && (
+      {/* Explore Modal */}
+      {exploreEvent && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
-          onClick={() => setSelectedEvent(null)}
-          role="dialog"
-          aria-modal="true"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+          onClick={() => setExploreEvent(null)}
         >
           <div
-            className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-xl p-6 max-w-5xl w-full overflow-y-auto max-h-[90vh] shadow-2xl border border-blue-400/30 relative"
+            className="bg-slate-900 p-8 rounded-xl max-w-xl w-full border border-blue-400/30"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6 sticky top-0 z-10 bg-gradient-to-b from-slate-800 pb-4">
-              <div>
-                <h3 className="text-3xl font-bold text-white">{selectedEvent.title}</h3>
-                <p className="text-blue-300 text-sm mt-1">{selectedEvent.images.length} photos</p>
-              </div>
+            <h3 className="text-3xl font-bold text-white mb-3">
+              {exploreEvent.title}
+            </h3>
+            <p className="text-blue-200 mb-6">
+              {exploreEvent.description}
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setExploreEvent(null);
+                  setSelectedEvent(exploreEvent);
+                }}
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+              >
+                View Photos
+              </button>
+              <button
+                onClick={() => setExploreEvent(null)}
+                className="px-5 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Event Gallery Modal */}
+      {selectedEvent && (
+        <div
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedEvent(null)}
+        >
+          <div
+            className="bg-slate-900 rounded-xl p-6 max-w-5xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-3xl font-bold text-white">
+                {selectedEvent.title}
+              </h3>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="text-gray-400 hover:text-blue-400 text-2xl font-bold p-2 hover:bg-slate-700/50 rounded-lg transition-all"
-                aria-label="Close modal"
+                className="text-white text-2xl"
               >
                 ✕
               </button>
             </div>
 
-            {/* Gallery Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {selectedEvent.images.map((img, idx) => (
                 <div
                   key={idx}
                   onClick={() => setSelectedImage(img)}
-                  className="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer group border border-blue-400/20 hover:border-blue-400/60"
+                  className="cursor-pointer overflow-hidden rounded-lg"
                 >
                   <img
                     src={img}
-                    alt={`${selectedEvent.title} photo ${idx + 1}`}
-                    className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
+                    alt=""
+                    className="w-full h-56 object-cover hover:scale-105 transition"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-semibold">
-                      View Full
-                    </span>
-                  </div>
                 </div>
               ))}
             </div>
@@ -217,59 +189,29 @@ export default function Gallery() {
       )}
 
       {/* Full Screen Image Viewer */}
-      {selectedImage && selectedEvent && (
+      {selectedImage && (
         <div
-          className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] transition-opacity duration-300"
+          className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999]"
           onClick={() => setSelectedImage(null)}
-          role="dialog"
-          aria-modal="true"
         >
-          <div className="relative w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={selectedImage}
-              alt="Full screen view"
-              className="max-w-full max-h-full object-contain"
-            />
+          <img
+            src={selectedImage}
+            alt=""
+            className="max-w-full max-h-full object-contain"
+          />
 
-            {/* Image Counter */}
-            <div className="absolute top-6 right-6 bg-blue-600/90 text-white px-4 py-2 rounded-lg text-sm font-semibold backdrop-blur-sm">
-              {selectedEvent.images.indexOf(selectedImage) + 1} / {selectedEvent.images.length}
-            </div>
-
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-6 left-6 text-white text-3xl font-bold hover:text-blue-400 transition-colors p-2 hover:bg-white/10 rounded-lg backdrop-blur-sm"
-              aria-label="Close image viewer"
-            >
-              ✕
-            </button>
-
-            {/* Navigation Arrows */}
-            {selectedEvent.images.length > 1 && (
-              <>
-                <button
-                  onClick={handlePrevImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-blue-600/70 hover:bg-blue-500 text-white p-3 rounded-full transition-all z-10 hover:scale-110 backdrop-blur-sm"
-                  aria-label="Previous image"
-                >
-                  &#8249;
-                </button>
-                <button
-                  onClick={handleNextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-600/70 hover:bg-blue-500 text-white p-3 rounded-full transition-all z-10 hover:scale-110 backdrop-blur-sm"
-                  aria-label="Next image"
-                >
-                  &#8250;
-                </button>
-              </>
-            )}
-
-            {/* Keyboard Hint */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-xs font-medium text-center backdrop-blur-sm bg-black/30 px-4 py-2 rounded-lg">
-              <p>← → to navigate • ESC to close</p>
-            </div>
-          </div>
+          <button
+            onClick={handlePrevImage}
+            className="absolute left-6 text-white text-4xl"
+          >
+            ‹
+          </button>
+          <button
+            onClick={handleNextImage}
+            className="absolute right-6 text-white text-4xl"
+          >
+            ›
+          </button>
         </div>
       )}
     </div>
