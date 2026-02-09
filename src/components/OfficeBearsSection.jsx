@@ -4,9 +4,106 @@ import MemberCard from "@/components/MemberCard";
 import { fetchLeadsByYear } from "@/lib/leadAction";
 
 export default function OfficeBearsSection() {
-  const [leads, setLeads] = useState([]);
-  const [selectedYear, setSelectedYear] = useState(2026);
-  const [loading, setLoading] = useState(true);
+  const officeBearers = [
+    {
+      name: "Aditya Srivastava",
+      designation: "Chairperson",
+      githubLink: "",
+      linkedInLink: "https://www.linkedin.com/in/adityasriofficial/",
+      profilePic: "/office_bearers/Aditya.png",
+    },
+    {
+      name: "Vansh Tyagi",
+      designation: "Co-Chairperson",
+      githubLink: "https://github.com/VanshTyagi05",
+      linkedInLink: "https://www.linkedin.com/in/vansh-tyagi-887a6627a/",
+      profilePic: "/office_bearers/Vansh.jpeg",
+    },
+    {
+      name: "Nandini Prasad",
+      designation: "Secretary",
+      githubLink: "https://github.com/Nandini-Prasadd",
+      linkedInLink: "https://www.linkedin.com/in/nandini-prasad-9294a9250",
+      profilePic: "/office_bearers/nandini.jpg",
+    },
+    {
+      name: "Kapil Gupta",
+      designation: "Joint Secretary",
+      githubLink: "https://github.com/Kapilgupta25",
+      linkedInLink: "https://www.linkedin.com/in/kapil-gupta-a41216289",
+      profilePic: "/office_bearers/Kapil.jpg",
+    },
+    {
+      name: "Aryan Kumar Arya",
+      designation: "Treasurer",
+      githubLink: "https://github.com/AryanKumarArya007",
+      linkedInLink: "https://www.linkedin.com/in/aryan-kumar-arya-84a61628b/",
+      profilePic: "/office_bearers/ARYAN.jpeg",
+    },
+    {
+      name: "Saurabh Yadav",
+      designation: "Technical Lead",
+      githubLink: "https://github.com/kg-saurabh",
+      linkedInLink: "https://www.linkedin.com/in/saurabh-yadav-932a2328a",
+      profilePic: "/office_bearers/SOURABH.webp",
+    },
+    {
+      name: "Gungun Singh",
+      designation: "Project Head",
+      githubLink: "https://github.com/gungun-2010",
+      linkedInLink: "https://www.linkedin.com/in/gungun-singh-1068b12a3/",
+      profilePic: "/office_bearers/GUNGUN.jpg",
+    },
+    {
+      name: "Sandeep Kumar Gond",
+      designation: "Web Head",
+      githubLink: "https://github.com/Sandeepkumargond",
+      linkedInLink: "https://www.linkedin.com/in/sandeepkumargond/",
+      profilePic: "/office_bearers/Sandeep_Kumar.jpg",
+    },
+    {
+      name: "Prashasti Prabhakar",
+      designation: "Event Management Head",
+      githubLink: "https://github.com/Prashasti-27",
+      linkedInLink: "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
+      profilePic: "/office_bearers/PRASHASTI.jpg",
+    },
+    {
+      name: "Deepak Kumar",
+      designation: "PR & Sponser Head",
+      githubLink: "https://github.com/Deep07954",
+      linkedInLink: "https://www.linkedin.com/in/deepak-kumar-4529bb28a",
+      profilePic: "/office_bearers/DEEPAK.jpg",
+    },
+    {
+      name: "Lisha Rani",
+      designation: "PR & Sponser Head",
+      githubLink: "https://github.com/Lisha-Rani",
+      linkedInLink: "https://www.linkedin.com/in/lisha-rani-041455290/",
+      profilePic: "/office_bearers/lisha.jpg",
+    },
+    {
+      name: "Navneet Shreya",
+      designation: "ML Head",
+      githubLink: "https://github.com/NavneetShreya",
+      linkedInLink: "http://www.linkedin.com/in/navneet-shreya",
+      profilePic: "/office_bearers/Navneet.jpeg",
+    },
+    {
+      name: "Moh Yaseen Siddiqui",
+      designation: "Design Head",
+      githubLink: "https://github.com/Yaseen11121",
+      linkedInLink: "http://www.linkedin.com/in/mys54",
+      profilePic: "/office_bearers/mysPhoto.jpg",
+    },
+    {
+      name: "Prabrity Rani",
+      designation: "Editor-In-Chief",
+      githubLink: "https://github.com/prabrity16",
+      linkedInLink: "http://www.linkedin.com/in/prabrity-rani-193929346",
+      profilePic: "/office_bearers/prabrity.jpg",
+    },
+  ];
 
   // Year options (2017-2026)
   const yearOptions = Array.from({ length: 10 }, (_, i) => 2017 + i);
