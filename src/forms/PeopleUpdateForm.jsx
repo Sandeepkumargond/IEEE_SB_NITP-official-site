@@ -33,7 +33,7 @@ export default function PeopleUpdateForm() {
     profilePic: [],
   });
 
-  const teamOptions = ["Web","AIML","PR","Event","Design","Technical"] 
+  const teamOptions = ["WEB DEVELOPMENT","AI-ML","PUBLIC RELATIONS","EVENT MANAGEMENT","CONTENT AND DESIGN","TECHNICAL"] 
 
   const [isDisabled, setIsDisabled] = useState(true);
 
