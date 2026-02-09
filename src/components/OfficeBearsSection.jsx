@@ -4,6 +4,10 @@ import MemberCard from "@/components/MemberCard";
 import { fetchLeadsByYear } from "@/lib/leadAction";
 
 export default function OfficeBearsSection() {
+  const [selectedYear, setSelectedYear] = useState(2025);
+  const [leads, setLeads] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const officeBearers = [
     {
       name: "Aditya Srivastava",
@@ -114,27 +118,25 @@ export default function OfficeBearsSection() {
       setLoading(true);
       try {
         const response = await fetchLeadsByYear(selectedYear);
-        if (response.success && response.data && response.data.length > 0) {
-          // Use database leads
-          const leadsWithPic = response.data.map((lead) => ({
-            ...lead,
-            profilePic:
-              lead.profilePic && lead.profilePic.length > 0
-                ? lead.profilePic[0]
-                : "/Profile.png",
-          }));
-          setLeads(leadsWithPic);
+        if (response.success && response.data?.length > 0) {
+          setLeads(
+            response.data.map((lead) => ({
+              ...lead,
+              profilePic: lead.profilePic?.[0] || "/Profile.png",
+            }))
+          );
         } else {
           setLeads([]);
         }
       } catch (error) {
         console.log("Error fetching leads:", error);
         if (selectedYear === 2025) {
-          const staticWithPic = staticOfficeBearers2025.map((member) => ({
-            ...member,
-            profilePic: member.profilePic || "/Profile.png",
-          }));
-          setLeads(staticWithPic);
+          setLeads(
+            officeBearers.map((m) => ({
+              ...m,
+              profilePic: m.profilePic || "/Profile.png",
+            }))
+          );
         } else {
           setLeads([]);
         }
