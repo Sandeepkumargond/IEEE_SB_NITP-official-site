@@ -361,7 +361,7 @@ export default function About() {
             className="w-36 h-36 scale-130 mb-8 mx-auto"
           >
             <img
-              src="/ieee.png"
+              src="/IEEE.jpeg"
               alt="IEEE Icon"
               className="w-full h-full object-contain"
             />

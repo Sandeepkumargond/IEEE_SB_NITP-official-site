@@ -41,7 +41,7 @@ export default function Details() {
                 <div className="flex items-center gap-6 mb-8">
                 
   <img
-    src="/ieee.png"
+    src="/IEEE.jpeg"
     alt="logo"
     className="w-21 h-21 object-contain"
   />

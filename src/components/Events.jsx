@@ -79,7 +79,7 @@ const Events = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-slate-600">
-                        <img src="/IEEE.png" alt="IEEE Logo" className="w-20 h-20 opacity-60" />
+                        <img src="/IEEE.jpeg" alt="IEEE Logo" className="w-20 h-20 opacity-60" />
                       </div>
                     )}
                   </div>
@@ -174,7 +174,7 @@ const Events = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-slate-600">
-                        <img src="/IEEE.png" alt="IEEE Logo" className="w-20 h-20 opacity-60" />
+                        <img src="/IEEE.jpeg" alt="IEEE Logo" className="w-20 h-20 opacity-60" />
                       </div>
                     )}
                   </div>
