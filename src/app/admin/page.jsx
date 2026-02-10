@@ -51,7 +51,7 @@ export default function AdminDashboard() {
   const [newLead, setNewLead] = useState({
     name: "",
     designation: "",
-    year: 2026,
+    year: new Date().getFullYear() ,
     githubLink: "",
     linkedInLink: "",
     profilePic: [],
@@ -69,8 +69,8 @@ export default function AdminDashboard() {
   const itemsPerPage = 5;
 
   // Year options for leads filter (2017-2026)
-  const yearOptions = Array.from({ length: 10 }, (_, i) => 2017 + i);
-
+const currentYear = new Date().getFullYear();
+const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
   const handleLogout = async () => {
     try {
       await logoutAdmin();
@@ -448,8 +448,7 @@ export default function AdminDashboard() {
               {events
                 .slice(
                   (eventsPage - 1) * itemsPerPage,
-                  eventsPage * itemsPerPage,
-                )
+                  eventsPage * itemsPerPage,                 )
                 .map((event, index) => (
                   <div
                     key={event._id || index}
