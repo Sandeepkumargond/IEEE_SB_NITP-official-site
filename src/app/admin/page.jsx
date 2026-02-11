@@ -1119,6 +1119,9 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => {
                     <option value="Event" className="text-black">
                       Event
                     </option>
+                    <option value="Others" className="text-black">
+                      Others
+                    </option>
                   </select>
                   <input
                     type="url"
@@ -1290,6 +1293,9 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => {
                     <option value="Event" className="text-black">
                       Event
                     </option>
+                    <option value="Others" className="text-black">
+                      Others
+                    </option>
                   </select>
                   <input
                     type="url"
@@ -1458,6 +1464,7 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => {
                     <option value="EVENT MANAGEMENT" className="text-black">Event Management</option>
                     <option value="CONTENT AND DESIGN" className="text-black">Content & Design</option>
                     <option value="TECHNICAL" className="text-black">Technical</option>
+                    <option value="OTHERS" className="text-black">Others</option>
                   </select>
                   <input
                     type="url"
