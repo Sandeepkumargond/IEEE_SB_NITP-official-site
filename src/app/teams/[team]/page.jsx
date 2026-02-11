@@ -1,82 +1,16 @@
 import LeaderCard from "@/components/LeaderCard";
-import { fetchTeamMembers, fetchMembersByTeamAndYear} from "@/lib/adminAction";
+import { fetchTeamMembers, fetchMembersByTeamAndYear, fetchLeadersByTeamAndYear } from "@/lib/adminAction";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import YearSelector from "@/components/YearSelector";
+import PeriodSelector from "@/components/YearSelector";
 export default async function TeamPage({ params, searchParams }) {
   const { team } = (await params) || {};
-  const year = (await searchParams)?.year || new Date().getFullYear();
-  const result = await fetchMembersByTeamAndYear(team,year);
+  const currentYear = new Date().getFullYear();
+  const period = (await searchParams)?.period || `${currentYear - 1}-${currentYear}`;
+  const year = parseInt(period.split('-')[0]);
+  const result = await fetchMembersByTeamAndYear(team, year);
+  const leadersResult = await fetchLeadersByTeamAndYear(team, year);
 
-
-  const TEAM_LEADERS = {
-  2025: {
-    Web: [
-      {
-        name: "Sandeep Kumar Gond",
-        role: "Website Lead",
-        profilePic: "/office_bearers/Sandeep_Kumar.jpg",
-        github: "https://github.com/Sandeepkumargond",
-        linkedIn: "https://www.linkedin.com/in/sandeepkumargond/",
-      },
-    ],
-    Technical: [
-      {
-        name: "Saurabh Yadav",
-        role: "Technical Lead",
-        github: "https://github.com/kg-saurabh",
-        linkedIn: "https://www.linkedin.com/in/saurabh-yadav-932a2328a",
-        profilePic: "/office_bearers/SOURABH.webp",
-      },
-    ],
-    AIML: [
-      {
-        name: "Navneet Shreya",
-        role: "ML Head",
-        github: "https://github.com/NavneetShreya",
-        linkedIn: "http://www.linkedin.com/in/navneet-shreya",
-        profilePic: "/office_bearers/Navneet.jpeg",
-      },
-    ],
-    Design: [
-      {
-        name: "Moh Yaseen Siddiqui",
-        role: "Design Head",
-        github: "https://github.com/Yaseen11121",
-        linkedIn: "http://www.linkedin.com/in/mys54",
-        profilePic: "/office_bearers/mysPhoto.jpg",
-      },
-    ],
-    PR: [
-      {
-        name: "Deepak Kumar",
-        role: "PR & Sponsor Head",
-        github: "https://github.com/Deep07954",
-        linkedIn: "https://www.linkedin.com/in/deepak-kumar-4529bb28a",
-        profilePic: "/office_bearers/DEEPAK.jpg",
-      },
-      {
-        name: "Lisha Rani",
-        role: "PR & Sponsor Head",
-        github: "https://github.com/Lisha-Rani",
-        linkedIn: "https://www.linkedin.com/in/lisha-rani-041455290/",
-        profilePic: "/office_bearers/lisha.jpg",
-      },
-    ],
-    Event: [
-      {
-        name: "Prashasti Prabhakar",
-        role: "Event Management Head",
-        github: "https://github.com/Prashasti-27",
-        linkedIn: "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
-        profilePic: "/office_bearers/PRASHASTI.jpg",
-      },
-    ],
-  }
-
-  
-};
-
-const leaders = TEAM_LEADERS[year]?.[team] || [];
+  const leaders = leadersResult?.data || [];
 
   const members = result?.data || [];
 
@@ -88,20 +22,21 @@ const leaders = TEAM_LEADERS[year]?.[team] || [];
         <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-blue-900/20 rounded-full blur-[100px]" />
       </div>
 
-      <div className="relative z-10 px-6 lg:px-20 py-24">
+        <div className="relative z-10 px-6 lg:px-20 py-24">
         {/* Header Section */}
         <header className="text-center mb-32">
           <span className="text-cyan-400 font-mono tracking-widest uppercase text-sm mb-4 block">
-            Meet the innovators
+            Meet our Office Bearers
           </span>
           <h1 className="text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500 mb-6">
             {team} Team  
           </h1>
           <div className="flex justify-center mt-1 mb-2">
-  <YearSelector />
-</div>
+            <span className="text-gray-400 text-sm mr-4">Select Period:</span>
+            <PeriodSelector />
+          </div>
           <p className="max-w-xl mx-auto text-gray-400 text-lg leading-relaxed">
-            The creative minds and technical experts building the future of 
+            Meet the masterminds behind the innovation! Introducing the dynamic team leaders of 
             <span className="text-cyan-400"> IEEE NIT Patna</span>.
           </p>
           <div className="mt-8 flex justify-center gap-2">

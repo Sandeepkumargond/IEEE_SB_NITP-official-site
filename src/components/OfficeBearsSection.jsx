@@ -4,120 +4,23 @@ import MemberCard from "@/components/MemberCard";
 import { fetchLeadsByYear } from "@/lib/leadAction";
 
 export default function OfficeBearsSection() {
-  const [selectedYear, setSelectedYear] = useState(2025);
+  const [selectedPeriod, setSelectedPeriod] = useState("2025-2026");
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const officeBearers = [
-    {
-      name: "Aditya Srivastava",
-      designation: "Chairperson",
-      githubLink: "",
-      linkedInLink: "https://www.linkedin.com/in/adityasriofficial/",
-      profilePic: "/office_bearers/Aditya.png",
-    },
-    {
-      name: "Vansh Tyagi",
-      designation: "Co-Chairperson",
-      githubLink: "https://github.com/VanshTyagi05",
-      linkedInLink: "https://www.linkedin.com/in/vansh-tyagi-887a6627a/",
-      profilePic: "/office_bearers/Vansh.jpeg",
-    },
-    {
-      name: "Nandini Prasad",
-      designation: "Secretary",
-      githubLink: "https://github.com/Nandini-Prasadd",
-      linkedInLink: "https://www.linkedin.com/in/nandini-prasad-9294a9250",
-      profilePic: "/office_bearers/nandini.jpg",
-    },
-    {
-      name: "Kapil Gupta",
-      designation: "Joint Secretary",
-      githubLink: "https://github.com/Kapilgupta25",
-      linkedInLink: "https://www.linkedin.com/in/kapil-gupta-a41216289",
-      profilePic: "/office_bearers/Kapil.jpg",
-    },
-    {
-      name: "Aryan Kumar Arya",
-      designation: "Treasurer",
-      githubLink: "https://github.com/AryanKumarArya007",
-      linkedInLink: "https://www.linkedin.com/in/aryan-kumar-arya-84a61628b/",
-      profilePic: "/office_bearers/ARYAN.jpeg",
-    },
-    {
-      name: "Saurabh Yadav",
-      designation: "Technical Lead",
-      githubLink: "https://github.com/kg-saurabh",
-      linkedInLink: "https://www.linkedin.com/in/saurabh-yadav-932a2328a",
-      profilePic: "/office_bearers/SOURABH.webp",
-    },
-    {
-      name: "Gungun Singh",
-      designation: "Project Head",
-      githubLink: "https://github.com/gungun-2010",
-      linkedInLink: "https://www.linkedin.com/in/gungun-singh-1068b12a3/",
-      profilePic: "/office_bearers/GUNGUN.jpg",
-    },
-    {
-      name: "Sandeep Kumar Gond",
-      designation: "Web Head",
-      githubLink: "https://github.com/Sandeepkumargond",
-      linkedInLink: "https://www.linkedin.com/in/sandeepkumargond/",
-      profilePic: "/office_bearers/Sandeep_Kumar.jpg",
-    },
-    {
-      name: "Prashasti Prabhakar",
-      designation: "Event Management Head",
-      githubLink: "https://github.com/Prashasti-27",
-      linkedInLink: "https://www.linkedin.com/in/prashasti-prabhakar-215626364/",
-      profilePic: "/office_bearers/PRASHASTI.jpg",
-    },
-    {
-      name: "Deepak Kumar",
-      designation: "PR & Sponser Head",
-      githubLink: "https://github.com/Deep07954",
-      linkedInLink: "https://www.linkedin.com/in/deepak-kumar-4529bb28a",
-      profilePic: "/office_bearers/DEEPAK.jpg",
-    },
-    {
-      name: "Lisha Rani",
-      designation: "PR & Sponser Head",
-      githubLink: "https://github.com/Lisha-Rani",
-      linkedInLink: "https://www.linkedin.com/in/lisha-rani-041455290/",
-      profilePic: "/office_bearers/lisha.jpg",
-    },
-    {
-      name: "Navneet Shreya",
-      designation: "ML Head",
-      githubLink: "https://github.com/NavneetShreya",
-      linkedInLink: "http://www.linkedin.com/in/navneet-shreya",
-      profilePic: "/office_bearers/Navneet.jpeg",
-    },
-    {
-      name: "Moh Yaseen Siddiqui",
-      designation: "Design Head",
-      githubLink: "https://github.com/Yaseen11121",
-      linkedInLink: "http://www.linkedin.com/in/mys54",
-      profilePic: "/office_bearers/mysPhoto.jpg",
-    },
-    {
-      name: "Prabrity Rani",
-      designation: "Editor-In-Chief",
-      githubLink: "https://github.com/prabrity16",
-      linkedInLink: "http://www.linkedin.com/in/prabrity-rani-193929346",
-      profilePic: "/office_bearers/prabrity.jpg",
-    },
-  ];
+  // Period options (2017-2018 to 2026-2027)
+  const periodOptions = Array.from({ length: 10 }, (_, i) => {
+    const year = 2017 + i;
+    return `${year}-${year + 1}`;
+  });
 
-  // Year options (2017-2026)
-  const yearOptions = Array.from({ length: 10 }, (_, i) => 2017 + i);
-
-  // Fetch leads based on selected year
+  // Fetch leads based on selected period
   useEffect(() => {
     const loadLeads = async () => {
       setLoading(true);
       try {
-        const response = await fetchLeadsByYear(selectedYear);
+        const year = parseInt(selectedPeriod.split('-')[0]);
+        const response = await fetchLeadsByYear(year);
         if (response.success && response.data?.length > 0) {
           setLeads(
             response.data.map((lead) => ({
@@ -130,22 +33,13 @@ export default function OfficeBearsSection() {
         }
       } catch (error) {
         console.log("Error fetching leads:", error);
-        if (selectedYear === 2025) {
-          setLeads(
-            officeBearers.map((m) => ({
-              ...m,
-              profilePic: m.profilePic || "/Profile.png",
-            }))
-          );
-        } else {
-          setLeads([]);
-        }
+        setLeads([]);
       }
       setLoading(false);
     };
 
     loadLeads();
-  }, [selectedYear]);
+  }, [selectedPeriod]);
 
   // Separate chairperson/co-chairperson from others
   const chairpersonTeam = leads.filter((lead) =>
@@ -167,18 +61,18 @@ export default function OfficeBearsSection() {
           team leaders of IEEE NIT Patna.
         </p>
 
-        {/* Year Select Filter */}
+        {/* Period Select Filter */}
         <div className="mt-8 flex justify-center">
           <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
-            <label className="text-white font-medium">Select Year:</label>
+            <label className="text-white font-medium">Select Period:</label>
             <select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+              value={selectedPeriod}
+              onChange={(e) => setSelectedPeriod(e.target.value)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium cursor-pointer hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              {yearOptions.map((year) => (
-                <option key={year} value={year}>
-                  {year}
+              {periodOptions.map((period) => (
+                <option key={period} value={period}>
+                  {period}
                 </option>
               ))}
             </select>
@@ -193,7 +87,7 @@ export default function OfficeBearsSection() {
         ) : leads.length === 0 ? (
           <div className="mt-12 flex justify-center">
             <div className="text-white/70 text-lg bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/20">
-              No office bearers found for {selectedYear}.
+              No office bearers found for {selectedPeriod}.
             </div>
           </div>
         ) : (

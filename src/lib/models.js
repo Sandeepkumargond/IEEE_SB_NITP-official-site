@@ -161,6 +161,10 @@ const LeadSchema = new Schema({
         type: Number,
         required: [true, "Enter lead's year"]
     },
+    team: {
+        type: String,
+        required: [true, "Enter lead's team"]
+    },
     githubLink: {
         type: String,
         default: ""

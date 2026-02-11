@@ -51,13 +51,16 @@ export default function AdminDashboard() {
   const [newLead, setNewLead] = useState({
     name: "",
     designation: "",
-    year: new Date().getFullYear() ,
+    year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+    team: "",
     githubLink: "",
     linkedInLink: "",
     profilePic: [],
   });
   const [showEditLeadModal, setShowEditLeadModal] = useState(false);
   const [editingLead, setEditingLead] = useState(null);
+  const [showEditMemberModal, setShowEditMemberModal] = useState(false);
+  const [editingMember, setEditingMember] = useState(null);
 
   // Pagination states
   const [eventsPage, setEventsPage] = useState(1);
@@ -70,7 +73,10 @@ export default function AdminDashboard() {
 
   // Year options for leads filter (2017-2026)
 const currentYear = new Date().getFullYear();
-const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
+const yearOptions = Array.from({ length: 10 }, (_, i) => {
+  const year = (currentYear - 9) + i;
+  return `${year}-${year + 1}`;
+});
   const handleLogout = async () => {
     try {
       await logoutAdmin();
@@ -310,7 +316,8 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
       const response = await addLead({
         name: newLead.name,
         designation: newLead.designation,
-        year: parseInt(newLead.year),
+        year: parseInt(newLead.year.split('-')[0]),
+        team: newLead.team,
         githubLink: newLead.githubLink,
         linkedInLink: newLead.linkedInLink,
         profilePic: newLead.profilePic,
@@ -327,7 +334,8 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
         setNewLead({
           name: "",
           designation: "",
-          year: 2026,
+          year: "2026-2027",
+          team: "",
           githubLink: "",
           linkedInLink: "",
           profilePic: [],
@@ -371,7 +379,8 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
       _id: lead._id,
       name: lead.name,
       designation: lead.designation,
-      year: lead.year,
+      year: `${lead.year}-${lead.year + 1}`,
+      team: lead.team || "",
       githubLink: lead.githubLink || "",
       linkedInLink: lead.linkedInLink || "",
       profilePic: lead.profilePic || [],
@@ -386,7 +395,8 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
       const response = await updateLead(editingLead._id, {
         name: editingLead.name,
         designation: editingLead.designation,
-        year: parseInt(editingLead.year),
+        year: parseInt(editingLead.year.split('-')[0]),
+        team: editingLead.team,
         githubLink: editingLead.githubLink,
         linkedInLink: editingLead.linkedInLink,
         profilePic: editingLead.profilePic,
@@ -796,8 +806,15 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                       </p>
                       <p className="text-xs text-gray-400 mt-1">
                         {member.certificateIssued ? (
-                          <span className="text-green-400 font-medium">
-                            ✓ Certificate Issued
+                          <span>
+                            <span className="text-green-400 font-medium">
+                              ✓ Certificate Issued
+                            </span>
+                            {member.certificateNo && (
+                              <span className="block text-xs text-gray-300 mt-1">
+                                {member.certificateNo}
+                              </span>
+                            )}
                           </span>
                         ) : (
                           <span className="text-yellow-400 font-medium">
@@ -806,7 +823,7 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                         )}
                       </p>
                     </div>
-                    <div className="flex gap-2 shrink-0 w-full sm:w-auto">
+                    <div className="flex gap-2 shrink-0 w-full sm:w-auto flex-wrap">
                       {member.certificateIssued ? (
                         <div className="flex items-center justify-center gap-1 bg-green-500 text-white px-3 py-2 rounded-lg font-semibold shadow-md flex-1 sm:flex-none">
                           <span>✓</span>
@@ -821,6 +838,25 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                           <span>Issue</span>
                         </button>
                       )}
+                      <button
+                        onClick={() => {
+                          setEditingMember({
+                            _id: member._id,
+                            name: member.name,
+                            email: member.email,
+                            year: String(member.year),
+                            designation: member.designation,
+                            team: member.team,
+                            githubLink: member.githubLink,
+                            linkedInLink: member.linkedInLink,
+                          });
+                          setShowEditMemberModal(true);
+                        }}
+                        className="flex items-center justify-center gap-1 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition flex-1 sm:flex-none"
+                      >
+                        <Pencil size={16} />
+                        <span>Edit</span>
+                      </button>
                       <button
                         onClick={() => handleDeleteMember(member._id)}
                         className="flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition flex-1 sm:flex-none"
@@ -870,7 +906,7 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                     className="bg-white/10 border border-white/20 text-white px-3 py-1.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   >
                     <option value="all" className="text-black">
-                      All Years
+                      Select Period
                     </option>
                     {yearOptions.map((year) => (
                       <option key={year} value={year} className="text-black">
@@ -1024,6 +1060,36 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                       </option>
                     ))}
                   </select>
+                  <select
+                    value={newLead.team}
+                    onChange={(e) =>
+                      setNewLead({ ...newLead, team: e.target.value })
+                    }
+                    required
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  >
+                    <option value="" className="text-black">
+                      Select Team *
+                    </option>
+                    <option value="Web" className="text-black">
+                      Web
+                    </option>
+                    <option value="Technical" className="text-black">
+                      Technical
+                    </option>
+                    <option value="AIML" className="text-black">
+                      AIML
+                    </option>
+                    <option value="Design" className="text-black">
+                      Design
+                    </option>
+                    <option value="PR" className="text-black">
+                      PR
+                    </option>
+                    <option value="Event" className="text-black">
+                      Event
+                    </option>
+                  </select>
                   <input
                     type="url"
                     placeholder="GitHub Profile Link (optional)"
@@ -1165,6 +1231,36 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                       </option>
                     ))}
                   </select>
+                  <select
+                    value={editingLead.team}
+                    onChange={(e) =>
+                      setEditingLead({ ...editingLead, team: e.target.value })
+                    }
+                    required
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  >
+                    <option value="" className="text-black">
+                      Select Team *
+                    </option>
+                    <option value="Web" className="text-black">
+                      Web
+                    </option>
+                    <option value="Technical" className="text-black">
+                      Technical
+                    </option>
+                    <option value="AIML" className="text-black">
+                      AIML
+                    </option>
+                    <option value="Design" className="text-black">
+                      Design
+                    </option>
+                    <option value="PR" className="text-black">
+                      PR
+                    </option>
+                    <option value="Event" className="text-black">
+                      Event
+                    </option>
+                  </select>
                   <input
                     type="url"
                     placeholder="GitHub Profile Link (optional)"
@@ -1250,6 +1346,112 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                     className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 rounded-lg transition"
                   >
                     Update Lead
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Edit Member Modal */}
+          {showEditMemberModal && editingMember && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-[#0f2a44] border border-cyan-400/30 rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-2xl font-bold text-white">Edit Member</h3>
+                  <button
+                    onClick={() => setShowEditMemberModal(false)}
+                    className="text-white hover:text-red-400 text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  // TODO: Add update member handler
+                  alert("Member update feature coming soon!");
+                }} className="flex flex-col gap-4">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    value={editingMember.name}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, name: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={editingMember.email}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, email: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Designation"
+                    value={editingMember.designation}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, designation: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <select
+                    value={editingMember.year}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, year: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  >
+                    {Array.from({ length: 10 }, (_, i) => {
+                      const year = 2017 + i;
+                      return `${year}-${year + 1}`;
+                    }).map((period) => (
+                      <option key={period} value={period.split('-')[0]} className="text-black">
+                        {period}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={editingMember.team}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, team: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  >
+                    <option value="" className="text-black">Select Team</option>
+                    <option value="WEB DEVELOPMENT" className="text-black">Web Development</option>
+                    <option value="AI-ML" className="text-black">AI-ML</option>
+                    <option value="PUBLIC RELATIONS" className="text-black">Public Relations</option>
+                    <option value="EVENT MANAGEMENT" className="text-black">Event Management</option>
+                    <option value="CONTENT AND DESIGN" className="text-black">Content & Design</option>
+                    <option value="TECHNICAL" className="text-black">Technical</option>
+                  </select>
+                  <input
+                    type="url"
+                    placeholder="GitHub Link (optional)"
+                    value={editingMember.githubLink}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, githubLink: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <input
+                    type="url"
+                    placeholder="LinkedIn Link (optional)"
+                    value={editingMember.linkedInLink}
+                    onChange={(e) =>
+                      setEditingMember({ ...editingMember, linkedInLink: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 rounded-lg transition"
+                  >
+                    Update Member
                   </button>
                 </form>
               </div>

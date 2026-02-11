@@ -5,25 +5,28 @@ import { useRouter, useSearchParams } from "next/navigation";
 const START_YEAR = 2020;
 const CURRENT_YEAR = new Date().getFullYear();
 
-const AVAILABLE_YEARS = Array.from(
+const AVAILABLE_PERIODS = Array.from(
   { length: CURRENT_YEAR - START_YEAR + 1 },
-  (_, i) => CURRENT_YEAR - i
+  (_, i) => {
+    const year = CURRENT_YEAR - i;
+    return `${year}-${year + 1}`;
+  }
 );
 
-export default function YearSelector() {
+export default function PeriodSelector() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentYear = searchParams.get("year") || CURRENT_YEAR;
+  const currentPeriod = searchParams.get("period") || `${CURRENT_YEAR - 1}-${CURRENT_YEAR}`;
 
   return (
     <select
-      value={currentYear}
-      onChange={(e) => router.push(`?year=${e.target.value}`)}
+      value={currentPeriod}
+      onChange={(e) => router.push(`?period=${e.target.value}`)}
       className="bg-[#020c1b] border border-cyan-500/40 text-cyan-400 px-4 py-2 rounded-lg"
     >
-      {AVAILABLE_YEARS.map((year) => (
-        <option key={year} value={year}>
-          {year}
+      {AVAILABLE_PERIODS.map((period) => (
+        <option key={period} value={period}>
+          {period}
         </option>
       ))}
     </select>

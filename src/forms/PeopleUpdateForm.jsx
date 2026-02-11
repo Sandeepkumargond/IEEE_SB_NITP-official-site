@@ -36,7 +36,10 @@ export default function PeopleUpdateForm() {
 
 
   const currentYear = new Date().getFullYear();
-const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
+const yearOptions = Array.from({ length: 10 }, (_, i) => {
+  const year = (currentYear - 9) + i;
+  return `${year}-${year + 1}`;
+});
 
   const teamOptions = ["WEB DEVELOPMENT","AI-ML","PUBLIC RELATIONS","EVENT MANAGEMENT","CONTENT AND DESIGN","TECHNICAL"] 
 
@@ -58,7 +61,7 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
     const payload = {
       name: formData.name,
       email: formData.email,
-      year: Number(formData.year),
+      year: Number(formData.year.split('-')[0]),
       designation: formData.designation,
       team: formData.team,
       contributions: formData.contribution,
@@ -131,7 +134,7 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => (currentYear - 9) + i);
                   
                     {yearOptions.map((year) => (
                       <option key={year} value={year} className="text-black">
-                        {year}   <Calendar1 />
+                        {year}
                       </option>
                     ))}
                   </select> </div>

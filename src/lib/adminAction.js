@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { connectDB } from "./connectDB";
-import { Admin, Member } from "./models";
+import { Admin, Member, Lead } from "./models";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
@@ -66,7 +66,6 @@ export const registerAdmin = async ({username,password}) => {
     };
       
   } catch (error) {
-    console.log(error)
     return {
         message: "Error registering user!",
         success: false,
@@ -135,7 +134,6 @@ export const loginAdmin = async ({username,password}) => {
     };
       
   } catch (error) {
-    console.log("Login error " ,error)
     return{
         message: "Error logging the user!",
         success: false,
@@ -154,7 +152,6 @@ export const logoutAdmin = async () => {
       message: "Logged out successfully !!",
     };
   } catch (error) {
-    console.log(error);
     return {
         message: "Error logging out",
       };
@@ -202,7 +199,6 @@ export const getAdmin = async() => {
     
     const isVerified = await verifyToken();
     if(!isVerified){
-      console.log("Unauthorized access !");
       throw new Error("Unauthorized access !!")
     }
 
@@ -289,8 +285,6 @@ export const addMember = async ({name,email,year,designation,team,contributions,
       issuanceDate: null
     });
 
-    console.log(newMember)
-
     await newMember.save();
 
     return{
@@ -339,9 +333,6 @@ export const issueCertificate = async (memberId) => {
       };
     }
 
-    console.log(process.env.MAIL_USER)
-    console.log(process.env.MAIL_PASS)
-
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -367,8 +358,6 @@ export const issueCertificate = async (memberId) => {
  
     await transporter.sendMail(mailOptions)
 
-    console.log("Mail sent successfully!!")
-
     // Update member to mark certificate as issued
     member.certificateIssued = true;
     member.issuanceDate = new Date();
@@ -380,7 +369,6 @@ export const issueCertificate = async (memberId) => {
     };
   } 
   catch (error) {
-    console.log("Error issuing certificate : ", error);
     return {
       message: "Error issuing certificate",
       success: false,
@@ -418,7 +406,6 @@ export const deleteMember = async (memberId) => {
     };
   } 
   catch (error) {
-    console.log("Error deleting member : ", error);
     return {
       message: "Error deleting member",
       success: false,
@@ -429,10 +416,6 @@ export const deleteMember = async (memberId) => {
 export const fetchMember = async ({certificateNo}) => {
   try {
     await connectDB()
-
-    if(!certificateNo){
-      console.log("Enter certificate number to fetch member")
-    }
 
     const existingMember = await Member.findOne({ certificateNo }).lean()
 
@@ -450,9 +433,7 @@ export const fetchMember = async ({certificateNo}) => {
       data: memberObj,
       success: true,
     };
-  } 
-  catch (error) {
-    console.log("Error fetching member : ",error);
+  } catch (error) {
     return {
       message : "Error fetching member",
       success : false
@@ -531,7 +512,7 @@ export const deleteAdmin = async (id) => {
       success: true,
     };
   } catch (error) {
-    console.log("Error deleting admin :", error);
+
     return {
       message: "Error deleting admin",
       success: false,
@@ -548,8 +529,6 @@ export const fetchDevelopers = async () => {
 
     const developers = await Member.find({ team: "Web" }).lean();
 
-    console.log(developers)
-
     const plainDevelopers = developers.map((d) => ({
       _id: d._id?.toString(),
       name: d.name,
@@ -560,8 +539,6 @@ export const fetchDevelopers = async () => {
       profilePic: d.profilePic ?? [],
 
     }));
-
-    console.log(plainDevelopers)
 
     return {
       success: true,
@@ -583,8 +560,6 @@ export const fetchTeamMembers = async(teamId) => {
     await connectDB();
 
     const developers = await Member.find({ team: teamId }).lean();
-
-    console.log(developers)
  
     const teamMembers = developers.map((d) => ({
       _id: d._id?.toString(),
@@ -596,8 +571,6 @@ export const fetchTeamMembers = async(teamId) => {
       profilePic: d.profilePic ?? [],
 
     }));
-
-    console.log(teamMembers)
 
     return {
       success: true,
@@ -634,6 +607,31 @@ export const fetchMembersByTeamAndYear = async (team, year) => {
     };
   } catch (error) {
     console.error(error);
+    return { success: false, data: [] };
+  }
+};
+
+export const fetchLeadersByTeamAndYear = async (team, year) => {
+  try {
+    await connectDB();
+
+    const leaders = await Lead.find({
+      team,
+      year: Number(year),
+    }).lean();
+
+    return {
+      success: true,
+      data: leaders.map(leader => ({
+        ...leader,
+        _id: leader._id.toString(),
+        role: leader.designation,
+        github: leader.githubLink,
+        linkedIn: leader.linkedInLink,
+        profilePic: leader.profilePic?.[0] || "/Profile.png",
+      })),
+    };
+  } catch (error) {
     return { success: false, data: [] };
   }
 };
