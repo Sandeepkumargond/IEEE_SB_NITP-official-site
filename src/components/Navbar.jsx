@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <div className="w-full h-20 flex items-center justify-between px-6 fixed top-0 bg-[#0a5782] text-white z-50 shadow-lg">
       <img 
-      className="object-cover w-36 h-12"
+      className="object-contain w-48 h-24"
       src="/IEEE.jpeg" 
       alt="IEEE LOGO"/>
 

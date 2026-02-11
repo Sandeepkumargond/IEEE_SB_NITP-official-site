@@ -47,6 +47,7 @@ export default function AdminDashboard() {
   // Leads state
   const [leads, setLeads] = useState([]);
   const [selectedYear, setSelectedYear] = useState("all");
+  const [selectedMemberYear, setSelectedMemberYear] = useState("all");
   const [showAddLeadModal, setShowAddLeadModal] = useState(false);
   const [newLead, setNewLead] = useState({
     name: "",
@@ -770,15 +771,44 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => {
           <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/20 text-white flex flex-col gap-4 lg:col-span-2">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full">
               <h2 className="text-2xl font-semibold">Members</h2>
-              <Link
-                href="/certificate/new"
-                className="bg-green-500 hover:bg-green-600 transition text-black px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap"
-              >
-                Add Member
-              </Link>
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Year Filter */}
+                <div className="flex items-center gap-2">
+                  <Filter size={18} />
+                  <select
+                    value={selectedMemberYear}
+                    onChange={(e) => {
+                      setSelectedMemberYear(e.target.value);
+                      setMembersPage(1);
+                    }}
+                    className="px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                  >
+                    <option value="all" className="text-black">
+                      All Years
+                    </option>
+                    {yearOptions.map((year) => {
+                      const yearNum = parseInt(year.split("-")[0]);
+                      return (
+                        <option key={year} value={yearNum} className="text-black">
+                          {year}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <Link
+                  href="/certificate/new"
+                  className="bg-green-500 hover:bg-green-600 transition text-black px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap"
+                >
+                  Add Member
+                </Link>
+              </div>
             </div>
             <div className="flex flex-col gap-3 w-full">
               {members
+                .filter((member) => 
+                  selectedMemberYear === "all" ? true : member.year === parseInt(selectedMemberYear)
+                )
                 .slice(
                   (membersPage - 1) * itemsPerPage,
                   membersPage * itemsPerPage,
@@ -868,7 +898,7 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => {
                   </div>
                 ))}
             </div>
-            {members.length > itemsPerPage && (
+            {members.filter((member) => selectedMemberYear === "all" ? true : member.year === parseInt(selectedMemberYear)).length > itemsPerPage && (
               <div className="flex flex-wrap items-center justify-between gap-3 w-full mt-auto pt-4">
                 <button
                   onClick={() => setMembersPage(membersPage - 1)}
@@ -878,12 +908,12 @@ const yearOptions = Array.from({ length: 10 }, (_, i) => {
                   ← Prev
                 </button>
                 <span className="text-white font-semibold text-center flex-1 sm:flex-none">
-                  {membersPage}/{Math.ceil(members.length / itemsPerPage)}
+                  {membersPage}/{Math.ceil(members.filter((member) => selectedMemberYear === "all" ? true : member.year === parseInt(selectedMemberYear)).length / itemsPerPage)}
                 </span>
                 <button
                   onClick={() => setMembersPage(membersPage + 1)}
                   disabled={
-                    membersPage >= Math.ceil(members.length / itemsPerPage)
+                    membersPage >= Math.ceil(members.filter((member) => selectedMemberYear === "all" ? true : member.year === parseInt(selectedMemberYear)).length / itemsPerPage)
                   }
                   className="bg-blue-500 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 disabled:cursor-not-allowed transition"
                 >
