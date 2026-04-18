@@ -4,7 +4,7 @@ This repository contains the source code for the **IEEE Student Branch NIT Patna
 
 ---
 
-## 📂 Folder Structure
+##  Folder Structure
 ```
 /src
 ├── /app
@@ -63,7 +63,7 @@ This repository contains the source code for the **IEEE Student Branch NIT Patna
 
 ---
 
-## 🚀 Features
+## Features
 - Dynamic routing for teams, events, blogs, and projects
 - Reusable components for scalability
 - Easy-to-update forms for admins
